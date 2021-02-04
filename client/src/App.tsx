@@ -1,21 +1,20 @@
-function App() {
+import React from "react";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import AddOCRRecipe from "./pages/AddOCRRecipe";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Hej
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <div>Hej!!</div>{" "}
+        </Route>
+        <Route path="/add-new-ocr-recipe">
+          <AddOCRRecipe />
+        </Route>
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;
