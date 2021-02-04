@@ -48,6 +48,7 @@ const App = () => {
       <header className="App-header">
         <h1 className="App-title">Welcome to React</h1>
       </header>
+      <p>Hejhej</p>
       {console.log(testRecipe)}
       <p className="App-intro">{data}</p>
     </div>
