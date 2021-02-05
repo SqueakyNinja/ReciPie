@@ -16,15 +16,18 @@ const OCR = () => {
       data: { text },
     } = await worker.recognize(file);
     setOcr(text);
-    let resultsarray1 = text.split("\n");
-    let filteredArray1 = resultsarray1.filter((x) => x !== "");
-    console.log(resultsarray1);
-    console.log(filteredArray1);
+    let resultsarray = text.split("\n");
+    let filteredArray = resultsarray.filter((x) => x !== "");
 
-    // for (let i = 0; i < text.length; i++) {
-    //   const element = text[i];
-    //   console.log(element);
-    // }
+
+    const regex = /[0-9,|.]+ (?<=[0-9]\s)(?:\w+)/;
+    for (let i = 0; i < filteredArray.length; i++) {
+      const element = filteredArray[i];
+      const newObjectKey = element.replace(regex, "").trim();
+      const newObjectValue = element.match(regex)?.[0];
+
+      const newObject = { [newObjectKey]: newObjectValue };
+      console.log(newObject);
     console.log(text);
   };
 
@@ -43,15 +46,10 @@ const OCR = () => {
     const regex = /[0-9,|.]+ (?<=[0-9]\s)(?:\w+)/;
     for (let i = 0; i < testArray.length; i++) {
       const element = testArray[i];
-      let newObjectKey = element.replace(regex, "").trim();
-      let newObjectValue = "";
-      // if (element.match(regex) !== null) {
-      //   newObjectValue = element.match(regex)[0];
-      // }
+      const newObjectKey = element.replace(regex, "").trim();
+      const newObjectValue = element.match(regex)?.[0];
 
-      console.log("Key: " + newObjectKey);
-      console.log("Value: " + newObjectValue);
-      let newObject = { newObjectKey: newObjectValue };
+      const newObject = { [newObjectKey]: newObjectValue };
       console.log(newObject);
       // return newObject;
     }
