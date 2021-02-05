@@ -74,6 +74,9 @@ const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
           return (
             <li className={styles.navLinksLi} key={index}>
               <Link to={item.url}>
+                <span>
+                  <i className={item.icon}></i>
+                </span>
                 <p className={styles.link}>{item.title}</p>
               </Link>
             </li>
