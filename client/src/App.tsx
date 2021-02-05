@@ -15,7 +15,7 @@ const App = () => {
     </div>
       <Switch>
         <Route exact path="/">
-          <div>Hej!!</div>{" "}
+        <div>Hej!!{" "}</div>
         </Route>
         <Route path="/add-new-ocr-recipe">
           <AddOCRRecipe />

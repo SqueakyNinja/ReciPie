@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Logo from './recipie.png';
+import Logo from './recipieWhite.png';
 import { MenuItems } from "./MenuItems"
 import { Button } from "../Button"
 import './Navbar.css'
@@ -22,7 +22,9 @@ class Navbar extends Component {
                     {MenuItems.map((item, index) => {
                         return (
                             <li key={index}>
+                                
                                 <a className={item.cName} href={item.url}>
+                                <span><i className={item.icon}></i></span>
                                 {item.title}
                                 </a>
                             </li>

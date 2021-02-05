@@ -1,11 +1,21 @@
+/*i {
+    margin-right: 15px;
+    display: block;
+}*/
+
+span {
+display: inline-block;
+width: 30px;
+}
+
 .NavbarItems {
-    background: linear-gradient(90deg, rgb(223, 96, 128) 0%, rgb(211, 28, 89) 100%);
+    background: linear-gradient(90deg, rgb(219, 120, 27) 0%, rgb(211, 62, 17) 100%);
     width: 250px;
     height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
     grid-column: 1;
     grid-row: 1;
     border-radius: 45px 0 0 0;
