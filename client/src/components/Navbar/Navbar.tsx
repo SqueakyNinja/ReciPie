@@ -72,18 +72,15 @@ const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
       >
         {MenuItems.map((item, index) => {
           return (
-            <li className={styles.navLinksLi} key={index}>
-              <Link to={item.url}>
-                <span>
-                  <i className={item.icon}></i>
-                </span>
+            <Link to={item.url} key={index}>
+              <li className={styles.navLinksLi}>
+                <i className={combineClasses(item.icon, styles.icon)}></i>
                 <p className={styles.link}>{item.title}</p>
-              </Link>
-            </li>
+              </li>
+            </Link>
           );
         })}
       </ul>
-      <button>Sign Up</button>
     </nav>
   );
 };

@@ -20,7 +20,7 @@
       "navbar header"
       "navbar main";
     &.expandedSidebar {
-      grid-template-rows: [header]63px [main] calc(100% - 63px);
+      grid-template-rows: [header]70px [main] calc(100% - 70px);
       grid-template-columns: [left] 0px [right] 100%;
     }
   }
