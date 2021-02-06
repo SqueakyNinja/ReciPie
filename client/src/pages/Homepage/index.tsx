@@ -1,7 +1,10 @@
+import "./index.css";
+import Background from "./pie.png";
+
 const Homepage = () => {
   return (
     <>
-      <p>Homepage</p>
+      <img src={Background} />
     </>
   );
 };
