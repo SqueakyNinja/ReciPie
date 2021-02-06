@@ -13,9 +13,23 @@
     border-style: solid;
     border-color: black;
     border-radius: 20px 20px 20px 20px;
-    text-align: center;
     margin: auto;
+    font-size: 1rem;
   }
+
+input[type="text"] {
+  padding-left: 10px;
+}
+
+  input:focus {
+    outline: none;
+  }
+
+  input::placeholder{
+  text-align: center;
+  padding: 10px;
+  }
+
   i {
     margin-right: 30px;
     padding-top: 20px;
