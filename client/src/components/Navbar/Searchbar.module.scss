@@ -1,0 +1,65 @@
+.Searchbar {
+    grid-column: 3;
+    display: grid;
+    margin: auto;
+    
+
+    input {
+        height: 50px;
+        width: 300px;
+        border-width: 3px;
+        border-style: solid;
+        border-color: black;
+        border-radius: 20px 20px 20px 20px;
+        margin: auto;
+        font-size: 1rem;
+      }
+    
+    input[type="text"] {
+      padding-left: 10px;
+    }
+    
+      input:focus {
+        outline: none;
+      }
+    
+      input::placeholder{
+      text-align: center;
+      padding: 10px;
+      }
+
+}
+
+@media (min-width: 1024px) {
+
+.Searchbar {
+    grid-column: 3;
+    display: grid;
+    margin: auto;
+
+    input {
+        height: 50px;
+        width: 300px;
+        border-width: 3px;
+        border-style: solid;
+        border-color: black;
+        border-radius: 20px 20px 20px 20px;
+        margin: auto;
+        font-size: 1rem;
+      }
+    
+    input[type="text"] {
+      padding-left: 10px;
+    }
+    
+      input:focus {
+        outline: none;
+      }
+    
+      input::placeholder{
+      text-align: center;
+      padding: 10px;
+      }
+
+}
+}

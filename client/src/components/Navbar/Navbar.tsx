@@ -12,6 +12,8 @@ import { Button } from "../Button";
 import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
 import { Link } from "react-router-dom";
+import Searchbar from "./Searchbar";
+
 
 interface navbarProps {
   expandedSidebar: boolean;
@@ -70,6 +72,7 @@ const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
           expandedSidebar && styles.expand
         )}
       >
+        <li className={styles.navLinksLi}><Searchbar/></li>
         {MenuItems.map((item, index) => {
           return (
             <Link to={item.url} key={index}>
