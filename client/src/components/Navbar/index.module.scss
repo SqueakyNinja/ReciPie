@@ -125,12 +125,18 @@ Button {
   display: none;
 }
 
-@media screen and (min-width: 1024px) {
+@media (min-width: 1024px) {
   .navbar {
     width: 250px;
     height: 100vh;
     grid-area: navbar;
+   
   }
+
+span {
+  width: 30px;
+  padding-right: 53px;
+}
 
   .logoAndHamburger {
     height: auto;
@@ -146,17 +152,19 @@ Button {
     height: auto;
     position: relative;
     top: 0;
+  
   }
 
   .navLinksLi {
     text-align: start;
     width: 250px;
+ 
 
     &:hover {
-      background-color: #a71616;
+      background:rgb(219, 120, 27);
       border-radius: 4px;
       transition: all 0.2s ease-out;
-      display: block;
+      /*display: block;*/
     }
   }
 }
