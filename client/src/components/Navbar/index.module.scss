@@ -118,13 +118,24 @@
     height: 88px;
     color: white;
     margin: 0 auto 0 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.searchbarMobile {
+  display: flex;
+  height: 88px;
+  width: 100%;
+  background: linear-gradient(90deg, #db781b 0%, #d33e11 100%);
+
+  & > div {
+    display: flex;
   }
 }
 
 span {
   width: 30px;
   padding-right: 53px;
-  
 }
 
 Button {
@@ -136,14 +147,12 @@ Button {
     width: 250px;
     height: 100vh;
     grid-area: navbar;
-   
   }
 
-span {
-  width: 30px;
-  padding-right: 53px;
-  
-}
+  span {
+    width: 30px;
+    padding-right: 53px;
+  }
 
   .logoAndHamburger {
     height: auto;
@@ -159,16 +168,14 @@ span {
     height: auto;
     position: relative;
     top: 0;
-  
   }
 
   .navLinksLi {
     text-align: start;
     width: 250px;
- 
 
     &:hover {
-      background:rgb(219, 120, 27);
+      background: rgb(219, 120, 27);
       border-radius: 4px;
       transition: all 0.2s ease-out;
       /*display: block;*/

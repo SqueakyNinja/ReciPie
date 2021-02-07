@@ -14,7 +14,6 @@ import { combineClasses } from "../../utils";
 import { Link } from "react-router-dom";
 import Searchbar from "./Searchbar";
 
-
 interface navbarProps {
   expandedSidebar: boolean;
   setExpandedSidebar: Dispatch<SetStateAction<boolean>>;
@@ -72,12 +71,20 @@ const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
           expandedSidebar && styles.expand
         )}
       >
-        <li className={styles.navLinksLi}><Searchbar/></li>
+        {window.innerWidth < 1024 ? (
+          <li className={styles.searchbarMobile}>
+            <Searchbar />
+          </li>
+        ) : (
+          ""
+        )}
         {MenuItems.map((item, index) => {
           return (
             <Link to={item.url} key={index}>
               <li className={styles.navLinksLi}>
-              <span><i className={combineClasses(item.icon, styles.icon)}></i></span>
+                <span>
+                  <i className={combineClasses(item.icon, styles.icon)}></i>
+                </span>
                 <p className={styles.link}>{item.title}</p>
               </li>
             </Link>
