@@ -1,10 +1,12 @@
-import "./index.css";
 import Background from "./pie.png";
+import styles from "./index.module.scss";
 
 const Homepage = () => {
   return (
     <>
-      <img src={Background} />
+      <div className={styles.grid}>
+        <img src={Background} />
+      </div>
     </>
   );
 };

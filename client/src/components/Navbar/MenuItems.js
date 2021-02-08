@@ -10,12 +10,12 @@ export const MenuItems = [
     icon: "fas fa-receipt",
   },
   {
-    title: "What Should I Eat?",
+    title: "Ingredient Search",
     url: "#",
     icon: "fas fa-utensils",
   },
   {
-    title: "Ingredient Generator",
+    title: "Meal Generator",
     url: "#",
     icon: "fas fa-drumstick-bite",
   },

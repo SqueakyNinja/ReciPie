@@ -142,9 +142,9 @@ Button {
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media screen and (min-width: 1024px) {
   .navbar {
-    width: 250px;
+    width: 251px;
     height: 100vh;
     grid-area: navbar;
   }
@@ -180,5 +180,17 @@ Button {
       transition: all 0.2s ease-out;
       /*display: block;*/
     }
+  }
+}
+
+@media screen and (max-height: 860px) {
+  .navLinksLi {
+    height: 70px;
+  }
+}
+
+@media screen and (max-height: 740px) {
+  .navLinksLi {
+    height: 60px;
   }
 }
