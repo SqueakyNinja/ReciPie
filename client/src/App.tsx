@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import Test from "./Test";
 
 const App = () => {
   const [data, setData] = useState(null);
@@ -50,6 +51,7 @@ const App = () => {
       </header>
       <p>Hejhej</p>
       {console.log(testRecipe)}
+      <Test></Test>
       <p className="App-intro">{data}</p>
     </div>
   );
