@@ -1,19 +1,33 @@
-import React from "react";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-import AddOCRRecipe from "./pages/AddOCRRecipe";
+import React, { useState } from "react";
+import "./app.global.scss";
+import styles from "./app.module.scss";
+import Main from "./Main";
+import { BrowserRouter as Router } from "react-router-dom";
+
+import { combineClasses } from "./utils";
+import Navbar from "./components/Navbar/Navbar";
+import Header from "./components/Navbar/Header";
 
 const App = () => {
+  //Ändra detta till useStore sen kanske?
+  const [expandedSidebar, setExpandedSidebar] = useState<boolean>(false);
+
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <div>Hej!!</div>{" "}
-        </Route>
-        <Route path="/add-new-ocr-recipe">
-          <AddOCRRecipe />
-        </Route>
-      </Switch>
-    </Router>
+    <div
+      className={combineClasses(
+        styles.container,
+        expandedSidebar && styles.expandedSidebar
+      )}
+    >
+      <Router>
+        <Header />
+        <Navbar
+          expandedSidebar={expandedSidebar}
+          setExpandedSidebar={setExpandedSidebar}
+        />
+        <Main />
+      </Router>
+    </div>
   );
 };
 
