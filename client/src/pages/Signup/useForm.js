@@ -30,7 +30,7 @@ const handleSubmit = e =>{
 useEffect(() => {
     if(Object.keys(errors).length === 0 &&
     isSubmitting ) {
-        callbackify()
+        callback()
     }
 }, [errors])
 

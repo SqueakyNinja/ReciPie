@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Signup from './Signup'
 import FormSuccess from "./FormSuccess"
 import "./Form.css"
-import Image from "./pie.png"
+import Image from "./signup1.jpg"
 
 const Form = () => {
     const [isSubmitted, setIsSubmitted] = useState(false)
