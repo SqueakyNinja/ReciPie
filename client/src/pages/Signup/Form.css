@@ -38,6 +38,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  
 }
 
 .form-img-2 {
@@ -170,6 +171,7 @@
     height: 500px;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
   }
   
   .close-btn {
@@ -219,6 +221,9 @@
   }
   
   .form-content-right {
+    display: grid;
+    grid-column: 2;
+    grid-row: 1;
     border-radius: 0 10px 10px 0;
     position: relative;
     background:
