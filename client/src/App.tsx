@@ -52,7 +52,7 @@ const App = () => {
       <p>Hejhej</p>
       {console.log(testRecipe)}
       <Test></Test>
-      <p className="App-intro">{data}</p>
+      <p className="App-intro">blablaHejsan</p>
     </div>
   );
 };
