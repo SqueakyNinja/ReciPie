@@ -2,6 +2,7 @@ import { Route } from "react-router-dom";
 import AddOCRRecipe from "./pages/AddOCRRecipe";
 import Homepage from "./pages/Homepage";
 import styles from "./app.module.scss";
+import CreateRecipe from "./pages/CreateRecipe";
 
 const Main = () => {
   return (
@@ -11,6 +12,9 @@ const Main = () => {
       </Route>
       <Route path="/scan">
         <AddOCRRecipe />
+      </Route>
+      <Route path="/recipe">
+        <CreateRecipe />
       </Route>
     </div>
   );

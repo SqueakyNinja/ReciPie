@@ -6,7 +6,7 @@ export const MenuItems = [
   },
   {
     title: "Recipes",
-    url: "#",
+    url: "/recipe",
     icon: "fas fa-receipt",
   },
   {
