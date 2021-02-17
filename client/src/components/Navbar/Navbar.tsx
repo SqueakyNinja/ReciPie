@@ -8,7 +8,6 @@ import React, {
 import Logo from "./ReciPie-light-logo.png";
 import smallLogo from "./ReciPie-light-small-logo.png";
 import { MenuItems } from "./MenuItems";
-import { Button } from "../Button";
 import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
 import { Link } from "react-router-dom";

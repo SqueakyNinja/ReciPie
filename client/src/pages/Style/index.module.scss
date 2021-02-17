@@ -1,0 +1,9 @@
+@import "../../app.global.scss";
+
+.button {
+  background-color: $primary;
+  margin: 1rem;
+  &:hover {
+    background-color: $secondary;
+  }
+}

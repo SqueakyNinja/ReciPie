@@ -1,0 +1,18 @@
+@import "../../app.global.scss";
+
+.button {
+  background-color: $primary;
+  margin: 1rem;
+}
+
+.input {
+  > div {
+    background: white;
+  }
+  label {
+    transform: translate(14px, 9px) scale(1);
+  }
+  input {
+    padding: 0.5rem;
+  }
+}

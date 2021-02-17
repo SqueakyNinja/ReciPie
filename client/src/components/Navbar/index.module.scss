@@ -1,8 +1,8 @@
 .navbar {
   background: linear-gradient(
     90deg,
-    rgb(219, 120, 27) 0%,
-    rgb(211, 62, 17) 100%
+    rgb(216, 132, 54) 0%,
+    rgb(216, 85, 45) 100%
   );
 
   width: 100%;
@@ -102,8 +102,8 @@
   justify-content: center;
   background: linear-gradient(
     90deg,
-    rgb(219, 120, 27) 0%,
-    rgb(211, 62, 17) 100%
+    rgb(216, 132, 54) 0%,
+    rgb(216, 85, 45) 100%
   );
 
   .icon {
@@ -120,6 +120,10 @@
     margin: 0 auto 0 1rem;
     padding-right: 1rem;
   }
+  span {
+    width: 30px;
+    padding-right: 53px;
+  }
 }
 
 .searchbarMobile {
@@ -133,21 +137,11 @@
   }
 }
 
-span {
-  width: 30px;
-  padding-right: 53px;
-}
-
 @media screen and (min-width: 1024px) {
   .navbar {
     width: 251px;
     height: 100vh;
     grid-area: navbar;
-  }
-
-  span {
-    width: 30px;
-    padding-right: 53px;
   }
 
   .logoAndHamburger {
@@ -169,6 +163,11 @@ span {
   .navLinksLi {
     text-align: start;
     width: 250px;
+
+    span {
+      width: 30px;
+      padding-right: 53px;
+    }
 
     &:hover {
       background: rgb(219, 120, 27);
