@@ -31,6 +31,6 @@ export const MenuItems = [
   },
   {
     title: "Sign up",
-    url: "#",
+    url: "/signup",
   },
 ];
