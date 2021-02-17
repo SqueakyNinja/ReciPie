@@ -1,7 +1,7 @@
 import express from "express";
 import { RecipesResponse } from "../../../common/responses";
 
-import { selectAllRecipes } from "../models/allRecipes.model";
+import { selectAllRecipes } from "./recipes.model";
 // import { UserResponse } from '../../common/api-schema';
 
 export const getAllRecipes: express.RequestHandler<
