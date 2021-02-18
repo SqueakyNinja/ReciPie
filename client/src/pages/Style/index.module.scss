@@ -2,8 +2,16 @@
 
 .button {
   background-color: $primary;
+  font-family: $font;
   margin: 1rem;
   &:hover {
-    background-color: $secondary;
+    background-color: $primaryHover;
+  }
+}
+
+.secondaryButton {
+  background-color: $secondary;
+  &:hover {
+    background-color: $secondaryHover;
   }
 }

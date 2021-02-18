@@ -10,8 +10,12 @@
   grid-template-columns: 250px auto auto auto;
 }
 
-$primary: rgb(255, 217, 192) !important;
+$font: "Montserrat", sans-serif;
 
-$secondary: gray !important;
+$primary: rgb(84, 179, 84) !important;
+$primaryHover: rgb(112, 209, 112) !important;
+
+$secondary: rgb(172, 172, 172) !important;
+$secondaryHover: rgb(146, 145, 145) !important;
 
 $buttonColor1: black;
