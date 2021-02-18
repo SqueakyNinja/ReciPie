@@ -33,7 +33,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /*border-radius: 0 10px 10px 0;*/
     position: relative;
     background: linear-gradient(
       90deg,
@@ -93,10 +92,23 @@
       width: 70%;
       max-width: 500px;
 
+      .MuiOutlinedInput-root {
+        border-color: $primary;
+      }
       > div {
         margin-bottom: 0.1rem;
       }
 
+      > div:focus {
+        outline-color: $primary;
+        outline-style: auto;
+        outline-width: 5px;
+      }
+      > div > div:focus {
+        outline-color: $primary;
+        outline-style: auto;
+        outline-width: 5px;
+      }
       p {
         font-size: 0.7rem;
         margin: 0;

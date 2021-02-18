@@ -53,6 +53,7 @@ const Signup = ({ submitForm }) => {
             </label>
             <TextField
               variant="outlined"
+              color="secondary"
               id="password"
               type="password"
               name="password"
