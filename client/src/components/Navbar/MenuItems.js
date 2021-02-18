@@ -16,7 +16,7 @@ export const MenuItems = [
   },
   {
     title: "Meal Generator",
-    url: "#",
+    url: "/meal-generator",
     icon: "fas fa-drumstick-bite",
   },
   {
