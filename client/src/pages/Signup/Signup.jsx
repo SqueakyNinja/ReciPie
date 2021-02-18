@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, TextField } from "@material-ui/core";
-import "./Form.css";
 import useForm from "./useForm";
 import validate from "./validateInfo";
 import styles from "./index.module.scss";
@@ -12,11 +11,11 @@ const Signup = ({ submitForm }) => {
   );
 
   return (
-    <div className="form-content-right">
-      <form className="form" onSubmit={handleSubmit}>
+    <div className={styles.signupRight}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <h1>Sign up today and start register your own recipes!</h1>
-        <div className="form-inputs">
-          <label htmlFor="username" className="form-label">
+        <div className={styles.formInputs}>
+          <label htmlFor="username" className={styles.formLabel}>
             Username
           </label>
           <TextField
@@ -25,14 +24,14 @@ const Signup = ({ submitForm }) => {
             id="username"
             type="text"
             name="username"
-            placeholder="Enter your username"
+            label="Username"
             value={values.username}
             onChange={handleChange}
           />
           {errors.username && <p>{errors.username}</p>}
         </div>
-        <div className="form-inputs">
-          <label htmlFor="email" className="form-label">
+        <div className={styles.formInputs}>
+          <label htmlFor="email" className={styles.formLabel}>
             Email
           </label>
           <TextField
@@ -41,32 +40,32 @@ const Signup = ({ submitForm }) => {
             id="email"
             type="email"
             name="email"
-            placeholder="Enter your email"
+            label="Email"
             value={values.email}
             onChange={handleChange}
           />
           {errors.email && <p>{errors.email}</p>}
         </div>
-        <div className="form-inputs">
-          <label htmlFor="password" className="form-label">
+        <div className={styles.formInputs}>
+          <label htmlFor="password" className={styles.formLabel}>
             Password
           </label>
           <TextField
-            className={styles.input}
             variant="outlined"
             id="password"
             type="password"
             name="password"
-            placeholder="Enter your password"
+            label="Password"
+            className={styles.input}
             value={values.password}
             onChange={handleChange}
           />
           {errors.password && <p>{errors.password}</p>}
         </div>
 
-        <div className="form-inputs">
-          <label htmlFor="password2" className="form-label">
-            Confirm Password
+        <div className={styles.formInputs}>
+          <label htmlFor="password2" className={styles.formLabel}>
+            Repeat Password
           </label>
           <TextField
             id="password2"
