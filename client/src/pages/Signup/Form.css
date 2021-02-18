@@ -1,4 +1,4 @@
-.form-container {
+/* .form-container {
   margin: 50px auto;
   width: 500px;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
@@ -89,7 +89,7 @@
   color: #fff;
 }
 
-/* .form-inputs {
+ .form-inputs {
   margin-bottom: 0.5rem;
   width: 80%;
 }
@@ -152,7 +152,7 @@
   text-decoration: none;
   color: #27cdff;
   font-weight: 600;
-} */
+} 
 
 @media (min-width: 1024px) {
   .form-container {
@@ -311,3 +311,4 @@
     font-weight: 600;
   }
 }
+*/

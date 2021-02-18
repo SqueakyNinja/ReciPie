@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import FormSuccess from "./FormSuccess";
-import "./Form.css";
+import styles from "./index.module.scss";
 import Image from "./signup1.jpg";
 import Signup from "./Signup";
 
@@ -13,10 +13,9 @@ const Form = () => {
   }
 
   return (
-    <div className="form-container">
-      <span className="close-btn">x</span>
-      <div className="form-content-left">
-        <img src={Image} alt="pie" className="form-img" />
+    <div className={styles.signupContainer}>
+      <div className={styles.signupLeft}>
+        <img src={Image} alt="pie" className={styles.formImg} />
       </div>
       {!isSubmitted ? <Signup submitForm={submitForm} /> : <FormSuccess />}
     </div>
