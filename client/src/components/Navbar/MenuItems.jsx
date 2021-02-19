@@ -29,8 +29,4 @@ export const MenuItems = [
     url: "/settings",
     icon: "fas fa-cogs",
   },
-  {
-    title: "Sign up",
-    url: "/signup",
-  },
 ];

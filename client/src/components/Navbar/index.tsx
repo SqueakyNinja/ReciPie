@@ -1,6 +1,7 @@
 import React, {
   Component,
   Dispatch,
+  forwardRef,
   SetStateAction,
   useEffect,
   useState,
@@ -12,7 +13,15 @@ import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
 import { Link } from "react-router-dom";
 import Searchbar from "./Searchbar";
-import { FormControlLabel, Switch } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
+import {
+  FormControlLabel,
+  Switch,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@material-ui/core";
 
 interface navbarProps {
   expandedSidebar: boolean;
@@ -20,6 +29,10 @@ interface navbarProps {
   darkMode: boolean;
   setDarkMode: Dispatch<SetStateAction<boolean>>;
 }
+
+const LinkBehavior = forwardRef((props, ref) => (
+  <RouterLink to="/signup" {...props} />
+));
 
 const Navbar = ({
   expandedSidebar,
@@ -90,7 +103,29 @@ const Navbar = ({
       >
         {window.innerWidth < 1024 ? (
           <li className={styles.searchbarMobile}>
-            <Searchbar />
+            <div className={styles.search}>
+              <TextField
+                placeholder="Search…"
+                variant="outlined"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <i className="fas fa-search"></i>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </div>
+            <Button
+              variant="outlined"
+              className={styles.button}
+              component={LinkBehavior}
+            >
+              Sign Up
+            </Button>
+            <IconButton className={styles.account}>
+              <i className="far fa-user"></i>
+            </IconButton>
           </li>
         ) : (
           ""
