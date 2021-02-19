@@ -53,7 +53,6 @@ const Signup = ({ submitForm }) => {
             </label>
             <TextField
               variant="outlined"
-              color="secondary"
               id="password"
               type="password"
               name="password"
@@ -81,7 +80,12 @@ const Signup = ({ submitForm }) => {
             />
             {errors.password2 && <p>{errors.password2}</p>}
           </div>
-          <Button variant="contained" type="submit" className={styles.button}>
+          <Button
+            color="primary"
+            variant="contained"
+            type="submit"
+            className={styles.button}
+          >
             Sign up
           </Button>
           <span className="form-input-login">

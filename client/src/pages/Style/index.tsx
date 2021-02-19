@@ -4,10 +4,14 @@ import styles from "./index.module.scss";
 const Style = () => {
   return (
     <div>
-      <Button variant="contained" className={styles.secondaryButton}>
+      <Button
+        color="primary"
+        variant="contained"
+        className={styles.secondaryButton}
+      >
         Button
       </Button>
-      <Button variant="contained" className={styles.button}>
+      <Button color="secondary" variant="contained" className={styles.button}>
         Button
       </Button>
       <button className={styles.button}>Button</button>

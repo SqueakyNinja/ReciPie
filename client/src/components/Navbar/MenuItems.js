@@ -26,7 +26,7 @@ export const MenuItems = [
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/settings",
     icon: "fas fa-cogs",
   },
   {

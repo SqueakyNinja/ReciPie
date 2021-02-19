@@ -12,13 +12,21 @@ import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
 import { Link } from "react-router-dom";
 import Searchbar from "./Searchbar";
+import { FormControlLabel, Switch } from "@material-ui/core";
 
 interface navbarProps {
   expandedSidebar: boolean;
   setExpandedSidebar: Dispatch<SetStateAction<boolean>>;
+  darkMode: boolean;
+  setDarkMode: Dispatch<SetStateAction<boolean>>;
 }
 
-const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
+const Navbar = ({
+  expandedSidebar,
+  setExpandedSidebar,
+  darkMode,
+  setDarkMode,
+}: navbarProps) => {
   const [width, setWidth] = useState<number>();
 
   useEffect(() => {
@@ -46,7 +54,17 @@ const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
         ) : (
           <img src={Logo} alt="logo" />
         )}
-
+        <FormControlLabel
+          control={
+            <Switch
+              checked={darkMode}
+              onChange={() => setDarkMode(!darkMode)}
+              name="darkmode"
+              color="primary"
+            />
+          }
+          label="Dark Mode"
+        />
         <div
           onClick={() => {
             setExpandedSidebar(!expandedSidebar);

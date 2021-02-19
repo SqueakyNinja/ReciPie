@@ -1,17 +1,5 @@
 @import "../../app.global.scss";
 
 .button {
-  background-color: $primary;
-  font-family: $font;
   margin: 1rem;
-  &:hover {
-    background-color: $primaryHover;
-  }
-}
-
-.secondaryButton {
-  background-color: $secondary;
-  &:hover {
-    background-color: $secondaryHover;
-  }
 }
