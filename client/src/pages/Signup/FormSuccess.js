@@ -1,11 +1,14 @@
 import React from 'react'
 import Image from "./thumbsUp.png"
+import styles from "./index.module.scss";
 
 const FormSuccess = () => {
     return (
-        <div className='form-content-right'>
-        <h1 className='form-success'>We have received your request!</h1>
-        <img className='form-img-2' src={Image} alt='success-image' />
+        <div className={styles.signupRight}>
+          <div className={styles.formSuccess}>
+        <h1>We have received your request!</h1>
+        <img className={styles.formImg2} src={Image} alt='success-image' />
+        </div>
       </div>
     )
 }

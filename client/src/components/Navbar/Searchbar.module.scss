@@ -1,29 +1,17 @@
-.Searchbar {
+.search {
   display: none;
-  margin: auto;
-  width: 70%;
-
+  margin: 0 auto;
+  align-items: center;
+  i {
+    color: rgba(0, 0, 0, 0.699);
+  }
   input {
-    height: 60px;
-    width: 100%;
-    border-width: 3px;
-    border-style: solid;
-    border-color: black;
-    border-radius: 20px;
-    margin: auto;
-    font-size: 1rem;
-    &[type="text"] {
-      padding-left: 10px;
-    }
-
-    &:focus {
-      outline: none;
-    }
-
-    &::placeholder {
-      text-align: center;
-      padding: 10px;
-    }
+    color: rgba(0, 0, 0, 0.699);
+    padding: 0.75rem;
+  }
+  > div > div {
+    border-radius: 2rem;
+    background-color: white;
   }
 }
 
@@ -32,7 +20,7 @@
 }
 
 @media (min-width: 1024px) {
-  .Searchbar {
+  .search {
     display: block;
   }
 }
