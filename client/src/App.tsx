@@ -8,11 +8,12 @@ import Navbar from "./components/Navbar";
 import Header from "./components/Navbar/Header";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { grey, green } from "@material-ui/core/colors";
+import { useStore } from "./store";
 
 const App = () => {
   //Ändra detta till useStore sen kanske?
   const [expandedSidebar, setExpandedSidebar] = useState<boolean>(false);
-  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const { darkMode, setDarkMode } = useStore();
 
   // https://material-ui.com/customization/color/ för att se fler färger
   const theme = createMuiTheme({
@@ -49,10 +50,8 @@ const App = () => {
           <Navbar
             expandedSidebar={expandedSidebar}
             setExpandedSidebar={setExpandedSidebar}
-            darkMode={darkMode}
-            setDarkMode={setDarkMode}
           />
-          <Main darkMode={darkMode} setDarkMode={setDarkMode} />
+          <Main />
         </Router>
       </div>
     </ThemeProvider>
