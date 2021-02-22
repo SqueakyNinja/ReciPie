@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
-import validate from "./validateInfo";
+import { validateSignupInfo } from "./validation";
 import styles from "./index.module.scss";
 import FormSuccess from "./FormSuccess";
 import axios from "axios";
@@ -32,12 +32,9 @@ const Signup = ({ setSignup, setIsLogedin }) => {
         email: values.email,
         password: values.password,
       };
-      console.log(user);
       console.log({ user });
-      const postUser = await axios.post("/users", { user });
-      // const postUser = await axios.get("/users");
-      console.log(postUser);
-      return postUser;
+      // const postUser = await axios.post("/users", { user });
+      // return postUser;
     } catch (error) {
       console.log(error);
       console.log("YOU GOT AN ERROR");
@@ -46,13 +43,11 @@ const Signup = ({ setSignup, setIsLogedin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setErrors(validate(values));
+    setErrors(validateSignupInfo(values));
+    console.log(errors);
     if (Object.keys(errors).length === 0) {
-      console.log("Posing user: " + values);
       addNewUser();
-      // ändra detta till true efter testing
-      setIsSubmitted(false);
+      setIsSubmitted(true);
     }
   };
 

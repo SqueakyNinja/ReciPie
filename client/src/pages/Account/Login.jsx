@@ -2,16 +2,9 @@ import React, { useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
 import styles from "./index.module.scss";
 import axios from "axios";
-import validateInfo from "./validateInfo";
+import { validateLoginInfo } from "./validation";
 
 const Login = ({ setSignup, setIsLogedin }) => {
-  const getLogin = () => {
-    axios.get("/user.json").then((respons) => {
-      const auth = respons.data.user;
-      console.log(auth);
-    });
-  };
-
   function handlePage() {
     setSignup(true);
     setIsLogedin(false);
@@ -20,9 +13,7 @@ const Login = ({ setSignup, setIsLogedin }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [values, setValues] = useState({
     username: "",
-    email: "",
     password: "",
-    password2: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -35,12 +26,30 @@ const Login = ({ setSignup, setIsLogedin }) => {
     });
   };
 
+  const sendLogin = async () => {
+    try {
+      const user = {
+        username: values.username,
+        password: values.password,
+      };
+      console.log({ user });
+      // const postUser = await axios.post("/users", { user });
+      // return postUser;
+    } catch (error) {
+      console.log(error);
+      console.log("YOU GOT AN ERROR");
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setErrors(validateInfo(values));
+    setErrors(validateLoginInfo(values));
     if (Object.keys(errors).length === 0) {
-      setIsSubmitted(true);
+      sendLogin();
+      setIsSubmitted(false);
+      console.log("Logged in!");
+    } else {
+      console.log(errors);
     }
   };
 
