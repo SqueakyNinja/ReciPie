@@ -73,9 +73,10 @@
     h1 {
       margin-top: 30px;
       font-size: 1rem;
-      width: 80%;
+      max-width: 300px;
       margin-bottom: 2rem;
       text-align: center;
+      padding: 0 2rem;
     }
     > span {
       text-align: center;
