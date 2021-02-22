@@ -1,59 +1,58 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import Test from "./Test";
+import React, { useState } from "react";
+import "./app.global.scss";
+import styles from "./app.module.scss";
+import Main from "./Main";
+import { BrowserRouter as Router } from "react-router-dom";
+import { combineClasses } from "./utils";
+import Navbar from "./components/Navbar";
+import Header from "./components/Navbar/Header";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { grey, green } from "@material-ui/core/colors";
 
 const App = () => {
-  const [data, setData] = useState(null);
+  //Ändra detta till useStore sen kanske?
+  const [expandedSidebar, setExpandedSidebar] = useState<boolean>(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
-  const callBackendAPI = async () => {
-    const response = await fetch("/express_backend");
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message);
-    }
-    return body;
-  };
-
-  useEffect(() => {
-    callBackendAPI()
-      .then((res: any) => setData(res.express))
-      .catch((err: any) => console.log(err));
-  }, []);
-
-  let testRecipe = {
-    title: "Kladdkaka",
-    image: "url.com",
-    instructions: {
-      1: "Sätt ugnen på 175 grader",
-      2: "Smält smöret i en kastrull. Lyft av kastrullen från plattan.",
-      3: "Rör ner socker och ägg, blanda väl. Rör ner övriga ingredienser så att allt blir väl blandat.",
-      4: "Häll smeten i en smord och bröad form med löstagbar kant, ca 24 cm i diameter.",
-      5: "Grädda mitt i ugnen ca 15 min. Kakan blir låg med ganska hård yta och lite kladdig i mitten.",
-      6: "Låt kakan kallna. Pudra över florsocker. Servera med grädde eller glass och frukt.",
+  // https://material-ui.com/customization/color/ för att se fler färger
+  const theme = createMuiTheme({
+    palette: {
+      type: darkMode ? "dark" : "light",
+      primary: {
+        light: green[300],
+        main: green[400],
+        dark: green[500],
+        contrastText: "#fff",
+      },
+      secondary: {
+        light: grey[200],
+        main: grey[300],
+        dark: grey[400],
+        contrastText: "#000",
+      },
     },
-    ingredients: {
-      smör: 100 + "g",
-      strösocker: 2.5 + "dl",
-      ägg: 2 + "st",
-      vetemjöl: 1 + "dl",
-      kakao: 3 + "msk",
-      vaniljsocker: 1 + "tsk",
-      florsocker: "",
-      vispgrädde: "",
-    },
-  };
+  });
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1 className="App-title">Welcome to React</h1>
-      </header>
-      <p>Hejhej</p>
-      {console.log(testRecipe)}
-      <Test></Test>
-      <p className="App-intro">blablaHejsan</p>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div
+        className={combineClasses(
+          styles.container,
+          expandedSidebar && styles.expandedSidebar
+        )}
+      >
+        <Router>
+          <Header />
+          <Navbar
+            expandedSidebar={expandedSidebar}
+            setExpandedSidebar={setExpandedSidebar}
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
+          />
+          <Main darkMode={darkMode} setDarkMode={setDarkMode} />
+        </Router>
+      </div>
+    </ThemeProvider>
   );
 };
 

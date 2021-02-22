@@ -1,0 +1,21 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 250px auto auto auto;
+}
+
+$font: "Montserrat", sans-serif;
+
+$primary: rgb(84, 179, 84) !important;
+$primaryHover: rgb(112, 209, 112) !important;
+
+$secondary: rgb(172, 172, 172) !important;
+$secondaryHover: rgb(146, 145, 145) !important;
+
+$buttonColor1: black;
