@@ -1,28 +1,67 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
-import useForm from "./useForm";
 import validate from "./validateInfo";
 import styles from "./index.module.scss";
 import FormSuccess from "./FormSuccess";
+import axios from "axios";
 
-
-const Signup = ({ submitForm, signup, setSignup, setIsLogedin }) => {
-  const { handleChange, values, handleSubmit, errors } = useForm(
-    submitForm,
-    validate
-  );
-
-function handlePage (){
-  setSignup(false)
-  setIsLogedin(true)
-}
+const Signup = ({ setSignup, setIsLogedin }) => {
+  axios.defaults.baseURL = "http://localhost:9090/api";
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  function submitForm() {
-      setIsSubmitted(true);
-    }
+  const [errors, setErrors] = useState({});
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+    password2: "",
+  });
 
-  return (!isSubmitted ? 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
+  const addNewUser = async () => {
+    try {
+      const user = {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      };
+      console.log(user);
+      console.log({ user });
+      const postUser = await axios.post("/users", { user });
+      // const postUser = await axios.get("/users");
+      console.log(postUser);
+      return postUser;
+    } catch (error) {
+      console.log(error);
+      console.log("YOU GOT AN ERROR");
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    setErrors(validate(values));
+    if (Object.keys(errors).length === 0) {
+      console.log("Posing user: " + values);
+      addNewUser();
+      // ändra detta till true efter testing
+      setIsSubmitted(false);
+    }
+  };
+
+  const handlePage = () => {
+    setSignup(false);
+    setIsLogedin(true);
+  };
+
+  return !isSubmitted ? (
     <div className={styles.signupRight}>
       <Paper className={styles.formPaper}>
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -101,12 +140,15 @@ function handlePage (){
             Sign up
           </Button>
           <span className="form-input-login">
-            Already have an account? <span onClick={handlePage}>Login here</span>
+            Already have an account?
+            <span onClick={handlePage}>Login here</span>
           </span>
         </form>
       </Paper>
     </div>
- : <FormSuccess/> );
+  ) : (
+    <FormSuccess />
+  );
 };
 
 export default Signup;

@@ -17,6 +17,7 @@ export const selectAllUsers = async () => {
 export const addNewUser = async (
   user: Pick<User, "username" | "email" | "password">
 ) => {
+  console.log(user);
   const newUser = await db("users").insert(user);
   console.log(newUser);
   return "User added";

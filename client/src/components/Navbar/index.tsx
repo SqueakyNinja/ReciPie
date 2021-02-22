@@ -1,18 +1,14 @@
 import React, {
-  Component,
   Dispatch,
   forwardRef,
   SetStateAction,
   useEffect,
   useState,
 } from "react";
-import Logo from "./ReciPie-light-logo.png";
-import smallLogo from "./ReciPie-light-small-logo.png";
 import { MenuItems } from "./MenuItems";
 import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
 import { Link } from "react-router-dom";
-import Searchbar from "./Searchbar";
 import { Link as RouterLink } from "react-router-dom";
 import {
   FormControlLabel,
@@ -40,7 +36,7 @@ const Navbar = ({
   darkMode,
   setDarkMode,
 }: navbarProps) => {
-  const [width, setWidth] = useState<number>();
+  const [width, setWidth] = useState<number>(450);
 
   useEffect(() => {
     function handleResize() {
@@ -62,10 +58,14 @@ const Navbar = ({
       )}
     >
       <div className={styles.logoAndHamburger}>
-        {window.innerWidth < 1024 ? (
-          <img className={styles.smallLogo} src={smallLogo} alt="logo" />
+        {width < 1024 ? (
+          <img
+            className={styles.smallLogo}
+            src={"/images/ReciPie-light-small-logo.png"}
+            alt="logo"
+          />
         ) : (
-          <img src={Logo} alt="logo" />
+          <img src={"/images/ReciPie-light-logo.png"} alt="logo" />
         )}
         <FormControlLabel
           control={

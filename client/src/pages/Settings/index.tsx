@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { FormControlLabel, Switch, Paper, Grid } from "@material-ui/core";
+import { FormControlLabel, Switch } from "@material-ui/core";
 
 interface DarkMode {
   darkMode: boolean;

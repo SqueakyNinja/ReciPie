@@ -1,17 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
-import useForm from "./useForm";
-import validate from "./validateInfo";
 import styles from "./index.module.scss";
 import axios from "axios";
-import { ifError } from "assert";
+import validateInfo from "./validateInfo";
 
-const Login = ({ submitForm, setSignup, setIsLogedin }) => {
-  const { handleChange, values, handleSubmit, errors } = useForm(
-    submitForm,
-    validate
-  );
-
+const Login = ({ setSignup, setIsLogedin }) => {
   const getLogin = () => {
     axios.get("/user.json").then((respons) => {
       const auth = respons.data.user;
@@ -24,7 +17,34 @@ const Login = ({ submitForm, setSignup, setIsLogedin }) => {
     setIsLogedin(false);
   }
 
-  return (
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+    password2: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    setErrors(validateInfo(values));
+    if (Object.keys(errors).length === 0) {
+      setIsSubmitted(true);
+    }
+  };
+
+  return !isSubmitted ? (
     <div className={styles.signupRight}>
       <Paper className={styles.formPaper}>
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -72,6 +92,8 @@ const Login = ({ submitForm, setSignup, setIsLogedin }) => {
         </form>
       </Paper>
     </div>
+  ) : (
+    "user submitted"
   );
 };
 

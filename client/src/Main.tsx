@@ -2,7 +2,7 @@ import { Route } from "react-router-dom";
 import AddOCRRecipe from "./pages/AddOCRRecipe";
 import Homepage from "./pages/Homepage";
 import styles from "./app.module.scss";
-import Form from "./pages/Signup/Form";
+import Form from "./pages/Account";
 import Style from "./pages/Style";
 import { Dispatch, SetStateAction } from "react";
 import Settings from "./pages/Settings";
