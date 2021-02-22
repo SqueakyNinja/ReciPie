@@ -1,6 +1,7 @@
 import React, {
   Component,
   Dispatch,
+  forwardRef,
   SetStateAction,
   useEffect,
   useState,
@@ -8,18 +9,37 @@ import React, {
 import Logo from "./ReciPie-light-logo.png";
 import smallLogo from "./ReciPie-light-small-logo.png";
 import { MenuItems } from "./MenuItems";
-import { Button } from "../Button";
 import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
 import { Link } from "react-router-dom";
 import Searchbar from "./Searchbar";
+import { Link as RouterLink } from "react-router-dom";
+import {
+  FormControlLabel,
+  Switch,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@material-ui/core";
 
 interface navbarProps {
   expandedSidebar: boolean;
   setExpandedSidebar: Dispatch<SetStateAction<boolean>>;
+  darkMode: boolean;
+  setDarkMode: Dispatch<SetStateAction<boolean>>;
 }
 
-const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
+const LinkBehavior = forwardRef((props, ref) => (
+  <RouterLink to="/signup" {...props} />
+));
+
+const Navbar = ({
+  expandedSidebar,
+  setExpandedSidebar,
+  darkMode,
+  setDarkMode,
+}: navbarProps) => {
   const [width, setWidth] = useState<number>();
 
   useEffect(() => {
@@ -47,7 +67,17 @@ const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
         ) : (
           <img src={Logo} alt="logo" />
         )}
-
+        <FormControlLabel
+          control={
+            <Switch
+              checked={darkMode}
+              onChange={() => setDarkMode(!darkMode)}
+              name="darkmode"
+              color="primary"
+            />
+          }
+          label="Dark Mode"
+        />
         <div
           onClick={() => {
             setExpandedSidebar(!expandedSidebar);
@@ -73,7 +103,29 @@ const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
       >
         {window.innerWidth < 1024 ? (
           <li className={styles.searchbarMobile}>
-            <Searchbar />
+            <div className={styles.search}>
+              <TextField
+                placeholder="Search…"
+                variant="outlined"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <i className="fas fa-search"></i>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </div>
+            <Button
+              variant="outlined"
+              className={styles.button}
+              component={LinkBehavior}
+            >
+              Sign Up
+            </Button>
+            <IconButton className={styles.account}>
+              <i className="far fa-user"></i>
+            </IconButton>
           </li>
         ) : (
           ""
