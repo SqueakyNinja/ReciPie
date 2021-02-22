@@ -5,9 +5,9 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Step1 from './Step1/Step1';
 import Step2 from '../../components/CreateRecipe/Step2/Step2';
 
-import Step1 from '../../components/CreateRecipe/Step1/Step1';
 import Step3 from '../../components/CreateRecipe/Step3/Step3';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,11 +39,7 @@ const CreateRecipe = () => {
         expanded={expanded === 'panel1'}
         onChange={handleChange('panel1')}
       >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1bh-content'
-          id='panel1bh-header'
-        >
+        <AccordionSummary aria-controls='panel1bh-content' id='panel1bh-header'>
           <Typography className={classes.heading}>
             1. Name, portions, time, picture
           </Typography>
