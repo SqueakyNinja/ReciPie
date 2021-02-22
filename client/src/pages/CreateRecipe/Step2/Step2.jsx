@@ -1,19 +1,82 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Autocomplete, {
+  createFilterOptions,
+} from '@material-ui/lab/Autocomplete';
 
 import {
   Button,
   TextField,
   FormControl,
   Select,
-  ListSubheader,
   InputLabel,
-  MenuItem,
+  CircularProgress,
 } from '@material-ui/core';
 
 const Step2 = () => {
+  const [open, setOpen] = useState(false);
+  const [ingredients, setIngredients] = useState([]);
+
+  useEffect(() => {
+    const fetchIngredients = async () => {
+      const result = await axios('/ingredients.json');
+      setIngredients(result.data);
+
+      // const response = await axios(
+      //   'https://country.register.gov.uk/records.json?page-size=5000'
+      // );
+      // console.log(response.data);
+      // // const countries = await response.json();
+
+      // setOptions(
+      //   Object.keys(response.data).map((key) => response.data[key].item[0])
+      // );
+    };
+
+    fetchIngredients();
+  }, []);
+
+  const filterOptions = createFilterOptions({
+    limit: 10,
+  });
+
   return (
     <div className='Step2'>
-      <TextField variant='outlined' label='Search Ingredients'></TextField>
+      {/* <TextField variant='outlined' label='Search Ingredients'></TextField> */}
+      <Autocomplete
+        forcePopupIcon={false}
+        open={open}
+        onOpen={(e) => {
+          if (e.target.value !== '') {
+            setOpen(true);
+          }
+        }}
+        onInputChange={(e) => {
+          if (e.target.value === '') {
+            setOpen(false);
+          }
+        }}
+        onClose={() => {
+          setOpen(false);
+        }}
+        filterOptions={filterOptions}
+        getOptionSelected={(option, value) => option.name === value.name}
+        getOptionLabel={(ingredient) => ingredient.name}
+        options={ingredients}
+        // loading={loading}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label='Asynchronous'
+            variant='outlined'
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: <>{params.InputProps.endAdornment}</>,
+            }}
+          />
+        )}
+      />
+
       <br />
       <br />
       <div className='Step2Measurement'>
