@@ -11,24 +11,13 @@ import {
 
 const Step1 = () => {
   return (
-    <div>
+    <div className="'Step1">
       <TextField variant='outlined' label='Name of Recipe'></TextField>
 
       <br />
       <br />
-      <TextField
-        variant='outlined'
-        label='Number of portions'
-        type='number'
-        // InputLabelProps={{
-        //   shrink: true,
-        // }}
-      />
-      {/* <input
-        type='number'
-        name='no-portions'
-        placeholder='Enter number of portions'
-      /> */}
+      <TextField variant='outlined' label='Number of portions' type='number' />
+
       <br />
       <br />
 
@@ -36,7 +25,7 @@ const Step1 = () => {
       <div>
         <FormControl variant='outlined'>
           <InputLabel>Hours</InputLabel>
-          <Select labelId='demo-simple-select-outlined-label' label='Hours'>
+          <Select label='Hours'>
             <MenuItem value=''>
               <em>None</em>
             </MenuItem>

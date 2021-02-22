@@ -1,1 +1,5 @@
-@import "../../app.global.scss";
+@import '../../app.global.scss';
+
+.accordionHeader {
+  background-color: $primary;
+}
