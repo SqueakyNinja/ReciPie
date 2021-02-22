@@ -31,6 +31,9 @@ const App = () => {
         contrastText: "#000",
       },
     },
+    typography: {
+      fontFamily: ["Montserrat", "sans-serif"].join(","),
+    },
   });
 
   return (
