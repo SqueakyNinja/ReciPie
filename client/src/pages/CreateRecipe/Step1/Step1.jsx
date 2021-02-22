@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  Button,
   TextField,
   FormControl,
   Select,
@@ -12,7 +11,7 @@ import {
 const Step1 = () => {
   return (
     <div className="'Step1">
-      <TextField variant='outlined' label='Name of Recipe'></TextField>
+      <TextField variant='outlined' label='Name of Recipe' />
 
       <br />
       <br />
