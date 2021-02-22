@@ -53,9 +53,7 @@ const CreateRecipe = () => {
         </AccordionSummary>
 
         <AccordionDetails>
-          <Typography>
-            <Step1 />
-          </Typography>
+          <Step1 />
         </AccordionDetails>
       </Accordion>
 
@@ -71,9 +69,7 @@ const CreateRecipe = () => {
           <Typography className={styles.heading}>2. Ingredients</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            <Step2 />
-          </Typography>
+          <Step2 />
         </AccordionDetails>
       </Accordion>
 
@@ -89,9 +85,7 @@ const CreateRecipe = () => {
           <Typography className={styles.heading}>3. Instructions</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            <Step3 />
-          </Typography>
+          <Step3 />
         </AccordionDetails>
       </Accordion>
     </div>
