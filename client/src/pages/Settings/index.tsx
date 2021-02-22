@@ -1,11 +1,10 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { FormControlLabel, Switch, Paper, Grid } from "@material-ui/core";
+import { useStore } from "../../store";
 
-interface DarkMode {
-  darkMode: boolean;
-  setDarkMode: Dispatch<SetStateAction<boolean>>;
-}
-const Settings = ({ darkMode, setDarkMode }: DarkMode) => {
+const Settings = () => {
+  const { darkMode, setDarkMode } = useStore();
+
   return (
     <div>
       <FormControlLabel
