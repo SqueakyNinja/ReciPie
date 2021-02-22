@@ -4,20 +4,23 @@ import FormSuccess from "./FormSuccess";
 import styles from "./index.module.scss";
 import Image from "./signup1.jpg";
 import Signup from "./Signup";
+import Login from "./Login";
 
 const Form = () => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [signup, setSignup] = useState(true);
+  const [isLogedin, setIsLogedin] = useState(false);
 
-  function submitForm() {
-    setIsSubmitted(true);
+  function loginForm() {
+      setIsLogedin(true);
   }
-
   return (
     <div className={styles.signupContainer}>
       <div className={styles.signupLeft}>
         <img src={Image} alt="pie" className={styles.formImg} />
       </div>
-      {!isSubmitted ? <Signup submitForm={submitForm} /> : <FormSuccess />}
+      {signup && <Signup setIsLogedin={setIsLogedin} signup={signup} setSignup={setSignup}/>}
+      {isLogedin && <Login setIsLogedin={setIsLogedin} signup={signup} setSignup={setSignup}/>}
+
     </div>
   );
 };
