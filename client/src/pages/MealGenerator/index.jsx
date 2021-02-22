@@ -1,25 +1,38 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import MealItem from "./MealItem";
+import MealGrid from "./MealGrid";
+import Search from "./Search";
 
 const MealGenerator = () => {
   const [recipes, setRecipes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [query, setQuery] = useState("");
 
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      const result = await axios(
-        `https://api.spoonacular.com/recipes/complexSearch?apiKey=8080ada856dd4f439b4a065ae353d836&query=pasta&number=2`
-      );
-      setRecipes(result.data.results);
-    };
+  
+  
+  const fetchRecipes = async () => {
+    const result = await axios(
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=8080ada856dd4f439b4a065ae353d836&query=${query}&number=6`
+      )
+      setRecipes(result.data.results)};
 
-    fetchRecipes();
-  }, []);
+      useEffect(() => {
+        const timeoutVar = setTimeout(() => {
+          fetchRecipes()
+        }, 500)
+
+        return () => clearTimeout(timeoutVar);
+    },
+
+    
+   [query]);
 
   console.log(recipes);
 
-  return <div><MealItem recipes={recipes}/></div>;
+  return (
+    <div>
+      <Search getQuery={(query) => setQuery(query)}/>
+      <MealGrid recipes={recipes}/>
+    </div>);
 };
 
 export default MealGenerator;
