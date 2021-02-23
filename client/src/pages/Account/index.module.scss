@@ -60,6 +60,7 @@
       width: 40%;
       height: 40%;
       max-width: 300px;
+      margin-bottom: 30px;
     }
   }
 
@@ -82,11 +83,10 @@
       text-align: center;
       margin: 1rem 2rem 2rem 2rem;
 
-        > span{
-          cursor: pointer;
-          color: green;
-        }
-
+      > span {
+        cursor: pointer;
+        color: green;
+      }
     }
     .formInputs {
       margin: 0 auto 0.5rem auto;

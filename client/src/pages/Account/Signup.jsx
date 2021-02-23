@@ -145,7 +145,7 @@ const Signup = ({ setSignup, setIsLogedin }) => {
       </Paper>
     </div>
   ) : (
-    <FormSuccess />
+    <FormSuccess values={values} />
   );
 };
 
