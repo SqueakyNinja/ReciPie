@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
 import styles from "./index.module.scss";
 import axios from "axios";
 import { validateLoginInfo } from "./validation";
 
 const Login = ({ setSignup, setIsLogedin }) => {
-  function handlePage() {
-    setSignup(true);
-    setIsLogedin(false);
-  }
-
+  const [submitting, setSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
   const [values, setValues] = useState({
     username: "",
     password: "",
   });
+  axios.defaults.baseURL = "http://localhost:9090/api";
 
-  const [errors, setErrors] = useState({});
+  function handlePage() {
+    setSignup(true);
+    setIsLogedin(false);
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,15 +42,18 @@ const Login = ({ setSignup, setIsLogedin }) => {
     }
   };
 
+  useEffect(() => {
+    setErrors(validateLoginInfo(values));
+  }, [values]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors(validateLoginInfo(values));
+    setSubmitting(true);
     if (Object.keys(errors).length === 0) {
       sendLogin();
       setIsSubmitted(false);
       console.log("Logged in!");
-    } else {
-      console.log(errors);
+      setSubmitting(false);
     }
   };
 
@@ -69,7 +73,7 @@ const Login = ({ setSignup, setIsLogedin }) => {
               value={values.username}
               onChange={handleChange}
             />
-            {errors.username && <p>{errors.username}</p>}
+            {errors.username && submitting && <p>{errors.username}</p>}
           </div>
 
           <div className={styles.formInputs}>
@@ -83,7 +87,7 @@ const Login = ({ setSignup, setIsLogedin }) => {
               value={values.password}
               onChange={handleChange}
             />
-            {errors.password && <p>{errors.password}</p>}
+            {errors.password && submitting && <p>{errors.password}</p>}
           </div>
 
           <Button

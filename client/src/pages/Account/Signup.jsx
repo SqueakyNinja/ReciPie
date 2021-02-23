@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
 import { validateSignupInfo } from "./validation";
 import styles from "./index.module.scss";
@@ -6,8 +6,7 @@ import FormSuccess from "./FormSuccess";
 import axios from "axios";
 
 const Signup = ({ setSignup, setIsLogedin }) => {
-  axios.defaults.baseURL = "http://localhost:9090/api";
-
+  const [submitting, setSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
   const [values, setValues] = useState({
@@ -16,6 +15,12 @@ const Signup = ({ setSignup, setIsLogedin }) => {
     password: "",
     password2: "",
   });
+  axios.defaults.baseURL = "http://localhost:9090/api";
+
+  const handlePage = () => {
+    setSignup(false);
+    setIsLogedin(true);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,19 +46,17 @@ const Signup = ({ setSignup, setIsLogedin }) => {
     }
   };
 
+  useEffect(() => {
+    setErrors(validateSignupInfo(values));
+  }, [values]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors(validateSignupInfo(values));
-    console.log(errors);
+    setSubmitting(true);
     if (Object.keys(errors).length === 0) {
       addNewUser();
       setIsSubmitted(true);
     }
-  };
-
-  const handlePage = () => {
-    setSignup(false);
-    setIsLogedin(true);
   };
 
   return !isSubmitted ? (
@@ -75,7 +78,7 @@ const Signup = ({ setSignup, setIsLogedin }) => {
               value={values.username}
               onChange={handleChange}
             />
-            {errors.username && <p>{errors.username}</p>}
+            {errors.username && submitting && <p>{errors.username}</p>}
           </div>
           <div className={styles.formInputs}>
             <label htmlFor="email" className={styles.formLabel}>
@@ -91,7 +94,7 @@ const Signup = ({ setSignup, setIsLogedin }) => {
               value={values.email}
               onChange={handleChange}
             />
-            {errors.email && <p>{errors.email}</p>}
+            {errors.email && submitting && <p>{errors.email}</p>}
           </div>
           <div className={styles.formInputs}>
             <label htmlFor="password" className={styles.formLabel}>
@@ -107,7 +110,7 @@ const Signup = ({ setSignup, setIsLogedin }) => {
               value={values.password}
               onChange={handleChange}
             />
-            {errors.password && <p>{errors.password}</p>}
+            {errors.password && submitting && <p>{errors.password}</p>}
           </div>
 
           <div className={styles.formInputs}>
@@ -124,7 +127,7 @@ const Signup = ({ setSignup, setIsLogedin }) => {
               value={values.password2}
               onChange={handleChange}
             />
-            {errors.password2 && <p>{errors.password2}</p>}
+            {errors.password2 && submitting && <p>{errors.password2}</p>}
           </div>
           <Button
             color="primary"
