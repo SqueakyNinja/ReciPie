@@ -12,6 +12,10 @@ export interface User {
   email: string;
   password: string;
 }
+
+export type LoginRequest = Pick<User, "username" | "password">;
+
+export type NewUser = Pick<User, "username" | "email" | "password">;
 export interface UserRecipesMap {
   id: string;
   user_id: string;

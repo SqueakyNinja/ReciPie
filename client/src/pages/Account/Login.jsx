@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
 import styles from "./index.module.scss";
-import axios from "axios";
 import { validateLoginInfo } from "./validation";
+import { sendLogin } from "../../api/users";
 
 const Login = ({ setSignup, setIsLogedin }) => {
   const [submitting, setSubmitting] = useState(false);
@@ -12,7 +12,6 @@ const Login = ({ setSignup, setIsLogedin }) => {
     username: "",
     password: "",
   });
-  axios.defaults.baseURL = "http://localhost:9090/api";
 
   function handlePage() {
     setSignup(true);
@@ -27,21 +26,6 @@ const Login = ({ setSignup, setIsLogedin }) => {
     });
   };
 
-  const sendLogin = async () => {
-    try {
-      const user = {
-        username: values.username,
-        password: values.password,
-      };
-      console.log({ user });
-      // const postUser = await axios.post("/users", { user });
-      // return postUser;
-    } catch (error) {
-      console.log(error);
-      console.log("YOU GOT AN ERROR");
-    }
-  };
-
   useEffect(() => {
     setErrors(validateLoginInfo(values));
   }, [values]);
@@ -50,7 +34,11 @@ const Login = ({ setSignup, setIsLogedin }) => {
     e.preventDefault();
     setSubmitting(true);
     if (Object.keys(errors).length === 0) {
-      sendLogin();
+      const user = {
+        username: values.username,
+        password: values.password,
+      };
+      sendLogin(user);
       setIsSubmitted(false);
       console.log("Logged in!");
       setSubmitting(false);

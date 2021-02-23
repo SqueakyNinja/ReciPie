@@ -3,7 +3,7 @@ import { Button, TextField, Paper } from "@material-ui/core";
 import { validateSignupInfo } from "./validation";
 import styles from "./index.module.scss";
 import FormSuccess from "./FormSuccess";
-import axios from "axios";
+import { addNewUser } from "../../api/users";
 
 const Signup = ({ setSignup, setIsLogedin }) => {
   const [submitting, setSubmitting] = useState(false);
@@ -15,7 +15,6 @@ const Signup = ({ setSignup, setIsLogedin }) => {
     password: "",
     password2: "",
   });
-  axios.defaults.baseURL = "http://localhost:9090/api";
 
   const handlePage = () => {
     setSignup(false);
@@ -30,22 +29,6 @@ const Signup = ({ setSignup, setIsLogedin }) => {
     });
   };
 
-  const addNewUser = async () => {
-    try {
-      const user = {
-        username: values.username,
-        email: values.email,
-        password: values.password,
-      };
-      console.log({ user });
-      // const postUser = await axios.post("/users", { user });
-      // return postUser;
-    } catch (error) {
-      console.log(error);
-      console.log("YOU GOT AN ERROR");
-    }
-  };
-
   useEffect(() => {
     setErrors(validateSignupInfo(values));
   }, [values]);
@@ -54,7 +37,12 @@ const Signup = ({ setSignup, setIsLogedin }) => {
     e.preventDefault();
     setSubmitting(true);
     if (Object.keys(errors).length === 0) {
-      addNewUser();
+      const newUser = {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      };
+      addNewUser(newUser);
       setIsSubmitted(true);
     }
   };
