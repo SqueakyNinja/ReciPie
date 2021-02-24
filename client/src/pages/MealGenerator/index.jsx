@@ -13,6 +13,8 @@ const MealGenerator = () => {
     const result = await axios(
       `https://api.spoonacular.com/recipes/complexSearch?apiKey=8080ada856dd4f439b4a065ae353d836&query=${query}&number=6`
       )
+
+      //Som ett andra argument: Lägg till params: {query: query, number: 6}
       setRecipes(result.data.results)};
 
       useEffect(() => {
