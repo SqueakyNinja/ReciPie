@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import {
-  makeStyles,
   Accordion,
   AccordionDetails,
   AccordionSummary,
@@ -16,7 +15,7 @@ import Step3 from './Step3/Step3';
 import RecipeDetails from './RecipeDetails/RecipeDetails';
 
 const CreateRecipe = () => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState('');
 
   const [recipe, setRecipe] = useState({
     category: '',
