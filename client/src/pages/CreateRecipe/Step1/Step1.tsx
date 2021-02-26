@@ -22,6 +22,8 @@ const Step1 = ({ recipe, setRecipe }: RecipeProps) => {
     setInputValues({ ...inputValues, title: value });
   };
 
+  console.log(inputValues.title);
+
   return (
     <div className="'Step1">
       <TextField
