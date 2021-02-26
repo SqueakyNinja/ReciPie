@@ -1,6 +1,5 @@
-import React from 'react';
-
 import styles from '../../Style/index.module.scss';
+import React, { useState } from 'react';
 
 import {
   TextField,
@@ -11,7 +10,9 @@ import {
   Button,
 } from '@material-ui/core';
 
-const Step1 = () => {
+import { RecipeProps } from '../types';
+
+const Step1 = ({ recipe, setRecipe }: RecipeProps) => {
   return (
     <div className="'Step1">
       <TextField variant='outlined' label='Name of Recipe' />

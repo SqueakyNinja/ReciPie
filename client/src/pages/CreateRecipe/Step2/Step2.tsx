@@ -14,6 +14,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { FilterOptionsState } from '@material-ui/lab/useAutocomplete';
+import { RecipeProps } from '../types';
 // import { AnyAaaaRecord } from 'dns';
 
 interface Ingredient {
@@ -22,7 +23,7 @@ interface Ingredient {
   name: string;
 }
 
-const Step2 = () => {
+const Step2 = ({ recipe, setRecipe }: RecipeProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 

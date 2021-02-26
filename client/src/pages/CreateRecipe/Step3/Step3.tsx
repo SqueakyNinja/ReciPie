@@ -9,7 +9,9 @@ import {
   Button,
 } from '@material-ui/core';
 
-const Step3 = () => {
+import { RecipeProps } from '../types';
+
+const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
   return (
     <div className='Step3'>
       <TextField variant='outlined' label='Add Instructions' />
@@ -21,6 +23,15 @@ const Step3 = () => {
       >
         Add step
       </Button>
+      <div>
+        <Button
+          color='primary'
+          variant='contained'
+          className={styles.secondaryButton}
+        >
+          Done
+        </Button>
+      </div>
     </div>
   );
 };
