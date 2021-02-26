@@ -2,9 +2,10 @@ import { Dispatch, SetStateAction } from 'react';
 
 export interface Recipe {
   category: string;
-  id: number;
   name: string;
   title: string;
+  minutes: number;
+  portions: number;
 }
 
 export interface RecipeProps {
