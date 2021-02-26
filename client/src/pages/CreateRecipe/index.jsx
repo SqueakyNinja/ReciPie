@@ -9,25 +9,9 @@ import {
 
 import Step1 from './Step1/Step1';
 import Step2 from './Step2/Step2';
-import Step3 from './Step3/Step3';
+import Step3 from './Step3/Step3.tsx';
 
 import styles from './index.module.scss';
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     width: '100%',
-//     backgroundColor: 'blue',
-//   },
-//   heading: {
-//     fontSize: theme.typography.pxToRem(15),
-//     flexBasis: '33.33%',
-//     flexShrink: 0,
-//   },
-//   secondaryHeading: {
-//     fontSize: theme.typography.pxToRem(15),
-//     color: theme.palette.text.secondary,
-//   },
-// }));
 
 const CreateRecipe = () => {
   const [expanded, setExpanded] = React.useState(false);
