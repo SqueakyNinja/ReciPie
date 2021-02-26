@@ -27,6 +27,8 @@ const Step2 = ({ recipe, setRecipe }: RecipeProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
+  //Ingredients:
+
   useEffect(() => {
     const fetchIngredients = async () => {
       const result: AxiosResponse<Ingredient[]> = await axios(
@@ -44,6 +46,8 @@ const Step2 = ({ recipe, setRecipe }: RecipeProps) => {
   ) => Ingredient[] = createFilterOptions({
     limit: 10,
   });
+
+  ///// ----- /////
 
   return (
     <div className='Step2'>
@@ -90,10 +94,9 @@ const Step2 = ({ recipe, setRecipe }: RecipeProps) => {
         />
 
         <FormControl variant='outlined'>
-          <InputLabel>Measurements</InputLabel>
-          {/* <Select native defaultValue=''> */}
-          <Select label='Groupinhg'>
-            {/* <option aria-label='None' value='' /> */}
+          <InputLabel>Units</InputLabel>
+
+          <Select label='Grouping'>
             <optgroup label='Imperial'>
               <option value='tsp'>teaspoon (tsp)</option>
               <option value='tbsp'>tablespoon (tbsp)</option>
