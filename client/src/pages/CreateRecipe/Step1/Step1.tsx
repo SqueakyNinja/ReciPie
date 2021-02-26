@@ -4,38 +4,31 @@ import { RecipeProps } from '../types';
 
 import { TextField, Button } from '@material-ui/core';
 
-interface InputValues {
-  title: string;
-  portions: number;
-  time: number;
-}
-
 const Step1 = ({ recipe, setRecipe }: RecipeProps) => {
-  const [inputValues, setInputValues] = useState<InputValues>({
-    title: '',
-    portions: 0,
-    time: 0,
-  });
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { title, value } = e.target;
-    setInputValues({ ...inputValues, title: value });
+    const { name, value } = e.target;
+    setRecipe({ ...recipe, [name]: value });
+    console.log(name, value);
   };
-
-  console.log(inputValues.title);
 
   return (
     <div className="'Step1">
       <TextField
         variant='outlined'
         label='Name of Recipe'
-        value={inputValues.title}
+        name='title'
         onChange={handleChange}
       />
 
       <br />
       <br />
-      <TextField variant='outlined' label='Number of portions' type='number' />
+      <TextField
+        variant='outlined'
+        label='Number of portions'
+        type='number'
+        name='portions'
+        onChange={handleChange}
+      />
 
       <br />
       <br />
@@ -44,6 +37,8 @@ const Step1 = ({ recipe, setRecipe }: RecipeProps) => {
         variant='outlined'
         label='Estimated time (minutes)'
         type='number'
+        name='minutes'
+        onChange={handleChange}
       />
       <br />
 

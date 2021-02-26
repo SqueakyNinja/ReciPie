@@ -8,8 +8,8 @@ const RecipeDetails = ({ recipe, setRecipe }: RecipeProps) => {
     <div>
       <h3>Recipe Details</h3>
       <div>
-        <p>Recipe Title</p>
-        <p>Cooking time</p>
+        <p>{recipe.title}</p>
+        <p>{recipe.title}</p>
       </div>
     </div>
   );

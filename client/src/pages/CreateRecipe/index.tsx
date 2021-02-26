@@ -18,9 +18,15 @@ import RecipeDetails from './RecipeDetails/RecipeDetails';
 const CreateRecipe = () => {
   const [expanded, setExpanded] = useState(false);
 
-  const [recipe, setRecipe] = useState();
+  const [recipe, setRecipe] = useState({
+    category: '',
+    name: '',
+    title: '',
+    minutes: 0,
+    portions: 0,
+  });
 
-  const handleChange = (panel) => (event, isExpanded) => {
+  const handleChange = (panel: any) => (event: any, isExpanded: any) => {
     setExpanded(isExpanded ? panel : false);
   };
 
