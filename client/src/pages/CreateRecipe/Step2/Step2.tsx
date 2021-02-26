@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import axios, { AxiosResponse } from 'axios';
+import styles from '../../Style/index.module.scss';
 import Autocomplete, {
   createFilterOptions,
 } from '@material-ui/lab/Autocomplete';
@@ -12,31 +13,34 @@ import {
   InputLabel,
   CircularProgress,
 } from '@material-ui/core';
+import { FilterOptionsState } from '@material-ui/lab/useAutocomplete';
+// import { AnyAaaaRecord } from 'dns';
+
+interface Ingredient {
+  category: string;
+  id: number;
+  name: string;
+}
 
 const Step2 = () => {
-  const [open, setOpen] = useState(false);
-  const [ingredients, setIngredients] = useState([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
   useEffect(() => {
     const fetchIngredients = async () => {
-      const result = await axios('/ingredients.json');
+      const result: AxiosResponse<Ingredient[]> = await axios(
+        '/ingredients.json'
+      );
       setIngredients(result.data);
-
-      // const response = await axios(
-      //   'https://country.register.gov.uk/records.json?page-size=5000'
-      // );
-      // console.log(response.data);
-      // // const countries = await response.json();
-
-      // setOptions(
-      //   Object.keys(response.data).map((key) => response.data[key].item[0])
-      // );
     };
 
     fetchIngredients();
   }, []);
 
-  const filterOptions = createFilterOptions({
+  const filterOptions: (
+    options: Ingredient[],
+    state: FilterOptionsState<Ingredient>
+  ) => Ingredient[] = createFilterOptions({
     limit: 10,
   });
 
@@ -46,28 +50,26 @@ const Step2 = () => {
       <Autocomplete
         forcePopupIcon={false}
         open={open}
-        onOpen={(e) => {
-          if (e.target.value !== '') {
-            setOpen(true);
-          }
-        }}
-        onInputChange={(e) => {
-          if (e.target.value === '') {
+        onInputChange={(e: ChangeEvent<{}>, value: string) => {
+          if (value === '') {
             setOpen(false);
+          } else if (!open) {
+            setOpen(true);
           }
         }}
         onClose={() => {
           setOpen(false);
         }}
         filterOptions={filterOptions}
-        getOptionSelected={(option, value) => option.name === value.name}
-        getOptionLabel={(ingredient) => ingredient.name}
+        getOptionSelected={(option: Ingredient, value: Ingredient) =>
+          option.name === value.name
+        }
+        getOptionLabel={(ingredient: any) => ingredient.name}
         options={ingredients}
-        // loading={loading}
         renderInput={(params) => (
           <TextField
             {...params}
-            label='Asynchronous'
+            label='Search Ingredient'
             variant='outlined'
             InputProps={{
               ...params.InputProps,
@@ -80,10 +82,14 @@ const Step2 = () => {
       <br />
       <br />
       <div className='Step2Measurement'>
-        <TextField variant='outlined' label='Measurements' type='number' />
+        <TextField
+          variant='outlined'
+          label='Measurements, amount'
+          type='number'
+        />
 
         <FormControl variant='outlined'>
-          <InputLabel>Grouping</InputLabel>
+          <InputLabel>Measurements</InputLabel>
           {/* <Select native defaultValue=''> */}
           <Select label='Groupinhg'>
             {/* <option aria-label='None' value='' /> */}
@@ -110,6 +116,14 @@ const Step2 = () => {
           </Select>
         </FormControl>
       </div>
+
+      <Button
+        color='primary'
+        variant='contained'
+        className={styles.secondaryButton}
+      >
+        Next
+      </Button>
     </div>
   );
 };

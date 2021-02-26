@@ -1,11 +1,14 @@
 import React from 'react';
 
+import styles from '../../Style/index.module.scss';
+
 import {
   TextField,
   FormControl,
   Select,
   InputLabel,
   MenuItem,
+  Button,
 } from '@material-ui/core';
 
 const Step1 = () => {
@@ -25,9 +28,9 @@ const Step1 = () => {
         <FormControl variant='outlined'>
           <InputLabel>Hours</InputLabel>
           <Select label='Hours'>
-            <MenuItem value=''>
+            {/* <MenuItem value=''>
               <em>None</em>
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem value='0'>0</MenuItem>
             <MenuItem value='1'>1</MenuItem>
             <MenuItem value='2'>2</MenuItem>
@@ -58,6 +61,14 @@ const Step1 = () => {
           </Select>
         </FormControl>
       </div>
+
+      <Button
+        color='primary'
+        variant='contained'
+        className={styles.secondaryButton}
+      >
+        Next
+      </Button>
     </div>
   );
 };
