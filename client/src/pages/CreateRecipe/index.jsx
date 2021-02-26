@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import {
   makeStyles,
   Accordion,
@@ -7,14 +8,17 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import Step1 from './Step1/Step1';
-import Step2 from './Step2/Step2';
-import Step3 from './Step3/Step3.tsx';
-
 import styles from './index.module.scss';
 
+import Step1 from './Step1/Step1';
+import Step2 from './Step2/Step2';
+import Step3 from './Step3/Step3';
+import RecipeDetails from './RecipeDetails/RecipeDetails';
+
 const CreateRecipe = () => {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+
+  const [recipe, setRecipe] = useState();
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -37,7 +41,7 @@ const CreateRecipe = () => {
         </AccordionSummary>
 
         <AccordionDetails>
-          <Step1 />
+          <Step1 recipe={recipe} setRecipe={setRecipe} />
         </AccordionDetails>
       </Accordion>
 
@@ -53,7 +57,7 @@ const CreateRecipe = () => {
           <Typography className={styles.heading}>2. Ingredients</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Step2 />
+          <Step2 recipe={recipe} setRecipe={setRecipe} />
         </AccordionDetails>
       </Accordion>
 
@@ -69,9 +73,11 @@ const CreateRecipe = () => {
           <Typography className={styles.heading}>3. Instructions</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Step3 />
+          <Step3 recipe={recipe} setRecipe={setRecipe} />
         </AccordionDetails>
       </Accordion>
+
+      <RecipeDetails recipe={recipe} setRecipe={setRecipe} />
     </div>
   );
 };
