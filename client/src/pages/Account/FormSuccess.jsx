@@ -1,5 +1,5 @@
 import styles from "./index.module.scss";
-import { Button, TextField, Paper } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 
 const FormSuccess = ({ values }) => {
   return (

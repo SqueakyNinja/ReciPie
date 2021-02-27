@@ -1,14 +1,13 @@
 import express from "express";
-import { User } from "../../../common";
+import { LoginRequest, User } from "../../../common";
 import {
   addNewUser,
   deleteUser,
   selectAllUsers,
   selectUser,
+  userToLogin,
   userToUpdate,
 } from "./users.model";
-
-// import { UserResponse } from '../../common/api-schema';
 
 export const getUserById: express.RequestHandler<{ user_id: string }> = async (
   req,
@@ -55,4 +54,18 @@ export const removeUser: express.RequestHandler<{ user_id: string }> = async (
   const user = await deleteUser(user_id);
 
   res.sendStatus(204);
+};
+
+export const loginUser: express.RequestHandler<
+  {},
+  {},
+  { user: LoginRequest }
+> = async (req, res) => {
+  try {
+    const loginResponse = await userToLogin(req.body.user);
+
+    res.status(200).send(loginResponse);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
 };

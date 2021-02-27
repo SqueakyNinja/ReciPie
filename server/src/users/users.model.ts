@@ -1,4 +1,4 @@
-import { User } from "../../../common";
+import { LoginRequest, NewUser, User } from "../../../common";
 import db from "../db/connection";
 
 export const selectUser = async (user_id: string) => {
@@ -14,9 +14,7 @@ export const selectAllUsers = async () => {
   return users;
 };
 
-export const addNewUser = async (
-  user: Pick<User, "username" | "email" | "password">
-) => {
+export const addNewUser = async (user: NewUser) => {
   console.log(user);
   const newUser = await db("users").insert(user);
   console.log(newUser);
@@ -33,4 +31,31 @@ export const deleteUser = async (user_id: string) => {
   const deleteUser = await db("users").delete().where("id", user_id);
   console.log(deleteUser);
   return "User deleted";
+};
+
+export const userToLogin = async (user: LoginRequest) => {
+  const getUserArrayFromUsername = await db("users")
+    .select("username", "password", "id")
+    .where("username", user.username);
+  console.log(getUserArrayFromUsername);
+
+  if (getUserArrayFromUsername.length === 0) {
+    throw { message: "No username found", loginStatus: false };
+  }
+  const currentUser = getUserArrayFromUsername[0];
+
+  console.log(currentUser);
+  if (currentUser.password === user.password) {
+    let response = {
+      user_id: currentUser.id,
+      loginStatus: true,
+      message: "Login Successful",
+    };
+    return response;
+  } else {
+    throw {
+      loginStatus: false,
+      message: "Incorrect Password",
+    };
+  }
 };

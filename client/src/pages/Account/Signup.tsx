@@ -1,27 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
 import { validateSignupInfo } from "./validation";
 import styles from "./index.module.scss";
 import FormSuccess from "./FormSuccess";
 import { addNewUser } from "../../api/users";
+import { NewUser } from "../../../../common";
+import { Link } from "react-router-dom";
 
-const Signup = ({ setSignup, setIsLogedin }) => {
+interface Errors {
+  username?: string;
+  email?: string;
+  password?: string;
+  password2?: string;
+}
+
+interface Values {
+  username: string;
+  email: string;
+  password: string;
+  password2: string;
+}
+
+const Signup = () => {
   const [submitting, setSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [values, setValues] = useState({
+  const [errors, setErrors] = useState<Errors>({});
+  const [values, setValues] = useState<Values>({
     username: "",
     email: "",
     password: "",
     password2: "",
   });
 
-  const handlePage = () => {
-    setSignup(false);
-    setIsLogedin(true);
-  };
-
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setValues({
       ...values,
@@ -33,17 +52,24 @@ const Signup = ({ setSignup, setIsLogedin }) => {
     setErrors(validateSignupInfo(values));
   }, [values]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     if (Object.keys(errors).length === 0) {
-      const newUser = {
+      const newUser: NewUser = {
         username: values.username,
         email: values.email,
         password: values.password,
       };
-      addNewUser(newUser);
-      setIsSubmitted(true);
+      try {
+        console.log("Logging in!");
+        await addNewUser(newUser);
+        setIsSubmitted(false);
+        setIsSubmitted(true);
+      } catch (error) {
+        console.dir(error);
+        console.log(error.response.data.message);
+      }
     }
   };
 
@@ -127,7 +153,7 @@ const Signup = ({ setSignup, setIsLogedin }) => {
           </Button>
           <span className="form-input-login">
             Already have an account?
-            <span onClick={handlePage}>Login here</span>
+            <Link to="/account/login">Login here</Link>
           </span>
         </form>
       </Paper>

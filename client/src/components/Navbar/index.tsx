@@ -27,7 +27,7 @@ interface navbarProps {
 }
 
 const LinkBehavior = forwardRef((props, ref) => (
-  <RouterLink to="/signup" {...props} />
+  <RouterLink to="/account/signup" {...props} />
 ));
 
 const Navbar = ({

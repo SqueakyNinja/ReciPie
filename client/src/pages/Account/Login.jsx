@@ -3,8 +3,9 @@ import { Button, TextField, Paper } from "@material-ui/core";
 import styles from "./index.module.scss";
 import { validateLoginInfo } from "./validation";
 import { sendLogin } from "../../api/users";
+import { Link } from "react-router-dom";
 
-const Login = ({ setSignup, setIsLogedin }) => {
+const Login = () => {
   const [submitting, setSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
@@ -12,11 +13,6 @@ const Login = ({ setSignup, setIsLogedin }) => {
     username: "",
     password: "",
   });
-
-  function handlePage() {
-    setSignup(true);
-    setIsLogedin(false);
-  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +26,7 @@ const Login = ({ setSignup, setIsLogedin }) => {
     setErrors(validateLoginInfo(values));
   }, [values]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     if (Object.keys(errors).length === 0) {
@@ -38,9 +34,14 @@ const Login = ({ setSignup, setIsLogedin }) => {
         username: values.username,
         password: values.password,
       };
-      sendLogin(user);
-      setIsSubmitted(false);
-      console.log("Logged in!");
+      try {
+        await sendLogin(user);
+        setIsSubmitted(false);
+        console.log("Logged in!");
+      } catch (error) {
+        console.dir(error);
+        console.log(error.response.data.message);
+      }
       setSubmitting(false);
     }
   };
@@ -87,14 +88,14 @@ const Login = ({ setSignup, setIsLogedin }) => {
             Login
           </Button>
           <span className="form-input-login">
-            Don't have an account?{" "}
-            <span onClick={handlePage}>Sign up here</span>
+            Don't have an account?
+            <Link to="/account/signup">Sign up here</Link>
           </span>
         </form>
       </Paper>
     </div>
   ) : (
-    "user submitted"
+    <>"user submitted"</>
   );
 };
 
