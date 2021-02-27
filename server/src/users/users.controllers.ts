@@ -1,10 +1,10 @@
 import express from "express";
 import { LoginRequest, User } from "../../../common";
 import {
-  addNewUser,
   deleteUser,
   selectAllUsers,
   selectUser,
+  tryNewUser,
   userToLogin,
   userToUpdate,
 } from "./users.model";
@@ -30,9 +30,12 @@ export const newUser: express.RequestHandler<
   {},
   { user: Pick<User, "username" | "email" | "password"> }
 > = async (req, res) => {
-  const newUser = await addNewUser(req.body.user);
-
-  res.status(201).send({ newUser });
+  try {
+    const reqNewUser = await tryNewUser(req.body.user);
+    res.status(201).send({ reqNewUser });
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
 };
 
 export const updateUser: express.RequestHandler<

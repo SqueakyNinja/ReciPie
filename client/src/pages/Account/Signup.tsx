@@ -1,13 +1,6 @@
-import React, {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  SyntheticEvent,
-  useEffect,
-  useState,
-} from "react";
-import { Button, TextField, Paper } from "@material-ui/core";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { Button, TextField, Paper, Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import { validateSignupInfo } from "./validation";
 import styles from "./index.module.scss";
 import FormSuccess from "./FormSuccess";
@@ -30,6 +23,11 @@ interface Values {
 }
 
 const Signup = () => {
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    "error" | "success" | undefined
+  >();
+  const [snackbarMessage, setSnackbarMessage] = useState(" ");
+  const [snackbarOpen, setSnackbarOpen] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
@@ -63,18 +61,41 @@ const Signup = () => {
       };
       try {
         console.log("Logging in!");
-        await addNewUser(newUser);
+        const newUserSuccess = await addNewUser(newUser);
+        setSnackbarMessage(newUserSuccess.data.reqNewUser);
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
         setIsSubmitted(false);
-        setIsSubmitted(true);
+        setIsSubmitted(false);
       } catch (error) {
-        console.dir(error);
         console.log(error.response.data.message);
+        setSnackbarMessage(error.response.data.message);
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
       }
+    } else {
+      setSnackbarMessage("Please resolve all errors and try again!");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
+  };
+
+  const handleClose = () => {
+    setSnackbarOpen(false);
   };
 
   return !isSubmitted ? (
     <div className={styles.signupRight}>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackbarOpen}
+        onClose={handleClose}
+        autoHideDuration={4000}
+      >
+        <Alert variant="filled" severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Paper className={styles.formPaper}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1>Sign up today and start register your own recipes!</h1>

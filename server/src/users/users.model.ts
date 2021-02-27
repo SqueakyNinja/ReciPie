@@ -10,15 +10,22 @@ export const selectUser = async (user_id: string) => {
 
 export const selectAllUsers = async () => {
   const users = await db("users").select("username", "id", "email");
-
   return users;
 };
 
-export const addNewUser = async (user: NewUser) => {
-  console.log(user);
-  const newUser = await db("users").insert(user);
-  console.log(newUser);
-  return "User added";
+export const tryNewUser = async (user: NewUser) => {
+  try {
+    await db("users").insert(user);
+    return "User added";
+  } catch (error) {
+    if (error.constraint === "users_username_key") {
+      throw { message: "Username has already been taken" };
+    } else if (error.constraint === "users_email_key") {
+      throw { message: "Email has already been used" };
+    } else {
+      throw { message: "Something else went wrong" };
+    }
+  }
 };
 
 export const userToUpdate = async (user_id: string, user: Partial<User>) => {

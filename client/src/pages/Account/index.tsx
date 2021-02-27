@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./index.module.scss";
 import Signup from "./Signup";
 import Login from "./Login";

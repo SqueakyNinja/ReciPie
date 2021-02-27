@@ -7,7 +7,6 @@ import Style from "./pages/Style";
 import { Dispatch, SetStateAction } from "react";
 import Settings from "./pages/Settings";
 import { Paper } from "@material-ui/core";
-import Login from "./pages/Account/Login";
 interface DarkMode {
   darkMode: boolean;
   setDarkMode: Dispatch<SetStateAction<boolean>>;
