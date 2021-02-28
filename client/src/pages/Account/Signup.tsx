@@ -1,12 +1,12 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Button, TextField, Paper, Snackbar } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import { validateSignupInfo } from "./validation";
 import styles from "./index.module.scss";
 import FormSuccess from "./FormSuccess";
 import { addNewUser } from "../../api/users";
 import { NewUser } from "../../../../common";
 import { Link } from "react-router-dom";
+import SnackbarComponent from "../../components/SnackbarComponent";
 
 interface Errors {
   username?: string;
@@ -23,11 +23,6 @@ interface Values {
 }
 
 const Signup = () => {
-  const [snackbarSeverity, setSnackbarSeverity] = useState<
-    "error" | "success" | undefined
-  >();
-  const [snackbarMessage, setSnackbarMessage] = useState(" ");
-  const [snackbarOpen, setSnackbarOpen] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
@@ -80,22 +75,9 @@ const Signup = () => {
     }
   };
 
-  const handleClose = () => {
-    setSnackbarOpen(false);
-  };
-
   return !isSubmitted ? (
     <div className={styles.signupRight}>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={snackbarOpen}
-        onClose={handleClose}
-        autoHideDuration={4000}
-      >
-        <Alert variant="filled" severity={snackbarSeverity}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      <SnackbarComponent message={message} type={type} />
       <Paper className={styles.formPaper}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1>Sign up today and start register your own recipes!</h1>

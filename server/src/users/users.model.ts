@@ -16,14 +16,16 @@ export const selectAllUsers = async () => {
 export const tryNewUser = async (user: NewUser) => {
   try {
     await db("users").insert(user);
-    return "User added";
+    return "User added, redirecting to homepage";
   } catch (error) {
     if (error.constraint === "users_username_key") {
       throw { message: "Username has already been taken" };
     } else if (error.constraint === "users_email_key") {
       throw { message: "Email has already been used" };
     } else {
-      throw { message: "Something else went wrong" };
+      throw {
+        message: "Something went wrong. Please refresh the page and try again!",
+      };
     }
   }
 };
