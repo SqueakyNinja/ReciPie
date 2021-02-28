@@ -18,25 +18,20 @@ import {
   InputAdornment,
   TextField,
 } from "@material-ui/core";
+import { useStore } from "../../store";
 
 interface navbarProps {
   expandedSidebar: boolean;
   setExpandedSidebar: Dispatch<SetStateAction<boolean>>;
-  darkMode: boolean;
-  setDarkMode: Dispatch<SetStateAction<boolean>>;
 }
 
 const LinkBehavior = forwardRef((props, ref) => (
   <RouterLink to="/account/signup" {...props} />
 ));
 
-const Navbar = ({
-  expandedSidebar,
-  setExpandedSidebar,
-  darkMode,
-  setDarkMode,
-}: navbarProps) => {
+const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
   const [width, setWidth] = useState<number>(450);
+  const { darkMode, setDarkMode } = useStore();
 
   useEffect(() => {
     function handleResize() {

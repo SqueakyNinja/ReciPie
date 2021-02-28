@@ -4,14 +4,10 @@ import Homepage from "./pages/Homepage";
 import styles from "./app.module.scss";
 import Account from "./pages/Account";
 import Style from "./pages/Style";
-import { Dispatch, SetStateAction } from "react";
 import Settings from "./pages/Settings";
 import { Paper } from "@material-ui/core";
-interface DarkMode {
-  darkMode: boolean;
-  setDarkMode: Dispatch<SetStateAction<boolean>>;
-}
-const Main = ({ darkMode, setDarkMode }: DarkMode) => {
+
+const Main = () => {
   return (
     <Paper className={styles.mainArea}>
       <Route exact path="/" component={Homepage} />
@@ -20,7 +16,7 @@ const Main = ({ darkMode, setDarkMode }: DarkMode) => {
       <Route exact path="/account/login" component={Account} />
       <Route exact path="/style" component={Style} />
       <Route path="/settings">
-        <Settings darkMode={darkMode} setDarkMode={setDarkMode} />
+        <Settings />
       </Route>
     </Paper>
   );
