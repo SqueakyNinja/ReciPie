@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "./app.global.scss";
 import styles from "./app.module.scss";
 import Main from "./Main";
 import { BrowserRouter as Router } from "react-router-dom";
-import { combineClasses } from "./utils";
 import Navbar from "./components/Navbar";
 import Header from "./components/Navbar/Header";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
@@ -12,8 +11,6 @@ import { useStore } from "./store";
 import SnackbarComponent from "./components/SnackbarComponent";
 
 const App = () => {
-  //Ändra detta till useStore sen kanske?
-  const [expandedSidebar, setExpandedSidebar] = useState<boolean>(false);
   const { darkMode } = useStore();
 
   // https://material-ui.com/customization/color/ för att se fler färger
@@ -40,19 +37,11 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div
-        className={combineClasses(
-          styles.container,
-          expandedSidebar && styles.expandedSidebar
-        )}
-      >
+      <div className={styles.container}>
         <Router>
           <SnackbarComponent />
           <Header />
-          <Navbar
-            expandedSidebar={expandedSidebar}
-            setExpandedSidebar={setExpandedSidebar}
-          />
+          <Navbar />
           <Main />
         </Router>
       </div>

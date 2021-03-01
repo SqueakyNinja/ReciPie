@@ -1,8 +1,8 @@
 import React, {
-  Dispatch,
+  createRef,
   forwardRef,
-  SetStateAction,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { MenuItems } from "./MenuItems";
@@ -20,24 +20,58 @@ import {
 } from "@material-ui/core";
 import { useStore } from "../../store";
 
-interface navbarProps {
-  expandedSidebar: boolean;
-  setExpandedSidebar: Dispatch<SetStateAction<boolean>>;
-}
-
 const LinkBehavior = forwardRef((props, ref) => (
   <RouterLink to="/account/signup" {...props} />
 ));
 
-const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
-  const [width, setWidth] = useState<number>(450);
+interface Height {
+  height: string;
+}
+
+const Navbar = () => {
+  const currentView = useRef<"desktop" | "mobile">("desktop");
+  const [height, setHeight] = useState<Height>({ height: "0px" });
   const { darkMode, setDarkMode } = useStore();
+  const { expandedSidebar, setExpandedSidebar } = useStore();
+  const [expandNoTransitions, setExpandNoTransitions] = useState(false);
+  const ref = createRef<HTMLUListElement>();
+
+  function handleResize() {
+    setWidth(window.innerWidth);
+    console.log(width);
+  }
 
   useEffect(() => {
-    function handleResize() {
-      setWidth(window.innerWidth);
-    }
+    const calcHeightOnResize = () => {
+      if (window.innerWidth < 1024) {
+        setExpandNoTransitions(true);
+        setTimeout(() => {
+          setExpandNoTransitions(false);
+        }, 500);
+        !expandedSidebar && setHeight({ height: "0px" });
+      }
+      if (window.innerWidth >= 1024) {
+        console.log("setting height for desktop");
+        setExpandNoTransitions(true);
+        setTimeout(() => {
+          setExpandNoTransitions(false);
+        }, 500);
+        expandedSidebar && setExpandedSidebar(false);
+        console.log(ref.current);
+        ref.current && setHeight({ height: `${ref.current.scrollHeight}px` });
+      }
+    };
+    calcHeightOnResize();
 
+    if (width >= 1024 && currentView.current !== "desktop") {
+      currentView.current = "desktop";
+    }
+    if (width < 1024 && currentView.current !== "mobile") {
+      currentView.current = "mobile";
+    }
+  }, [width]);
+
+  useEffect(() => {
     window.addEventListener("resize", handleResize);
 
     handleResize();
@@ -45,15 +79,19 @@ const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleClick = () => {
+    setExpandedSidebar(!expandedSidebar);
+    if (ref.current) {
+      expandedSidebar
+        ? setHeight({ height: "0px" })
+        : setHeight({ height: `${ref.current.scrollHeight}px` });
+    }
+  };
+
   return (
-    <nav
-      className={combineClasses(
-        styles.navbar,
-        expandedSidebar && styles.expandedSidebar
-      )}
-    >
+    <nav className={styles.navbar}>
       <div className={styles.logoAndHamburger}>
-        {width < 1024 ? (
+        {currentView.current === "mobile" ? (
           <img
             className={styles.smallLogo}
             src={"/images/ReciPie-light-small-logo.png"}
@@ -74,7 +112,7 @@ const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
           label="Dark Mode"
         />
         <div
-          onClick={() => setExpandedSidebar(!expandedSidebar)}
+          onClick={handleClick}
           className={combineClasses(
             styles.hamburger,
             expandedSidebar && styles.open
@@ -90,10 +128,12 @@ const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
       <ul
         className={combineClasses(
           styles.navMenu,
-          expandedSidebar && styles.expand
+          expandNoTransitions && styles.expandedSidebar
         )}
+        style={height}
+        ref={ref}
       >
-        {window.innerWidth < 1024 ? (
+        {currentView.current === "mobile" ? (
           <li className={styles.searchbarMobile}>
             <div className={styles.search}>
               <TextField
