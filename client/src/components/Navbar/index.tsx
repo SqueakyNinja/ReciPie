@@ -22,8 +22,13 @@ interface Height {
   height: string;
 }
 
+type ViewType = "desktop" | "mobile";
+
 const Navbar = () => {
-  const currentView = useRef<"desktop" | "mobile">("desktop");
+  const currentView = useRef<ViewType>(
+    window.innerWidth >= 1024 ? "desktop" : "mobile"
+  );
+
   const [height, setHeight] = useState<Height>({ height: "0px" });
   const { darkMode, setDarkMode } = useStore();
   const { expandedSidebar, setExpandedSidebar } = useStore();
@@ -33,37 +38,33 @@ const Navbar = () => {
   useEffect(() => {
     function handleResize() {
       const width = window.innerWidth;
-
-      if (width >= 1024 && currentView.current !== "desktop") {
-        currentView.current = "desktop";
-      }
-      if (width < 1024 && currentView.current !== "mobile") {
-        currentView.current = "mobile";
-      }
-      if (width < 1024) {
+      if (width < 1024 && currentView.current === "desktop") {
+        currentView.current = width >= 1024 ? "desktop" : "mobile";
+        console.log("desktop to mobile");
+        setExpandedSidebar(false);
         setExpandNoTransitions(true);
         setTimeout(() => {
           setExpandNoTransitions(false);
         }, 500);
-        !expandedSidebar && setHeight({ height: "0px" });
+        setHeight({ height: "0px" });
       }
 
-      if (width >= 1024) {
-        console.log("setting height for desktop");
-        setExpandNoTransitions(true);
-        setTimeout(() => {
-          setExpandNoTransitions(false);
-        }, 500);
+      if (width >= 1024 && currentView.current === "mobile") {
+        currentView.current = width >= 1024 ? "desktop" : "mobile";
+        console.log("mobile to desktop");
         expandedSidebar && setExpandedSidebar(false);
+        setExpandNoTransitions(true);
+        setTimeout(() => {
+          setExpandNoTransitions(false);
+        }, 500);
         ref.current && setHeight({ height: `${ref.current.scrollHeight}px` });
       }
     }
 
     window.addEventListener("resize", handleResize, { passive: true });
     handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
-  }, [expandedSidebar, setExpandedSidebar]);
+  }, []);
 
   const handleClick = () => {
     setExpandedSidebar(!expandedSidebar);
@@ -77,7 +78,7 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.logoAndHamburger}>
-        {currentView.current === "mobile" ? (
+        {window.innerWidth < 1024 ? (
           <img
             className={styles.smallLogo}
             src={"/images/ReciPie-light-small-logo.png"}
