@@ -8,6 +8,7 @@ import React, {
 import { MenuItems } from "./MenuItems";
 import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
+import SubItems from "./SubItems";
 import { Link } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import {
@@ -130,17 +131,9 @@ const Navbar = ({
         ) : (
           ""
         )}
+
         {MenuItems.map((item, index) => {
-          return (
-            <Link to={item.url} key={index}>
-              <li className={styles.navLinksLi}>
-                <span>
-                  <i className={combineClasses(item.icon, styles.icon)}></i>
-                </span>
-                <p className={styles.link}>{item.title}</p>
-              </li>
-            </Link>
-          );
+          return <SubItems item={item} />;
         })}
       </ul>
     </nav>
