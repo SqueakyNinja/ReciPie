@@ -1,10 +1,4 @@
-import React, {
-  createRef,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { MenuItems } from "./MenuItems";
 import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
@@ -34,50 +28,42 @@ const Navbar = () => {
   const { darkMode, setDarkMode } = useStore();
   const { expandedSidebar, setExpandedSidebar } = useStore();
   const [expandNoTransitions, setExpandNoTransitions] = useState(false);
-  const ref = createRef<HTMLUListElement>();
-
-  function handleResize() {
-    setWidth(window.innerWidth);
-    console.log(width);
-  }
+  const ref = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    const calcHeightOnResize = () => {
-      if (window.innerWidth < 1024) {
+    function handleResize() {
+      const width = window.innerWidth;
+
+      if (width >= 1024 && currentView.current !== "desktop") {
+        currentView.current = "desktop";
+      }
+      if (width < 1024 && currentView.current !== "mobile") {
+        currentView.current = "mobile";
+      }
+      if (width < 1024) {
         setExpandNoTransitions(true);
         setTimeout(() => {
           setExpandNoTransitions(false);
         }, 500);
         !expandedSidebar && setHeight({ height: "0px" });
       }
-      if (window.innerWidth >= 1024) {
+
+      if (width >= 1024) {
         console.log("setting height for desktop");
         setExpandNoTransitions(true);
         setTimeout(() => {
           setExpandNoTransitions(false);
         }, 500);
         expandedSidebar && setExpandedSidebar(false);
-        console.log(ref.current);
         ref.current && setHeight({ height: `${ref.current.scrollHeight}px` });
       }
-    };
-    calcHeightOnResize();
-
-    if (width >= 1024 && currentView.current !== "desktop") {
-      currentView.current = "desktop";
     }
-    if (width < 1024 && currentView.current !== "mobile") {
-      currentView.current = "mobile";
-    }
-  }, [width]);
 
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-
+    window.addEventListener("resize", handleResize, { passive: true });
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [expandedSidebar, setExpandedSidebar]);
 
   const handleClick = () => {
     setExpandedSidebar(!expandedSidebar);
@@ -128,7 +114,7 @@ const Navbar = () => {
       <ul
         className={combineClasses(
           styles.navMenu,
-          expandNoTransitions && styles.expandedSidebar
+          expandNoTransitions && styles.expandedNoSidebar
         )}
         style={height}
         ref={ref}
