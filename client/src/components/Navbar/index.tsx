@@ -74,10 +74,7 @@ const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
           label="Dark Mode"
         />
         <div
-          onClick={() => {
-            setExpandedSidebar(!expandedSidebar);
-            console.log(expandedSidebar);
-          }}
+          onClick={() => setExpandedSidebar(!expandedSidebar)}
           className={combineClasses(
             styles.hamburger,
             expandedSidebar && styles.open

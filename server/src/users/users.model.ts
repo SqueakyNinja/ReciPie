@@ -16,7 +16,7 @@ export const selectAllUsers = async () => {
 export const tryNewUser = async (user: NewUser) => {
   try {
     await db("users").insert(user);
-    return "User added, redirecting to homepage";
+    return "Registration successful, logging in new user and redirecting to homepage";
   } catch (error) {
     if (error.constraint === "users_username_key") {
       throw { message: "Username has already been taken" };
@@ -33,12 +33,11 @@ export const tryNewUser = async (user: NewUser) => {
 export const userToUpdate = async (user_id: string, user: Partial<User>) => {
   console.log(user_id);
   const newUser = await db("users").update(user).where("id", user_id).limit(1);
-  return "User added";
+  return "User updated";
 };
 
 export const deleteUser = async (user_id: string) => {
   const deleteUser = await db("users").delete().where("id", user_id);
-  console.log(deleteUser);
   return "User deleted";
 };
 
@@ -46,24 +45,18 @@ export const userToLogin = async (user: LoginRequest) => {
   const getUserArrayFromUsername = await db("users")
     .select("username", "password", "id")
     .where("username", user.username);
-  console.log(getUserArrayFromUsername);
-
   if (getUserArrayFromUsername.length === 0) {
-    throw { message: "No username found", loginStatus: false };
+    throw { message: "Username not found", loginStatus: false };
   }
   const currentUser = getUserArrayFromUsername[0];
-
-  console.log(currentUser);
   if (currentUser.password === user.password) {
     let response = {
       user_id: currentUser.id,
-      loginStatus: true,
-      message: "Login Successful",
+      message: "Login Successful, redirecting to homepage",
     };
     return response;
   } else {
     throw {
-      loginStatus: false,
       message: "Incorrect Password",
     };
   }

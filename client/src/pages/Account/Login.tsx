@@ -1,52 +1,66 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
 import styles from "./index.module.scss";
 import { validateLoginInfo } from "./validation";
 import { sendLogin } from "../../api/users";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useStore } from "../../store";
+
+interface Values {
+  username: string;
+  password: string;
+}
+
+interface Errors {
+  username?: string;
+  password?: string;
+}
 
 const Login = () => {
-  const [submitting, setSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [values, setValues] = useState({
+  const { setSnackbar, setCurrentUser } = useStore();
+  const history = useHistory();
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const isSubmitted = useRef<boolean>(false);
+  const [errors, setErrors] = useState<Errors>({});
+  const values = useRef<Values>({
     username: "",
     password: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setValues({
-      ...values,
+    values.current = {
+      ...values.current,
       [name]: value,
-    });
+    };
+    if (!isSubmitted.current) {
+      setErrors(validateLoginInfo(values.current));
+    }
   };
 
-  useEffect(() => {
-    setErrors(validateLoginInfo(values));
-  }, [values]);
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     if (Object.keys(errors).length === 0) {
       const user = {
-        username: values.username,
-        password: values.password,
+        username: values.current.username,
+        password: values.current.password,
       };
       try {
-        await sendLogin(user);
-        setIsSubmitted(false);
-        console.log("Logged in!");
+        const tryLogin = await sendLogin(user);
+        setSnackbar(tryLogin.message, "success");
+        setCurrentUser(tryLogin.user_id);
+        isSubmitted.current = true;
+        history.push("/");
       } catch (error) {
-        console.dir(error);
-        console.log(error.response.data.message);
+        setSnackbar(error.response.data.message, "error");
       }
-      setSubmitting(false);
+    } else {
+      setSnackbar("Please resolve all errors and try again!", "error");
     }
   };
 
-  return !isSubmitted ? (
+  return (
     <div className={styles.signupRight}>
       <Paper className={styles.formPaper}>
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -59,7 +73,6 @@ const Login = () => {
               type="text"
               name="username"
               label="Username"
-              value={values.username}
               onChange={handleChange}
             />
             {errors.username && submitting && <p>{errors.username}</p>}
@@ -73,7 +86,6 @@ const Login = () => {
               name="password"
               label="Repeat your Password"
               className={styles.input}
-              value={values.password}
               onChange={handleChange}
             />
             {errors.password && submitting && <p>{errors.password}</p>}
@@ -94,8 +106,6 @@ const Login = () => {
         </form>
       </Paper>
     </div>
-  ) : (
-    <>"user submitted"</>
   );
 };
 

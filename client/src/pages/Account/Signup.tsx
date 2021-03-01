@@ -1,12 +1,12 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Button, TextField, Paper, Snackbar } from "@material-ui/core";
+import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { Button, TextField, Paper } from "@material-ui/core";
 import { validateSignupInfo } from "./validation";
 import styles from "./index.module.scss";
 import FormSuccess from "./FormSuccess";
-import { addNewUser } from "../../api/users";
-import { NewUser } from "../../../../common";
-import { Link } from "react-router-dom";
-import SnackbarComponent from "../../components/SnackbarComponent";
+import { addNewUser, sendLogin } from "../../api/users";
+import { LoginRequest, NewUser } from "../../../../common";
+import { Link, useHistory } from "react-router-dom";
+import { useStore } from "../../store";
 
 interface Errors {
   username?: string;
@@ -23,10 +23,12 @@ interface Values {
 }
 
 const Signup = () => {
-  const [submitting, setSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { setSnackbar, setCurrentUser } = useStore();
+  const history = useHistory();
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const isSubmitted = useRef<boolean>(false);
   const [errors, setErrors] = useState<Errors>({});
-  const [values, setValues] = useState<Values>({
+  const values = useRef<Values>({
     username: "",
     email: "",
     password: "",
@@ -35,49 +37,45 @@ const Signup = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setValues({
-      ...values,
+    values.current = {
+      ...values.current,
       [name]: value,
-    });
+    };
+    if (!isSubmitted.current) {
+      setErrors(validateSignupInfo(values.current));
+    }
   };
-
-  useEffect(() => {
-    setErrors(validateSignupInfo(values));
-  }, [values]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     if (Object.keys(errors).length === 0) {
       const newUser: NewUser = {
-        username: values.username,
-        email: values.email,
-        password: values.password,
+        username: values.current.username,
+        email: values.current.email,
+        password: values.current.password,
       };
       try {
-        console.log("Logging in!");
         const newUserSuccess = await addNewUser(newUser);
-        setSnackbarMessage(newUserSuccess.data.reqNewUser);
-        setSnackbarSeverity("success");
-        setSnackbarOpen(true);
-        setIsSubmitted(false);
-        setIsSubmitted(false);
+        setSnackbar(newUserSuccess.data.reqNewUser, "success");
+        const newLoginData: LoginRequest = {
+          username: values.current.username,
+          password: values.current.password,
+        };
+        const newLoginTry = await sendLogin(newLoginData);
+        setCurrentUser(newLoginTry.user_id);
+        isSubmitted.current = true;
+        history.push("/");
       } catch (error) {
-        console.log(error.response.data.message);
-        setSnackbarMessage(error.response.data.message);
-        setSnackbarSeverity("error");
-        setSnackbarOpen(true);
+        setSnackbar(error.response.data.message, "error");
       }
     } else {
-      setSnackbarMessage("Please resolve all errors and try again!");
-      setSnackbarSeverity("error");
-      setSnackbarOpen(true);
+      setSnackbar("Please resolve all errors and try again!", "error");
     }
   };
 
-  return !isSubmitted ? (
+  return isSubmitted ? (
     <div className={styles.signupRight}>
-      <SnackbarComponent message={message} type={type} />
       <Paper className={styles.formPaper}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1>Sign up today and start register your own recipes!</h1>
@@ -92,7 +90,7 @@ const Signup = () => {
               type="text"
               name="username"
               label="Username"
-              value={values.username}
+              value={values.current.username}
               onChange={handleChange}
             />
             {errors.username && submitting && <p>{errors.username}</p>}
@@ -108,7 +106,7 @@ const Signup = () => {
               type="email"
               name="email"
               label="Email"
-              value={values.email}
+              value={values.current.email}
               onChange={handleChange}
             />
             {errors.email && submitting && <p>{errors.email}</p>}
@@ -124,7 +122,7 @@ const Signup = () => {
               name="password"
               label="Password"
               className={styles.input}
-              value={values.password}
+              value={values.current.password}
               onChange={handleChange}
             />
             {errors.password && submitting && <p>{errors.password}</p>}
@@ -141,7 +139,7 @@ const Signup = () => {
               label="Repeat your password"
               className={styles.input}
               variant="outlined"
-              value={values.password2}
+              value={values.current.password2}
               onChange={handleChange}
             />
             {errors.password2 && submitting && <p>{errors.password2}</p>}
