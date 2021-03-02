@@ -14,8 +14,11 @@ import {
 } from "@material-ui/core";
 import { useStore } from "../../store";
 
-const LinkBehavior = forwardRef((props, ref) => (
+const LinkBehaviorSignup = forwardRef((props, ref) => (
   <RouterLink to="/account/signup" {...props} />
+));
+const LinkBehaviorLogin = forwardRef((props, ref) => (
+  <RouterLink to="/account/login" {...props} />
 ));
 
 interface Height {
@@ -30,7 +33,7 @@ const Navbar = () => {
   );
 
   const [height, setHeight] = useState<Height>({ height: "0px" });
-  const { darkMode, setDarkMode } = useStore();
+  const { darkMode, setDarkMode, currentUser } = useStore();
   const { expandedSidebar, setExpandedSidebar } = useStore();
   const [expandNoTransitions, setExpandNoTransitions] = useState(false);
   const ref = useRef<HTMLUListElement>(null);
@@ -67,6 +70,8 @@ const Navbar = () => {
   }, []);
 
   const handleClick = () => {
+    console.log(currentUser);
+
     setExpandedSidebar(!expandedSidebar);
     if (ref.current) {
       expandedSidebar
@@ -135,16 +140,28 @@ const Navbar = () => {
                 }}
               />
             </div>
-            <Button
-              variant="outlined"
-              className={styles.button}
-              component={LinkBehavior}
-            >
-              Sign Up
-            </Button>
-            <IconButton className={styles.account}>
-              <i className="far fa-user"></i>
-            </IconButton>
+            {currentUser.length === 0 ? (
+              <div className={styles.buttonDiv}>
+                <Button
+                  variant="outlined"
+                  className={styles.button}
+                  component={LinkBehaviorSignup}
+                >
+                  Sign Up
+                </Button>
+                <Button
+                  variant="outlined"
+                  className={styles.button}
+                  component={LinkBehaviorLogin}
+                >
+                  Login
+                </Button>
+              </div>
+            ) : (
+              <IconButton className={styles.account}>
+                <i className="far fa-user"></i>
+              </IconButton>
+            )}
           </li>
         ) : (
           ""

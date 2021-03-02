@@ -33,9 +33,9 @@ const Login = () => {
       ...values.current,
       [name]: value,
     };
-    if (!isSubmitted.current) {
-      setErrors(validateLoginInfo(values.current));
-    }
+    // if (!isSubmitted.current) {
+    setErrors(validateLoginInfo(values.current));
+    // }
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -50,7 +50,7 @@ const Login = () => {
         const tryLogin = await sendLogin(user);
         setSnackbar(tryLogin.message, "success");
         setCurrentUser(tryLogin.user_id);
-        isSubmitted.current = true;
+        // isSubmitted.current = true;
         history.push("/");
       } catch (error) {
         setSnackbar(error.response.data.message, "error");
