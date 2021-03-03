@@ -26,7 +26,7 @@ const Navbar = () => {
     currentView.current === "desktop"
       ? ref.current
         ? ref.current.scrollHeight
-        : 410
+        : 420
       : 0
   );
   const { darkMode, setDarkMode, currentUser } = useStore();

@@ -161,7 +161,7 @@
   display: flex;
   justify-content: center;
   position: relative;
-  height: 48px;
+  height: 60px;
   width: 100%;
   background: linear-gradient(
     90deg,
@@ -169,7 +169,8 @@
     rgb(216, 85, 45) 100%
   );
   .buttonDiv {
-    margin-left: auto;
+    padding: 12px 0;
+    margin: auto 0 auto auto;
   }
   .button {
     margin-left: auto;
