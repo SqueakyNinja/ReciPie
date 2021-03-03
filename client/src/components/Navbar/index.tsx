@@ -107,9 +107,14 @@ const Navbar = () => {
               className={styles.smallLogo}
               src={"/images/ReciPie-light-small-logo.png"}
               alt="logo"
+              onClick={() => history.push("/")}
             />
           ) : (
-            <img src={"/images/ReciPie-light-logo.png"} alt="logo" />
+            <img
+              src={"/images/ReciPie-light-logo.png"}
+              alt="logo"
+              onClick={() => history.push("/")}
+            />
           )}
           <FormControlLabel
             control={

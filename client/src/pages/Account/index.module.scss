@@ -79,14 +79,14 @@
       text-align: center;
       padding: 0 2rem;
     }
-    > span {
+    > p {
       text-align: center;
-      margin: 1rem 2rem 2rem 2rem;
+      margin: 1rem 2rem 0rem 2rem;
+    }
 
-      > span {
-        cursor: pointer;
-        color: green;
-      }
+    > a {
+      color: $primary;
+      margin: 0.25rem 2rem 2rem 2rem;
     }
     .formInputs {
       margin: 0 auto 0.5rem auto;

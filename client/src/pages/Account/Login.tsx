@@ -84,7 +84,7 @@ const Login = () => {
               id="password"
               type="password"
               name="password"
-              label="Repeat your Password"
+              label="Password"
               className={styles.input}
               onChange={handleChange}
             />
@@ -99,10 +99,8 @@ const Login = () => {
           >
             Login
           </Button>
-          <span className="form-input-login">
-            Don't have an account?
-            <Link to="/account/signup">Sign up here</Link>
-          </span>
+          <p className="form-input-login">Don't have an account?</p>
+          <Link to="/account/signup">Sign up here</Link>
         </form>
       </Paper>
     </div>
