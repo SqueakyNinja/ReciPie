@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-
 import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
 import { Link } from "react-router-dom";

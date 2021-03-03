@@ -1,9 +1,10 @@
 import styles from "./Header.module.scss";
 import Searchbar from "./Searchbar";
-import { Button, IconButton } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import { forwardRef } from "react";
 import { useStore } from "../../store";
+import AccountMenu from "../AccountMenu";
 
 const LinkBehaviorSignup = forwardRef((props, ref) => (
   <RouterLink to="/account/signup" {...props} />
@@ -36,9 +37,7 @@ const Header = () => {
           </Button>
         </>
       ) : (
-        <IconButton className={styles.button}>
-          <i className="far fa-user"></i>
-        </IconButton>
+        <AccountMenu />
       )}
     </div>
   );

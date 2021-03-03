@@ -8,12 +8,12 @@ import {
   FormControlLabel,
   Switch,
   Button,
-  IconButton,
   InputAdornment,
   TextField,
   ClickAwayListener,
 } from "@material-ui/core";
 import { useStore } from "../../store";
+import AccountMenu from "../AccountMenu";
 
 type ViewType = "desktop" | "mobile";
 
@@ -29,8 +29,13 @@ const Navbar = () => {
         : 420
       : 0
   );
-  const { darkMode, setDarkMode, currentUser } = useStore();
-  const { expandedSidebar, setExpandedSidebar } = useStore();
+  const {
+    expandedSidebar,
+    setExpandedSidebar,
+    darkMode,
+    setDarkMode,
+    currentUser,
+  } = useStore();
   const [expandNoTransitions, setExpandNoTransitions] = useState(false);
   const history = useHistory();
 
@@ -39,7 +44,6 @@ const Navbar = () => {
       const width = window.innerWidth;
       if (width < 1024 && currentView.current === "desktop") {
         currentView.current = width >= 1024 ? "desktop" : "mobile";
-        console.log("desktop to mobile");
         setExpandedSidebar(false);
         setExpandNoTransitions(true);
         setTimeout(() => {
@@ -50,7 +54,6 @@ const Navbar = () => {
 
       if (width >= 1024 && currentView.current === "mobile") {
         currentView.current = width >= 1024 ? "desktop" : "mobile";
-        console.log("mobile to desktop");
         expandedSidebar && setExpandedSidebar(false);
         setExpandNoTransitions(true);
         setTimeout(() => {
@@ -69,7 +72,6 @@ const Navbar = () => {
     const expandedSidebarNewState = !expandedSidebar;
     setExpandedSidebar(expandedSidebarNewState);
     if (ref.current) {
-      console.log("dropdown:" + ref.current.scrollHeight);
       expandedSidebarNewState
         ? setHeight(ref.current.scrollHeight)
         : setHeight(0);
@@ -178,9 +180,7 @@ const Navbar = () => {
                   </Button>
                 </div>
               ) : (
-                <IconButton className={styles.account}>
-                  <i className="far fa-user"></i>
-                </IconButton>
+                <AccountMenu />
               )}
             </li>
           ) : (
@@ -196,7 +196,6 @@ const Navbar = () => {
                 setHeight={setHeight}
               />
             );
-            // <Link to={item.url} key={index} onClick={handleClickAway}>
           })}
         </ul>
       </nav>
