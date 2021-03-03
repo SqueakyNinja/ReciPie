@@ -108,13 +108,12 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 0px;
-  transition: 250ms ease-in-out height;
+  transition: 250ms ease-in-out max-height;
   list-style: none;
   position: absolute;
   top: 70px;
   left: 0;
-  overflow: hidden;
+  overflow-y: auto;
   a {
     text-decoration: none;
   }
@@ -152,6 +151,10 @@
     width: 30px;
     padding-right: 53px;
   }
+}
+
+.submenu {
+  transition: 250ms ease-in-out max-height;
 }
 
 .searchbarMobile {

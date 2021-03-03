@@ -20,7 +20,6 @@ const Login = () => {
   const { setSnackbar, setCurrentUser } = useStore();
   const history = useHistory();
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const isSubmitted = useRef<boolean>(false);
   const [errors, setErrors] = useState<Errors>({});
   const values = useRef<Values>({
     username: "",
@@ -33,9 +32,7 @@ const Login = () => {
       ...values.current,
       [name]: value,
     };
-    // if (!isSubmitted.current) {
     setErrors(validateLoginInfo(values.current));
-    // }
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -50,7 +47,6 @@ const Login = () => {
         const tryLogin = await sendLogin(user);
         setSnackbar(tryLogin.message, "success");
         setCurrentUser(tryLogin.user_id);
-        // isSubmitted.current = true;
         history.push("/");
       } catch (error) {
         setSnackbar(error.response.data.message, "error");

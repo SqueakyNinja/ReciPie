@@ -1,8 +1,8 @@
-import React, { forwardRef, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MenuItems } from "./MenuItems";
 import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import SubItems from "./SubItems";
 import {
   FormControlLabel,
@@ -15,10 +15,6 @@ import {
 } from "@material-ui/core";
 import { useStore } from "../../store";
 
-interface Height {
-  height: string;
-}
-
 type ViewType = "desktop" | "mobile";
 
 const Navbar = () => {
@@ -26,13 +22,12 @@ const Navbar = () => {
   const currentView = useRef<ViewType>(
     window.innerWidth >= 1024 ? "desktop" : "mobile"
   );
-
-  const [height, setHeight] = useState<Height>(
+  const [height, setHeight] = useState<number>(
     currentView.current === "desktop"
       ? ref.current
-        ? { height: `${ref.current.scrollHeight}px` }
-        : { height: "450px" }
-      : { height: "0px" }
+        ? ref.current.scrollHeight
+        : 410
+      : 0
   );
   const { darkMode, setDarkMode, currentUser } = useStore();
   const { expandedSidebar, setExpandedSidebar } = useStore();
@@ -50,7 +45,7 @@ const Navbar = () => {
         setTimeout(() => {
           setExpandNoTransitions(false);
         }, 500);
-        setHeight({ height: "0px" });
+        setHeight(0);
       }
 
       if (width >= 1024 && currentView.current === "mobile") {
@@ -61,22 +56,23 @@ const Navbar = () => {
         setTimeout(() => {
           setExpandNoTransitions(false);
         }, 500);
-        ref.current && setHeight({ height: `${ref.current.scrollHeight}px` });
+        ref.current && setHeight(ref.current.scrollHeight);
       }
     }
 
     window.addEventListener("resize", handleResize, { passive: true });
-    console.log(ref);
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleClick = () => {
-    setExpandedSidebar(!expandedSidebar);
+    const expandedSidebarNewState = !expandedSidebar;
+    setExpandedSidebar(expandedSidebarNewState);
     if (ref.current) {
-      expandedSidebar
-        ? setHeight({ height: "0px" })
-        : setHeight({ height: `${ref.current.scrollHeight}px` });
+      console.log("dropdown:" + ref.current.scrollHeight);
+      expandedSidebarNewState
+        ? setHeight(ref.current.scrollHeight)
+        : setHeight(0);
     }
   };
 
@@ -84,7 +80,7 @@ const Navbar = () => {
     setTimeout(() => {
       if (window.innerWidth < 1024) {
         expandedSidebar && setExpandedSidebar(false);
-        setHeight({ height: "0px" });
+        setHeight(0);
       }
     }, 0);
   };
@@ -146,7 +142,7 @@ const Navbar = () => {
             styles.navMenu,
             expandNoTransitions && styles.expandedNoSidebar
           )}
-          style={height}
+          style={{ maxHeight: `${height}px` }}
           ref={ref}
         >
           {currentView.current === "mobile" ? (
@@ -191,7 +187,15 @@ const Navbar = () => {
             ""
           )}
           {MenuItems.map((item, index) => {
-            return <SubItems item={item} />;
+            return (
+              <SubItems
+                key={index}
+                item={item}
+                handleClickAway={handleClickAway}
+                dropdownRef={ref}
+                setHeight={setHeight}
+              />
+            );
             // <Link to={item.url} key={index} onClick={handleClickAway}>
           })}
         </ul>
