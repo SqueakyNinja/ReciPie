@@ -3,7 +3,7 @@ import { MenuItems } from "./MenuItems";
 import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
 import { Link, useHistory } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
+import SubItems from "./SubItems";
 import {
   FormControlLabel,
   Switch,
@@ -191,16 +191,8 @@ const Navbar = () => {
             ""
           )}
           {MenuItems.map((item, index) => {
-            return (
-              <Link to={item.url} key={index} onClick={handleClickAway}>
-                <li className={styles.navLinksLi}>
-                  <span>
-                    <i className={combineClasses(item.icon, styles.icon)}></i>
-                  </span>
-                  <p className={styles.link}>{item.title}</p>
-                </li>
-              </Link>
-            );
+            return <SubItems item={item} />;
+            // <Link to={item.url} key={index} onClick={handleClickAway}>
           })}
         </ul>
       </nav>
