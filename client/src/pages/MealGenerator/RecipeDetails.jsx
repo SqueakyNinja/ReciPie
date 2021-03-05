@@ -1,20 +1,19 @@
-import styles from "./MealCard.module.scss";
-import {useEffect, useState } from "react"
+import styles from './MealCard.module.scss';
+import { useEffect, useState } from 'react';
 
-const RecipeDetails = ({ recipe }) => { 
-  console.log(recipe.ingredients.extendedIngredients)
-  
-  return (
+const RecipeDetails = ({ recipe }) => {
+  console.log(recipe.ingredients.extendedIngredients);
 
-   recipe.instructions.length > 0 && recipe.ingredients.extendedIngredients.length > 0 ?
+  return recipe.instructions.length > 0 &&
+    recipe.ingredients.extendedIngredients.length > 0 ? (
     <div className={styles.container}>
       <img src={recipe.image}></img>
 
       <div className={styles.mealInfo}>
         <h2>{recipe.ingredients.title}</h2>
         <p>{recipe.ingredients.sourceName}</p>
-        <i className="far fa-heart"></i>
-        <i className="fas fa-heart"></i>
+        <i className='far fa-heart'></i>
+        <i className='fas fa-heart'></i>
         <p>{recipe.ingredients.aggregateLikes} likes</p>
         <p>Prep time: {recipe.ingredients.readyInMinutes} min</p>
       </div>
@@ -45,7 +44,8 @@ const RecipeDetails = ({ recipe }) => {
         </div>
       </div>
     </div>
-  : ""
+  ) : (
+    <></>
   );
 };
 
