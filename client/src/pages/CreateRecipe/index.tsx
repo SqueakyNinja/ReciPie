@@ -16,6 +16,7 @@ import { Recipe } from "./types";
 const CreateRecipe = () => {
   const [expanded, setExpanded] = useState("");
   const [recipe, setRecipe] = useState<Recipe>({
+    id: 0,
     title: "",
     sourceName: "",
     servings: 0,

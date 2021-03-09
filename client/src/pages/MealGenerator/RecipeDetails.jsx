@@ -22,10 +22,15 @@ const RecipeDetails = ({ recipe }) => {
         <div>
           <ul>
             {recipe &&
-              recipe.extendedIngredients.map((i) => (
-                <li key={i.id}>
-                  {i.measures.metric.amount > 0 &&
-                    `${i.measures.metric.amount} ${i.measures.metric.unitShort} ${i.name}`}
+              recipe.extendedIngredients.map((i, index) => (
+                <li key={index}>
+                  {i.measures.metric.amount > 0 && (
+                    <span>
+                      {i.measures.metric.amount}
+                      {i.measures.metric.unitShort}
+                    </span>
+                  )}
+                  {i.name.length > 0 && <span>{i.name}</span>}
                 </li>
               ))}
           </ul>
@@ -38,7 +43,11 @@ const RecipeDetails = ({ recipe }) => {
           <ol>
             {recipe &&
               recipe.analyzedInstructions[0].steps.map((obj) => (
-                <li key={obj.number}>{obj.step}</li>
+                <li key={obj.number}>
+                  <span>
+                    {obj.number}. {obj.step}
+                  </span>
+                </li>
               ))}
           </ol>
         </div>

@@ -1,13 +1,15 @@
 import styles from "../../Style/index.module.scss";
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { RecipeStepProps } from "../types";
-
 import { TextField, Button } from "@material-ui/core";
 
 const Step1 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setRecipe({ ...recipe, [name]: value });
+    // här e ju ett exempel där det inte funkar pga undefined
+    // men bara 23 errors ju :D
+    //
     console.log(name, value);
   };
 

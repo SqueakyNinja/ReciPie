@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, useRef } from "react";
 import axios, { AxiosResponse } from "axios";
 import styles from "../../Style/index.module.scss";
 import Autocomplete, {
@@ -14,8 +14,8 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { FilterOptionsState } from "@material-ui/lab/useAutocomplete";
-import { RecipeStepProps } from "../types";
-// import { AnyAaaaRecord } from 'dns';
+import { ExtendedIngredient, RecipeStepProps } from "../types";
+import SortableList from "./SortableList";
 
 interface Ingredient {
   category: string;
@@ -24,35 +24,78 @@ interface Ingredient {
 }
 
 const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
+  // const {setSnackbar} = useStore();
+  const [firstAdd, setFirstAdd] = useState(true);
   const [open, setOpen] = useState<boolean>(false);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [ingredientsOptions, setIngredientsOptions] = useState<Ingredient[]>(
+    []
+  );
   const [unitShort, setUnitShort] = useState("");
-  const [amount, setAmount] = useState(0);
-  //Ingredients:
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (recipe.extendedIngredients) {
-      // const newIngredient = { [name]: value };
-      setRecipe({ ...recipe, [name]: value });
-    }
-    console.log(name, value);
-    console.log(recipe);
-  };
+  const [ingredient, setIngredient] = useState("");
+  const [amount, setAmount] = useState<number | string>("");
+  const [editMode, setEditMode] = useState(false);
 
   const handleSelectChange = (e: React.ChangeEvent<{ value: unknown }>) => {
     setUnitShort(e.target.value as string);
-
-    // setRecipe({ ...recipe, [name]: value });
-    console.log(e.target);
   };
 
+  const handleIngredientChange = (e: ChangeEvent<{}>, value: string) => {
+    if (value === "") {
+      setOpen(false);
+    } else if (!open) {
+      setOpen(true);
+    }
+    setIngredient(value);
+  };
+
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setAmount(e.target.value);
+  };
+
+  const addIngredient = () => {
+    if (ingredient.length > 0) {
+      const newAmount: number = Number(amount);
+      const newIngredient: ExtendedIngredient = {
+        name: ingredient,
+        measures: {
+          metric: {
+            amount: newAmount,
+            unitShort,
+          },
+        },
+      };
+      if (firstAdd) {
+        setFirstAdd(false);
+        setRecipe({
+          ...recipe,
+          extendedIngredients: [newIngredient],
+        });
+      } else {
+        setRecipe({
+          ...recipe,
+          extendedIngredients: [
+            ...(recipe.extendedIngredients ?? []),
+            newIngredient,
+          ],
+        });
+      }
+
+      setIngredient("");
+      setAmount("");
+      setUnitShort("");
+    } else {
+      // setSnackbar("Please enter an ingredient in the field below", "error")
+      return;
+    }
+  };
+
+  //IngredientsOptions:
   useEffect(() => {
     const fetchIngredients = async () => {
       const result: AxiosResponse<Ingredient[]> = await axios(
         "/ingredients.json"
       );
-      setIngredients(result.data);
+      setIngredientsOptions(result.data);
     };
 
     fetchIngredients();
@@ -65,20 +108,17 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
     limit: 10,
   });
 
-  ///// ----- /////
+  const log = () => {
+    console.log(ingredient);
+  };
 
   return (
     <div className="Step2">
       <Autocomplete
         forcePopupIcon={false}
         open={open}
-        onInputChange={(e: ChangeEvent<{}>, value: string) => {
-          if (value === "") {
-            setOpen(false);
-          } else if (!open) {
-            setOpen(true);
-          }
-        }}
+        inputValue={ingredient}
+        onInputChange={handleIngredientChange}
         onClose={() => {
           setOpen(false);
         }}
@@ -87,14 +127,13 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
           option.name === value.name
         }
         getOptionLabel={(ingredient: any) => ingredient.name}
-        options={ingredients}
+        options={ingredientsOptions}
         renderInput={(params) => (
           <TextField
             {...params}
             label="Search Ingredient"
             variant="outlined"
             name="name"
-            onChange={handleChange}
             InputProps={{
               ...params.InputProps,
               endAdornment: <>{params.InputProps.endAdornment}</>,
@@ -103,13 +142,14 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
         )}
       />
 
-      <br />
-      <br />
       <div className="Step2Measurement">
         <TextField
           variant="outlined"
           label="Measurements, amount"
           type="number"
+          name="amount"
+          value={amount}
+          onChange={handleAmountChange}
         />
 
         <FormControl variant="outlined">
@@ -118,13 +158,10 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
           <Select
             label="Grouping"
             name="unitShort"
-            onChange={handleSelectChange}
             value={unitShort}
+            onChange={handleSelectChange}
           >
-            <MenuItem value="units" disabled>
-              Units
-            </MenuItem>
-            <MenuItem value="" disabled>
+            {/* <MenuItem value="" disabled>
               Imperial
             </MenuItem>
             <MenuItem value="tsp">teaspoon (tsp)</MenuItem>
@@ -134,13 +171,14 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
             <MenuItem value="pt">pint (pt)</MenuItem>
             <MenuItem value="qt">quart (qt)</MenuItem>
             <MenuItem value="gal">gallon (gal)</MenuItem>
-            <MenuItem value="lb">pound (lb)</MenuItem>
+            <MenuItem value="lb">pound (lb)</MenuItem> */}
             <MenuItem value="" disabled>
               Metric
             </MenuItem>
 
-            <MenuItem value="mtsp">teaspoon (tsp)</MenuItem>
-            <MenuItem value="mtbsp">tablespoon (tbsp)</MenuItem>
+            <MenuItem value="">None</MenuItem>
+            <MenuItem value="tsp">teaspoon (tsp)</MenuItem>
+            <MenuItem value="tbsp">tablespoon (tbsp)</MenuItem>
             <MenuItem value="ml">milliliter (ml)</MenuItem>
             <MenuItem value="cl">centiliter (cl)</MenuItem>
             <MenuItem value="dl">deciliter (dl)</MenuItem>
@@ -155,10 +193,34 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
         color="primary"
         variant="contained"
         className={styles.secondaryButton}
+        onClick={addIngredient}
+        disabled={editMode}
+      >
+        Add
+      </Button>
+      <Button
+        color="primary"
+        variant="contained"
+        className={styles.secondaryButton}
         onClick={() => setExpanded("panel3")}
+        disabled={editMode}
       >
         Next
       </Button>
+
+      <div className={styles.listOfIngredients}>
+        {recipe.extendedIngredients && (
+          <SortableList
+            recipe={recipe}
+            setRecipe={setRecipe}
+            setIngredient={setIngredient}
+            setAmount={setAmount}
+            setUnitShort={setUnitShort}
+            editMode={editMode}
+            setEditMode={setEditMode}
+          />
+        )}
+      </div>
     </div>
   );
 };
