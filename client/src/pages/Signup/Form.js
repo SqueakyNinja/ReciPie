@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import FormSuccess from "./FormSuccess";
 import styles from "./index.module.scss";
 import Image from "./signup1.jpg";

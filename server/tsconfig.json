@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "rootDir": "../",
+    "baseUrl": "./",
+    "outDir": "./dist"
+  },
+  "include": ["src"]
+}

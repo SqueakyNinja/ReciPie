@@ -1,7 +1,5 @@
-
-import CreateRecipe from './pages/CreateRecipe';
+import CreateRecipe from "./pages/CreateRecipe";
 import Style from "./pages/Style";
-import { Dispatch, SetStateAction } from "react";
 import Settings from "./pages/Settings";
 import { Paper } from "@material-ui/core";
 import { Route } from "react-router-dom";
@@ -9,19 +7,10 @@ import AddOCRRecipe from "./pages/AddOCRRecipe";
 import Homepage from "./pages/Homepage";
 import styles from "./app.module.scss";
 import Form from "./pages/Signup/Form";
-import MealGenerator from "./pages/MealGenerator"
+import MealGenerator from "./pages/MealGenerator";
 import MealCard from "./pages/MealGenerator/MealCard";
 
-
-
-interface DarkMode {
-  darkMode: boolean;
-  setDarkMode: Dispatch<SetStateAction<boolean>>;
-}
-
-const Main = ({ darkMode, setDarkMode }: DarkMode) => {
-
-
+const Main = () => {
   return (
     <Paper className={styles.mainArea}>
       <Route exact path="/" component={Homepage} />
@@ -30,16 +19,14 @@ const Main = ({ darkMode, setDarkMode }: DarkMode) => {
       <Route exact path="/style" component={Style} />
       <Route exact path="/recipe" component={CreateRecipe} />
       <Route path="/settings">
-        <Settings darkMode={darkMode} setDarkMode={setDarkMode} />
-</Route>
+        <Settings />
+      </Route>
       <Route path="/meal-generator">
         <MealGenerator />
       </Route>
       <Route path="/meal-card/:id">
         <MealCard />
       </Route>
- 
-  
     </Paper>
   );
 };
