@@ -4,6 +4,7 @@ import { getAllRecipes } from "./recipes/recipes.controller";
 import {
   getAllUsers,
   getUserById,
+  loginUser,
   newUser,
   removeUser,
   updateUser,
@@ -20,6 +21,8 @@ apiRouter.post("/users", newUser);
 apiRouter.put("/users/:user_id", updateUser);
 
 apiRouter.delete("/users/:user_id", removeUser);
+
+apiRouter.post("/users/login", loginUser);
 
 apiRouter.get("/recipes", getAllRecipes);
 

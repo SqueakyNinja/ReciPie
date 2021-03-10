@@ -1,144 +1,205 @@
-import React, {
-  Component,
-  Dispatch,
-  forwardRef,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
-import Logo from "./ReciPie-light-logo.png";
-import smallLogo from "./ReciPie-light-small-logo.png";
+import React, { useEffect, useRef, useState } from "react";
 import { MenuItems } from "./MenuItems";
 import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
-import { Link } from "react-router-dom";
-import Searchbar from "./Searchbar";
-import { Link as RouterLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import SubItems from "./SubItems";
 import {
   FormControlLabel,
   Switch,
   Button,
-  IconButton,
   InputAdornment,
   TextField,
+  ClickAwayListener,
 } from "@material-ui/core";
 import { useStore } from "../../store";
+import AccountMenu from "../AccountMenu";
 
-interface navbarProps {
-  expandedSidebar: boolean;
-  setExpandedSidebar: Dispatch<SetStateAction<boolean>>;
-}
+type ViewType = "desktop" | "mobile";
 
-const LinkBehavior = forwardRef((props, ref) => (
-  <RouterLink to="/signup" {...props} />
-));
-
-const Navbar = ({ expandedSidebar, setExpandedSidebar }: navbarProps) => {
-  const [width, setWidth] = useState<number>();
-  const { darkMode, setDarkMode } = useStore();
+const Navbar = () => {
+  const ref = useRef<HTMLUListElement>(null);
+  const currentView = useRef<ViewType>(
+    window.innerWidth >= 1024 ? "desktop" : "mobile"
+  );
+  const [height, setHeight] = useState<number>(
+    currentView.current === "desktop"
+      ? ref.current
+        ? ref.current.scrollHeight
+        : 420
+      : 0
+  );
+  const {
+    expandedSidebar,
+    setExpandedSidebar,
+    darkMode,
+    setDarkMode,
+    currentUser,
+  } = useStore();
+  const [expandNoTransitions, setExpandNoTransitions] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     function handleResize() {
-      setWidth(window.innerWidth);
+      const width = window.innerWidth;
+      if (width < 1024 && currentView.current === "desktop") {
+        currentView.current = width >= 1024 ? "desktop" : "mobile";
+        setExpandedSidebar(false);
+        setExpandNoTransitions(true);
+        setTimeout(() => {
+          setExpandNoTransitions(false);
+        }, 500);
+        setHeight(0);
+      }
+
+      if (width >= 1024 && currentView.current === "mobile") {
+        currentView.current = width >= 1024 ? "desktop" : "mobile";
+        expandedSidebar && setExpandedSidebar(false);
+        setExpandNoTransitions(true);
+        setTimeout(() => {
+          setExpandNoTransitions(false);
+        }, 500);
+        ref.current && setHeight(ref.current.scrollHeight);
+      }
     }
 
-    window.addEventListener("resize", handleResize);
-
+    window.addEventListener("resize", handleResize, { passive: true });
     handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return (
-    <nav
-      className={combineClasses(
-        styles.navbar,
-        expandedSidebar && styles.expandedSidebar
-      )}
-    >
-      <div className={styles.logoAndHamburger}>
-        {window.innerWidth < 1024 ? (
-          <img className={styles.smallLogo} src={smallLogo} alt="logo" />
-        ) : (
-          <img src={Logo} alt="logo" />
-        )}
-        <FormControlLabel
-          control={
-            <Switch
-              checked={darkMode}
-              onChange={() => setDarkMode(!darkMode)}
-              name="darkmode"
-              color="primary"
-            />
-          }
-          label="Dark Mode"
-        />
-        <div
-          onClick={() => {
-            setExpandedSidebar(!expandedSidebar);
-            console.log(expandedSidebar);
-          }}
-          className={combineClasses(
-            styles.hamburger,
-            expandedSidebar && styles.open
-          )}
-          id="hamburger"
-        >
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
+  const handleClick = () => {
+    const expandedSidebarNewState = !expandedSidebar;
+    setExpandedSidebar(expandedSidebarNewState);
+    if (ref.current) {
+      expandedSidebarNewState
+        ? setHeight(ref.current.scrollHeight)
+        : setHeight(0);
+    }
+  };
 
-      <ul
-        className={combineClasses(
-          styles.navMenu,
-          expandedSidebar && styles.expand
-        )}
-      >
-        {window.innerWidth < 1024 ? (
-          <li className={styles.searchbarMobile}>
-            <div className={styles.search}>
-              <TextField
-                placeholder="Search…"
-                variant="outlined"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <i className="fas fa-search"></i>
-                    </InputAdornment>
-                  ),
-                }}
+  const handleClickAway = () => {
+    setTimeout(() => {
+      if (window.innerWidth < 1024) {
+        expandedSidebar && setExpandedSidebar(false);
+        setHeight(0);
+      }
+    }, 0);
+  };
+
+  const HandleSignupClick = () => {
+    handleClickAway();
+    history.push("/account/signup");
+  };
+  const HandleLoginClick = () => {
+    handleClickAway();
+    history.push("/account/login");
+  };
+
+  return (
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <nav className={styles.navbar}>
+        <div className={styles.logoAndHamburger}>
+          {window.innerWidth < 1024 ? (
+            <img
+              className={styles.smallLogo}
+              src={"/images/ReciPie-light-small-logo.png"}
+              alt="logo"
+              onClick={() => history.push("/")}
+            />
+          ) : (
+            <img
+              src={"/images/ReciPie-light-logo.png"}
+              alt="logo"
+              onClick={() => history.push("/")}
+            />
+          )}
+          <FormControlLabel
+            control={
+              <Switch
+                checked={darkMode}
+                onChange={() => setDarkMode(!darkMode)}
+                name="darkmode"
+                color="primary"
               />
-            </div>
-            <Button
-              variant="outlined"
-              className={styles.button}
-              component={LinkBehavior}
-            >
-              Sign Up
-            </Button>
-            <IconButton className={styles.account}>
-              <i className="far fa-user"></i>
-            </IconButton>
-          </li>
-        ) : (
-          ""
-        )}
-        {MenuItems.map((item, index) => {
-          return (
-            <Link to={item.url} key={index}>
-              <li className={styles.navLinksLi}>
-                <span>
-                  <i className={combineClasses(item.icon, styles.icon)}></i>
-                </span>
-                <p className={styles.link}>{item.title}</p>
-              </li>
-            </Link>
-          );
-        })}
-      </ul>
-    </nav>
+            }
+            label="Dark Mode"
+          />
+          <div
+            onClick={handleClick}
+            className={combineClasses(
+              styles.hamburger,
+              expandedSidebar && styles.open
+            )}
+            id="hamburger"
+          >
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+
+        <ul
+          className={combineClasses(
+            styles.navMenu,
+            expandNoTransitions && styles.expandedNoSidebar
+          )}
+          style={{ maxHeight: `${height}px` }}
+          ref={ref}
+        >
+          {currentView.current === "mobile" ? (
+            <li className={styles.searchbarMobile}>
+              <div className={styles.search}>
+                <TextField
+                  placeholder="Search…"
+                  variant="outlined"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <i className="fas fa-search"></i>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </div>
+              {currentUser.length === 0 ? (
+                <div className={styles.buttonDiv}>
+                  <Button
+                    variant="outlined"
+                    className={styles.button}
+                    onClick={HandleSignupClick}
+                  >
+                    Sign Up
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    className={styles.button}
+                    onClick={HandleLoginClick}
+                  >
+                    Login
+                  </Button>
+                </div>
+              ) : (
+                <AccountMenu />
+              )}
+            </li>
+          ) : (
+            ""
+          )}
+          {MenuItems.map((item, index) => {
+            return (
+              <SubItems
+                key={index}
+                item={item}
+                handleClickAway={handleClickAway}
+                dropdownRef={ref}
+                setHeight={setHeight}
+              />
+            );
+          })}
+        </ul>
+      </nav>
+    </ClickAwayListener>
   );
 };
 

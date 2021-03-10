@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { createWorker } from "tesseract.js";
 
@@ -26,6 +25,7 @@ const OCR = () => {
     //   console.log(element);
     // }
     console.log(text);
+    console.log(ocr);
   };
 
   useEffect(() => {

@@ -6,16 +6,17 @@ import { Route } from "react-router-dom";
 import AddOCRRecipe from "./pages/AddOCRRecipe";
 import Homepage from "./pages/Homepage";
 import styles from "./app.module.scss";
-import Form from "./pages/Signup/Form";
 import MealGenerator from "./pages/MealGenerator";
 import MealCard from "./pages/MealGenerator/MealCard";
+import Account from "./pages/Account";
 
 const Main = () => {
   return (
     <Paper className={styles.mainArea}>
       <Route exact path="/" component={Homepage} />
       <Route path="/scan" component={AddOCRRecipe} />
-      <Route exact path="/signup" component={Form} />
+      <Route exact path="/account/signup" component={Account} />
+      <Route exact path="/account/login" component={Account} />
       <Route exact path="/style" component={Style} />
       <Route exact path="/recipe" component={CreateRecipe} />
       <Route path="/settings">
