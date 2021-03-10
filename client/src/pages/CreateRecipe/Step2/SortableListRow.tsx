@@ -5,72 +5,48 @@ import { ExtendedIngredient, Recipe } from "../types";
 import styles from "../index.module.scss";
 
 interface SortableListRowProps {
-  ingredient: ExtendedIngredient;
-  index: number;
   recipe: Recipe;
   setRecipe: Dispatch<SetStateAction<Recipe>>;
+  ingredient: ExtendedIngredient;
   setIngredient: Dispatch<SetStateAction<string>>;
   setAmount: Dispatch<SetStateAction<React.ReactText>>;
   setUnitShort: Dispatch<SetStateAction<string>>;
   editMode: boolean;
+  index: number;
 }
 
 function SortableListRow({
-  ingredient,
-  index,
   recipe,
   setRecipe,
+  ingredient,
   setIngredient,
   setAmount,
   setUnitShort,
   editMode,
+  index,
 }: SortableListRowProps) {
   const [deleteMode, setDeleteMode] = useState(false);
-  const editEntry = (i: number) => {
-    const filteredIngredients = recipe.extendedIngredients?.filter(
-      (ingredient, index) => index !== i
-    );
-    const currentIngredients = recipe.extendedIngredients?.filter(
-      (ingredient, index) => index === i
-    );
+  const editEntry = (i: number, reason: "edit" | "delete") => {
+    if (reason === "edit") {
+      const currentIngredients = recipe.extendedIngredients?.filter((ingredient, index) => index === i);
+      setIngredient(currentIngredients[0].name);
+      setAmount(currentIngredients[0].measures.metric.amount);
+      setUnitShort(currentIngredients[0].measures.metric.unitShort);
+    }
+    const filteredIngredients = recipe.extendedIngredients?.filter((ingredient, index) => index !== i);
     setRecipe({
       ...recipe,
       extendedIngredients: [...(filteredIngredients ?? [])],
     });
-    currentIngredients && console.log(currentIngredients);
-    if (currentIngredients) {
-      setIngredient(currentIngredients[0].name);
-      if (currentIngredients[0].measures.metric.amount) {
-        setAmount(currentIngredients[0].measures.metric.amount);
-      }
-      setUnitShort(currentIngredients[0].measures.metric.unitShort);
+    if (reason === "delete") {
+      setDeleteMode(false);
     }
-  };
-  const deleteEntry = (i: number) => {
-    const filteredRecipes = recipe.extendedIngredients?.filter(
-      (ingredient, index) => index !== i
-    );
-    setRecipe({
-      ...recipe,
-      extendedIngredients: [...(filteredRecipes ?? [])],
-    });
-    setDeleteMode(false);
-    console.log(filteredRecipes);
   };
 
   return ingredient.name.length > 0 ? (
-    <ListItem
-      key={index}
-      className={combineClasses(
-        "handleDrag",
-        styles.sortableList,
-        editMode && styles.editMode
-      )}
-    >
+    <ListItem key={index} className={combineClasses("handleDrag", styles.sortableList, editMode && styles.editMode)}>
       <>
-        {ingredient.measures.metric.amount > 0 && (
-          <ListItemText primary={ingredient.measures.metric.amount} />
-        )}
+        {ingredient.measures.metric.amount > 0 && <ListItemText primary={ingredient.measures.metric.amount} />}
         {ingredient.measures.metric.unitShort.length > 0 && (
           <ListItemText primary={ingredient.measures.metric.unitShort} />
         )}
@@ -80,29 +56,22 @@ function SortableListRow({
         {!deleteMode ? (
           <>
             <IconButton
-              onClick={() => editEntry(index)}
-              children={
-                <i style={{ width: "24px" }} className="far fa-edit"></i>
-              }
+              onClick={() => editEntry(index, "edit")}
+              disabled={editMode}
+              children={<i style={{ width: "24px" }} className="far fa-edit"></i>}
             />
             <IconButton
               onClick={() => setDeleteMode(true)}
-              children={
-                <i style={{ width: "24px" }} className="far fa-trash-alt"></i>
-              }
+              disabled={editMode}
+              children={<i style={{ width: "24px" }} className="far fa-trash-alt"></i>}
             />
           </>
         ) : (
           <>
-            <IconButton
-              onClick={() => deleteEntry(index)}
-              children={<i className="fas fa-check"></i>}
-            />
+            <IconButton onClick={() => editEntry(index, "delete")} children={<i className="fas fa-check"></i>} />
             <IconButton
               onClick={() => setDeleteMode(false)}
-              children={
-                <i style={{ width: "24px" }} className="fas fa-times"></i>
-              }
+              children={<i style={{ width: "24px" }} className="fas fa-times"></i>}
             />
           </>
         )}

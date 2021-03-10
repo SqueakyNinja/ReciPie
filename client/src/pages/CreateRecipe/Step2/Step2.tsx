@@ -1,18 +1,9 @@
-import React, { useState, useEffect, ChangeEvent, useRef } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import axios, { AxiosResponse } from "axios";
 import styles from "../../Style/index.module.scss";
-import Autocomplete, {
-  createFilterOptions,
-} from "@material-ui/lab/Autocomplete";
+import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 
-import {
-  Button,
-  TextField,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem,
-} from "@material-ui/core";
+import { Button, TextField, FormControl, Select, InputLabel, MenuItem } from "@material-ui/core";
 import { FilterOptionsState } from "@material-ui/lab/useAutocomplete";
 import { ExtendedIngredient, RecipeStepProps } from "../types";
 import SortableList from "./SortableList";
@@ -27,9 +18,7 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
   // const {setSnackbar} = useStore();
   const [firstAdd, setFirstAdd] = useState(true);
   const [open, setOpen] = useState<boolean>(false);
-  const [ingredientsOptions, setIngredientsOptions] = useState<Ingredient[]>(
-    []
-  );
+  const [ingredientsOptions, setIngredientsOptions] = useState<Ingredient[]>([]);
   const [unitShort, setUnitShort] = useState("");
   const [ingredient, setIngredient] = useState("");
   const [amount, setAmount] = useState<number | string>("");
@@ -73,10 +62,7 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
       } else {
         setRecipe({
           ...recipe,
-          extendedIngredients: [
-            ...(recipe.extendedIngredients ?? []),
-            newIngredient,
-          ],
+          extendedIngredients: [...(recipe.extendedIngredients ?? []), newIngredient],
         });
       }
 
@@ -85,16 +71,13 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
       setUnitShort("");
     } else {
       // setSnackbar("Please enter an ingredient in the field below", "error")
-      return;
     }
   };
 
   //IngredientsOptions:
   useEffect(() => {
     const fetchIngredients = async () => {
-      const result: AxiosResponse<Ingredient[]> = await axios(
-        "/ingredients.json"
-      );
+      const result: AxiosResponse<Ingredient[]> = await axios("/ingredients.json");
       setIngredientsOptions(result.data);
     };
 
@@ -108,10 +91,6 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
     limit: 10,
   });
 
-  const log = () => {
-    console.log(ingredient);
-  };
-
   return (
     <div className="Step2">
       <Autocomplete
@@ -123,9 +102,7 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
           setOpen(false);
         }}
         filterOptions={filterOptions}
-        getOptionSelected={(option: Ingredient, value: Ingredient) =>
-          option.name === value.name
-        }
+        getOptionSelected={(option: Ingredient, value: Ingredient) => option.name === value.name}
         getOptionLabel={(ingredient: any) => ingredient.name}
         options={ingredientsOptions}
         renderInput={(params) => (
@@ -155,12 +132,7 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
         <FormControl variant="outlined">
           <InputLabel>Units</InputLabel>
 
-          <Select
-            label="Grouping"
-            name="unitShort"
-            value={unitShort}
-            onChange={handleSelectChange}
-          >
+          <Select label="Grouping" name="unitShort" value={unitShort} onChange={handleSelectChange}>
             {/* <MenuItem value="" disabled>
               Imperial
             </MenuItem>

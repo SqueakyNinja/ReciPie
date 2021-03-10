@@ -9,11 +9,6 @@ export interface ExtendedIngredient {
     };
   };
 }
-
-// Ska se om jag kan hitta något via google, du har förmodligen sökt igenom allt redan...
-// nuså, datorn skulle bara vakna
-// jag har sällan andra problem än det här
-// det brukar ju inte hjälpa, ni hittar rätt sak på 1 sek ändå :D
 export interface AnalysedInstructions {
   name: string;
   steps: Step[];

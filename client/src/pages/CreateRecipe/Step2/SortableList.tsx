@@ -46,7 +46,6 @@ const SortableList = ({
       ...recipe,
       extendedIngredients: [...(newState ?? [])],
     });
-    console.log("hejhej");
   };
 
   return (
@@ -61,39 +60,35 @@ const SortableList = ({
             handle=".handleDrag"
           >
             {recipe.extendedIngredients &&
-              recipe.extendedIngredients.map(
-                (ingredient: ExtendedIngredient, index: number) => (
-                  <SortableListRow
-                    ingredient={ingredient}
-                    index={index}
-                    recipe={recipe}
-                    setRecipe={setRecipe}
-                    key={index}
-                    setIngredient={setIngredient}
-                    setAmount={setAmount}
-                    setUnitShort={setUnitShort}
-                    editMode={editMode}
-                  />
-                )
-              )}
+              recipe.extendedIngredients.map((ingredient: ExtendedIngredient, index: number) => (
+                <SortableListRow
+                  ingredient={ingredient}
+                  index={index}
+                  recipe={recipe}
+                  setRecipe={setRecipe}
+                  key={index}
+                  setIngredient={setIngredient}
+                  setAmount={setAmount}
+                  setUnitShort={setUnitShort}
+                  editMode={editMode}
+                />
+              ))}
           </ReactSortable>
         ) : (
           recipe.extendedIngredients &&
-          recipe.extendedIngredients.map(
-            (ingredient: ExtendedIngredient, index: number) => (
-              <SortableListRow
-                ingredient={ingredient}
-                index={index}
-                recipe={recipe}
-                setRecipe={setRecipe}
-                key={index}
-                setIngredient={setIngredient}
-                setAmount={setAmount}
-                setUnitShort={setUnitShort}
-                editMode={editMode}
-              />
-            )
-          )
+          recipe.extendedIngredients.map((ingredient: ExtendedIngredient, index: number) => (
+            <SortableListRow
+              ingredient={ingredient}
+              index={index}
+              recipe={recipe}
+              setRecipe={setRecipe}
+              key={index}
+              setIngredient={setIngredient}
+              setAmount={setAmount}
+              setUnitShort={setUnitShort}
+              editMode={editMode}
+            />
+          ))
         )}
       </div>
       <div>

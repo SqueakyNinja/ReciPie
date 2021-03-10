@@ -7,30 +7,15 @@ const Step1 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setRecipe({ ...recipe, [name]: value });
-    // här e ju ett exempel där det inte funkar pga undefined
-    // men bara 23 errors ju :D
-    //
-    console.log(name, value);
   };
 
   return (
     <div className="Step1">
-      <TextField
-        variant="outlined"
-        label="Name of Recipe"
-        name="title"
-        onChange={handleChange}
-      />
+      <TextField variant="outlined" label="Name of Recipe" name="title" onChange={handleChange} />
 
       <br />
       <br />
-      <TextField
-        variant="outlined"
-        label="Number of portions"
-        type="number"
-        name="servings"
-        onChange={handleChange}
-      />
+      <TextField variant="outlined" label="Number of portions" type="number" name="servings" onChange={handleChange} />
 
       <br />
       <br />
