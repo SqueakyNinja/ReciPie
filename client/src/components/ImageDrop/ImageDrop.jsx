@@ -1,6 +1,7 @@
 import { useState } from 'react';
-
 import { useDropzone } from 'react-dropzone';
+
+import styles from './index.module.scss';
 
 const ImageDrop = () => {
   const [files, setFiles] = useState([]);
@@ -26,10 +27,11 @@ const ImageDrop = () => {
 
   return (
     <div>
-      <div {...getRootProps()}>
+      <div className={styles.dropContainer} {...getRootProps()}>
         <input {...getInputProps()} />
-        <p>Drop image here</p>
+        <p>Click or drag and drop image here</p>
       </div>
+
       <div>{image}</div>
     </div>
   );
