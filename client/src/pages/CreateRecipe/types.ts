@@ -1,34 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-
-export interface ExtendedIngredient {
-  name: string;
-  measures: {
-    metric: {
-      amount: number;
-      unitShort: string;
-    };
-  };
-}
-export interface AnalysedInstructions {
-  name: string;
-  steps: Step[];
-}
-export interface Step {
-  number: number;
-  step: string;
-}
-export interface Recipe {
-  id: number;
-  title: string;
-  sourceName: string;
-  servings: number;
-  readyInMinutes: number;
-  extendedIngredients: ExtendedIngredient[];
-  instructions: {};
-  image: string;
-  dishTypes: string[];
-  analyzedInstructions: AnalysedInstructions[];
-}
+import { Recipe } from "../../../../common";
 
 export interface RecipeProps {
   recipe: Recipe;

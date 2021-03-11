@@ -2,11 +2,12 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import axios, { AxiosResponse } from "axios";
 import styles from "../../Style/index.module.scss";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
-
 import { Button, TextField, FormControl, Select, InputLabel, MenuItem } from "@material-ui/core";
 import { FilterOptionsState } from "@material-ui/lab/useAutocomplete";
-import { ExtendedIngredient, RecipeStepProps } from "../types";
 import SortableList from "./SortableList";
+import { useStore } from "../../../store";
+import { RecipeStepProps } from "../types";
+import { ExtendedIngredient } from "../../../../../common";
 
 interface Ingredient {
   category: string;
@@ -15,7 +16,7 @@ interface Ingredient {
 }
 
 const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
-  // const {setSnackbar} = useStore();
+  const { setSnackbar } = useStore();
   const [firstAdd, setFirstAdd] = useState(true);
   const [open, setOpen] = useState<boolean>(false);
   const [ingredientsOptions, setIngredientsOptions] = useState<Ingredient[]>([]);
@@ -70,7 +71,7 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
       setAmount("");
       setUnitShort("");
     } else {
-      // setSnackbar("Please enter an ingredient in the field below", "error")
+      setSnackbar("Please enter an ingredient in the field below", "error");
     }
   };
 

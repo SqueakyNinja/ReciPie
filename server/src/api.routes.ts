@@ -1,14 +1,7 @@
 import express from "express";
-import { getAllRecipes } from "./recipes/recipes.controller";
+import { addNewRecipe, getAllRecipes } from "./recipes/recipes.controller";
 
-import {
-  getAllUsers,
-  getUserById,
-  loginUser,
-  newUser,
-  removeUser,
-  updateUser,
-} from "./users/users.controllers";
+import { getAllUsers, getUserById, loginUser, newUser, removeUser, updateUser } from "./users/users.controllers";
 
 const apiRouter = express.Router();
 
@@ -25,5 +18,7 @@ apiRouter.delete("/users/:user_id", removeUser);
 apiRouter.post("/users/login", loginUser);
 
 apiRouter.get("/recipes", getAllRecipes);
+
+apiRouter.post("/recipes/add", addNewRecipe);
 
 export default apiRouter;

@@ -1,47 +1,42 @@
-import React, { useState } from "react";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-  Button,
-} from "@material-ui/core";
+import { useState } from "react";
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Button } from "@material-ui/core";
 import styles from "./index.module.scss";
 import Step1 from "./Step1/Step1";
 import Step2 from "./Step2/Step2";
 import Step3 from "./Step3/Step3";
 import RecipeDetails from "../MealGenerator/RecipeDetails";
-import { Recipe } from "./types";
+import { sendRecipe } from "../../api/recipes";
+import { Recipe } from "../../../../common";
+import { useStore } from "../../store";
 
 const CreateRecipe = () => {
+  const { currentUser } = useStore();
   const [expanded, setExpanded] = useState("");
   const [recipe, setRecipe] = useState<Recipe>({
-    id: 0,
-    title: "",
-    sourceName: "",
-    servings: 0,
-    readyInMinutes: 0,
+    title: "Test",
+    sourceName: currentUser,
+    servings: 4,
+    readyInMinutes: 45,
     extendedIngredients: [
       {
-        name: "",
+        name: "Cheese",
         measures: {
           metric: {
-            amount: 0,
-            unitShort: "",
+            amount: 2,
+            unitShort: "dl",
           },
         },
       },
     ],
-    instructions: {},
     image: "http://placekitten.com/400/200",
-    dishTypes: [],
+    dishTypes: ["Cheesy"],
     analyzedInstructions: [
       {
         name: "",
         steps: [
           {
             number: 1,
-            step: "",
+            step: "Eat cheese",
           },
         ],
       },
@@ -49,64 +44,41 @@ const CreateRecipe = () => {
   });
 
   const handleChange = (panel: any) => (event: any, isExpanded: any) => {
-    console.log(panel);
     setExpanded(isExpanded ? panel : false);
+  };
+
+  const handleSubmit = () => {
+    try {
+      const addRecipe = sendRecipe(recipe);
+      console.log(addRecipe);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className={styles.root}>
-      <Accordion
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
-      >
-        <AccordionSummary
-          className={styles.accordionHeader}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-        >
-          <Typography className={styles.heading}>
-            1. Name, portions, time, picture
-          </Typography>
+      <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")}>
+        <AccordionSummary className={styles.accordionHeader} aria-controls="panel1bh-content" id="panel1bh-header">
+          <Typography className={styles.heading}>1. Name, portions, time, picture</Typography>
         </AccordionSummary>
 
         <AccordionDetails>
-          <Step1
-            setExpanded={setExpanded}
-            recipe={recipe}
-            setRecipe={setRecipe}
-          />
+          <Step1 setExpanded={setExpanded} recipe={recipe} setRecipe={setRecipe} />
         </AccordionDetails>
       </Accordion>
 
-      <Accordion
-        expanded={expanded === "panel2"}
-        onChange={handleChange("panel2")}
-      >
-        <AccordionSummary
-          className={styles.accordionHeader}
-          aria-controls="panel2bh-content"
-          id="panel2bh-header"
-        >
+      <Accordion expanded={expanded === "panel2"} onChange={handleChange("panel2")}>
+        <AccordionSummary className={styles.accordionHeader} aria-controls="panel2bh-content" id="panel2bh-header">
           <Typography className={styles.heading}>2. Ingredients</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Step2
-            setExpanded={setExpanded}
-            recipe={recipe}
-            setRecipe={setRecipe}
-          />
+          <Step2 setExpanded={setExpanded} recipe={recipe} setRecipe={setRecipe} />
         </AccordionDetails>
       </Accordion>
 
-      <Accordion
-        expanded={expanded === "panel3"}
-        onChange={handleChange("panel3")}
-      >
-        <AccordionSummary
-          className={styles.accordionHeader}
-          aria-controls="panel3bh-content"
-          id="panel3bh-header"
-        >
+      <Accordion expanded={expanded === "panel3"} onChange={handleChange("panel3")}>
+        <AccordionSummary className={styles.accordionHeader} aria-controls="panel3bh-content" id="panel3bh-header">
           <Typography className={styles.heading}>3. Instructions</Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -114,11 +86,7 @@ const CreateRecipe = () => {
         </AccordionDetails>
       </Accordion>
       <div>
-        <Button
-          color="primary"
-          variant="contained"
-          className={styles.secondaryButton}
-        >
+        <Button color="primary" variant="contained" className={styles.secondaryButton} onClick={handleSubmit}>
           Submit
         </Button>
       </div>

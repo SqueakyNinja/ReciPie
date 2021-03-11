@@ -87,12 +87,7 @@ const Login = () => {
             {errors.password && submitting && <p>{errors.password}</p>}
           </div>
 
-          <Button
-            color="primary"
-            variant="contained"
-            type="submit"
-            className={styles.button}
-          >
+          <Button color="primary" variant="contained" type="submit" className={styles.button}>
             Login
           </Button>
           <p className="form-input-login">Don't have an account?</p>
