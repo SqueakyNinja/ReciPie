@@ -1,19 +1,26 @@
 @import '../../app.global.scss';
 
-.flexContainer {
-  display: flex;
-  flex-direction: row;
-
-  .accordionBox {
-    flex: 60%;
-  }
-}
+///// ----- INDEX ----- /////
 
 .accordionHeader {
   background-color: $primary;
 }
 
-// step 2
+/// ----- STEPS, GENERAL ----- /////
+.textfield {
+  margin: 20px;
+}
+//TODO: Få detta att funka. Funkar om jag kommenterar ut koden och sedan aktiverar den igen, men inte om sidan laddas om.
+
+///// ----- STEP 1 ----- /////
+
+.Step1 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+///// ----- STEP 2 ----- /////
 .sortableList {
   margin: 0.25rem;
 }
@@ -25,5 +32,26 @@
   &:hover {
     cursor: grab;
     background-color: rgb(235, 235, 235);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  ///// ----- INDEX ----- /////
+  .flexContainer {
+    display: flex;
+    flex-direction: row;
+
+    .accordionBox {
+      flex: 50%;
+    }
+
+    .recipeDetailsBox {
+      flex: 50%;
+    }
+  }
+
+  //STEPS
+  .nextButton {
+    align-self: flex-end;
   }
 }

@@ -1,7 +1,9 @@
-import styles from "../../Style/index.module.scss";
-import { ChangeEvent } from "react";
-import { RecipeStepProps } from "../types";
-import { TextField, Button } from "@material-ui/core";
+// import styles from './index.module.scss';
+import styles from '../index.module.scss';
+//TVÅ OLIKA STYLE SHEETS?? HUR GÖRA?
+import { ChangeEvent } from 'react';
+import { RecipeStepProps } from '../types';
+import { TextField, Button } from '@material-ui/core';
 
 const Step1 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -10,30 +12,38 @@ const Step1 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
   };
 
   return (
-    <div className="Step1">
-      <TextField variant="outlined" label="Name of Recipe" name="title" onChange={handleChange} />
-
-      <br />
-      <br />
-      <TextField variant="outlined" label="Number of portions" type="number" name="servings" onChange={handleChange} />
-
-      <br />
-      <br />
-
+    <div className={styles.Step1}>
       <TextField
-        variant="outlined"
-        label="Estimated time (minutes)"
-        type="number"
-        name="readyInMinutes"
+        className={`${styles.recipeName} ${styles.textfield}`}
+        variant='outlined'
+        label='Name of Recipe'
+        name='title'
         onChange={handleChange}
       />
-      <br />
+
+      <TextField
+        className={`${styles.recipeServings} ${styles.textfield}`}
+        variant='outlined'
+        label='Number of portions'
+        type='number'
+        name='servings'
+        onChange={handleChange}
+      />
+
+      <TextField
+        className={`${styles.recipeTime} ${styles.textfield}`}
+        variant='outlined'
+        label='Estimated time (minutes)'
+        type='number'
+        name='readyInMinutes'
+        onChange={handleChange}
+      />
 
       <Button
-        color="primary"
-        variant="contained"
-        className={styles.secondaryButton}
-        onClick={() => setExpanded("panel2")}
+        className={`${styles.secondaryButton} ${styles.nextButton}`}
+        color='primary'
+        variant='contained'
+        onClick={() => setExpanded('panel2')}
       >
         Next
       </Button>
