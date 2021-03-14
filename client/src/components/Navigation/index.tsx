@@ -4,43 +4,21 @@ import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
 import { useHistory } from "react-router-dom";
 import SubItems from "./SubItems";
-import {
-  FormControlLabel,
-  Switch,
-  Button,
-  InputAdornment,
-  TextField,
-  ClickAwayListener,
-} from "@material-ui/core";
+import { FormControlLabel, Switch, Button, InputAdornment, TextField, ClickAwayListener } from "@material-ui/core";
 import { useStore } from "../../store";
-import AccountMenu from "../AccountMenu";
+import AccountMenu from "./AccountMenu";
 
 type ViewType = "desktop" | "mobile";
 
 const Navbar = () => {
   const ref = useRef<HTMLUListElement>(null);
-  const currentView = useRef<ViewType>(
-    window.innerWidth >= 1024 ? "desktop" : "mobile"
-  );
-  const [height, setHeight] = useState<number>(
-    currentView.current === "desktop"
-      ? ref.current
-        ? ref.current.scrollHeight
-        : 420
-      : 0
-  );
-  const {
-    expandedSidebar,
-    setExpandedSidebar,
-    darkMode,
-    setDarkMode,
-    currentUser,
-  } = useStore();
+  const currentView = useRef<ViewType>(window.innerWidth >= 1024 ? "desktop" : "mobile");
+  const { expandedSidebar, setExpandedSidebar, darkMode, setDarkMode, currentUser, height, setHeight } = useStore();
   const [expandNoTransitions, setExpandNoTransitions] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
-    function handleResize() {
+    const handleResize = () => {
       const width = window.innerWidth;
       if (width < 1024 && currentView.current === "desktop") {
         currentView.current = width >= 1024 ? "desktop" : "mobile";
@@ -61,7 +39,7 @@ const Navbar = () => {
         }, 500);
         ref.current && setHeight(ref.current.scrollHeight);
       }
-    }
+    };
 
     window.addEventListener("resize", handleResize, { passive: true });
     handleResize();
@@ -72,9 +50,7 @@ const Navbar = () => {
     const expandedSidebarNewState = !expandedSidebar;
     setExpandedSidebar(expandedSidebarNewState);
     if (ref.current) {
-      expandedSidebarNewState
-        ? setHeight(ref.current.scrollHeight)
-        : setHeight(0);
+      expandedSidebarNewState ? setHeight(ref.current.scrollHeight) : setHeight(0);
     }
   };
 
@@ -108,29 +84,17 @@ const Navbar = () => {
               onClick={() => history.push("/")}
             />
           ) : (
-            <img
-              src={"/images/ReciPie-light-logo.png"}
-              alt="logo"
-              onClick={() => history.push("/")}
-            />
+            <img src={"/images/ReciPie-light-logo.png"} alt="logo" onClick={() => history.push("/")} />
           )}
           <FormControlLabel
             control={
-              <Switch
-                checked={darkMode}
-                onChange={() => setDarkMode(!darkMode)}
-                name="darkmode"
-                color="primary"
-              />
+              <Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} name="darkmode" color="primary" />
             }
             label="Dark Mode"
           />
           <div
             onClick={handleClick}
-            className={combineClasses(
-              styles.hamburger,
-              expandedSidebar && styles.open
-            )}
+            className={combineClasses(styles.hamburger, expandedSidebar && styles.open)}
             id="hamburger"
           >
             <div></div>
@@ -140,10 +104,7 @@ const Navbar = () => {
         </div>
 
         <ul
-          className={combineClasses(
-            styles.navMenu,
-            expandNoTransitions && styles.expandedNoSidebar
-          )}
+          className={combineClasses(styles.navMenu, expandNoTransitions && styles.expandedNoSidebar)}
           style={{ maxHeight: `${height}px` }}
           ref={ref}
         >
@@ -162,20 +123,12 @@ const Navbar = () => {
                   }}
                 />
               </div>
-              {currentUser.length === 0 ? (
+              {currentUser.id.length === 0 ? (
                 <div className={styles.buttonDiv}>
-                  <Button
-                    variant="outlined"
-                    className={styles.button}
-                    onClick={HandleSignupClick}
-                  >
+                  <Button variant="outlined" className={styles.button} onClick={HandleSignupClick}>
                     Sign Up
                   </Button>
-                  <Button
-                    variant="outlined"
-                    className={styles.button}
-                    onClick={HandleLoginClick}
-                  >
+                  <Button variant="outlined" className={styles.button} onClick={HandleLoginClick}>
                     Login
                   </Button>
                 </div>

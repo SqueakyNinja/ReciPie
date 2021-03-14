@@ -6,13 +6,18 @@ export const MenuItems = [
   },
   {
     title: "Recipes",
-    url: "/recipe",
+    url: "#",
     icon: "fas fa-receipt",
 
     subNav: [
       {
         title: "Browse Recipes",
         path: "#",
+        icon: "fas fa-receipt",
+      },
+      {
+        title: "Add New Recipe",
+        path: "/recipe/add",
         icon: "fas fa-receipt",
       },
       {

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
 import styles from "./index.module.scss";
 import { validateLoginInfo } from "./validation";
@@ -46,7 +46,7 @@ const Login = () => {
       try {
         const tryLogin = await sendLogin(user);
         setSnackbar(tryLogin.message, "success");
-        setCurrentUser(tryLogin.user_id);
+        setCurrentUser({ username: tryLogin.username, id: tryLogin.user_id });
         history.push("/");
       } catch (error) {
         setSnackbar(error.response.data.message, "error");

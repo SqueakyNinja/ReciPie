@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Accordion, AccordionDetails, AccordionSummary, Typography, Button } from "@material-ui/core";
 import styles from "./index.module.scss";
 import Step1 from "./Step1/Step1";
@@ -8,13 +8,15 @@ import RecipeDetails from "../MealGenerator/RecipeDetails";
 import { sendRecipe } from "../../api/recipes";
 import { Recipe } from "../../../../common";
 import { useStore } from "../../store";
+import { useHistory } from "react-router";
 
 const CreateRecipe = () => {
-  const { currentUser } = useStore();
+  const { currentUser, setSnackbar } = useStore();
   const [expanded, setExpanded] = useState("");
+  const history = useHistory();
   const [recipe, setRecipe] = useState<Recipe>({
     title: "Test",
-    sourceName: currentUser,
+    sourceName: currentUser.username,
     servings: 4,
     readyInMinutes: 45,
     extendedIngredients: [
@@ -50,12 +52,17 @@ const CreateRecipe = () => {
   const handleSubmit = () => {
     try {
       const addRecipe = sendRecipe(recipe);
-      console.log(addRecipe);
+      console.log(recipe);
     } catch (error) {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    if (currentUser.id.length === 0) {
+      setSnackbar("Please login to use this feature", "info");
+      history.push("/account/login");
+    }
+  }, [currentUser]);
   return (
     <div className={styles.root}>
       <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")}>

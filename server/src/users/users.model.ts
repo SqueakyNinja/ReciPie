@@ -50,6 +50,7 @@ export const userToLogin = async (user: LoginRequest) => {
   if (currentUser.password === user.password) {
     let response = {
       user_id: currentUser.id,
+      username: currentUser.username,
       message: "Login Successful, redirecting to homepage",
     };
     return response;

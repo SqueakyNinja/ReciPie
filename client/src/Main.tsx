@@ -8,7 +8,8 @@ import Homepage from "./pages/Homepage";
 import styles from "./app.module.scss";
 import MealGenerator from "./pages/MealGenerator";
 import MealCard from "./pages/MealGenerator/MealCard";
-import Account from "./pages/Account";
+import Account from "./pages/LoginSignup";
+import Profile from "./pages/Profile";
 
 const Main = () => {
   return (
@@ -18,16 +19,11 @@ const Main = () => {
       <Route exact path="/account/signup" component={Account} />
       <Route exact path="/account/login" component={Account} />
       <Route exact path="/style" component={Style} />
-      <Route exact path="/recipe" component={CreateRecipe} />
-      <Route path="/settings">
-        <Settings />
-      </Route>
-      <Route path="/meal-generator">
-        <MealGenerator />
-      </Route>
-      <Route path="/meal-card/:id">
-        <MealCard />
-      </Route>
+      <Route exact path="/recipe/add" component={CreateRecipe} />
+      <Route exact path="/profile" component={Profile} />
+      <Route exact path="/settings" component={Settings} />
+      <Route exact path="/meal-generator" component={MealGenerator} />
+      <Route exact path="/meal-card/:id" component={MealCard} />
     </Paper>
   );
 };

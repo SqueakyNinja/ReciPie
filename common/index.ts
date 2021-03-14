@@ -36,6 +36,8 @@ export interface User {
   password: string;
 }
 
+export type UserObj = Pick<User, "id" | "username">;
+
 export type LoginRequest = Pick<User, "username" | "password">;
 
 export type NewUser = Pick<User, "username" | "email" | "password">;
