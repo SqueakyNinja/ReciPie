@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { Recipe } from "../../../../common";
+import { Recipe } from "../../../../../common";
 
 export interface RecipeProps {
   recipe: Recipe;

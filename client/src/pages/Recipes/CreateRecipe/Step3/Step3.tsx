@@ -1,4 +1,4 @@
-import styles from "../../Style/index.module.scss";
+import styles from "../index.module.scss";
 import produce from "immer";
 import { TextField, Button } from "@material-ui/core";
 import { RecipeProps } from "../types";

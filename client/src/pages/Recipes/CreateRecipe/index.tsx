@@ -4,10 +4,10 @@ import styles from "./index.module.scss";
 import Step1 from "./Step1/Step1";
 import Step2 from "./Step2/Step2";
 import Step3 from "./Step3/Step3";
-import RecipeDetails from "../MealGenerator/RecipeDetails";
-import { sendRecipe } from "../../api/recipes";
-import { Recipe } from "../../../../common";
-import { useStore } from "../../store";
+import RecipeDetails from "../../MealGenerator/RecipeDetails";
+import { sendRecipe } from "../../../api/recipes";
+import { Recipe } from "../../../../../common";
+import { useStore } from "../../../store";
 import { useHistory } from "react-router";
 
 const CreateRecipe = () => {

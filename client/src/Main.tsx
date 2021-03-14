@@ -1,4 +1,3 @@
-import CreateRecipe from "./pages/CreateRecipe";
 import Style from "./pages/Style";
 import Settings from "./pages/Settings";
 import { Paper } from "@material-ui/core";
@@ -10,6 +9,7 @@ import MealGenerator from "./pages/MealGenerator";
 import MealCard from "./pages/MealGenerator/MealCard";
 import Account from "./pages/LoginSignup";
 import Profile from "./pages/Profile";
+import CreateRecipe from "./pages/Recipes/CreateRecipe";
 
 const Main = () => {
   return (

@@ -1,7 +1,7 @@
 import produce from "immer";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
-import { Recipe, Step } from "../../../../../common";
+import { Recipe, Step } from "../../../../../../common";
 import SortableListRowStep3 from "./SortableListRowStep3";
 
 interface CreateRecipeStep3Props {

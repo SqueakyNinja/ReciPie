@@ -2,7 +2,7 @@ import { Button } from "@material-ui/core";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import SortableListRow from "./SortableListRow";
 import { ReactSortable } from "react-sortablejs";
-import { ExtendedIngredient, Recipe } from "../../../../../common";
+import { ExtendedIngredient, Recipe } from "../../../../../../common";
 
 interface SortableListProps {
   recipe: Recipe;

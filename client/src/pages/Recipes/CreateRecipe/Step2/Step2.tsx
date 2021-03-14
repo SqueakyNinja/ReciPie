@@ -1,13 +1,13 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import axios, { AxiosResponse } from "axios";
-import styles from "../../Style/index.module.scss";
+import styles from "../index.module.scss";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { Button, TextField, FormControl, Select, InputLabel, MenuItem } from "@material-ui/core";
 import { FilterOptionsState } from "@material-ui/lab/useAutocomplete";
 import SortableList from "./SortableList";
-import { useStore } from "../../../store";
+import { useStore } from "../../../../store";
 import { RecipeStepProps } from "../types";
-import { ExtendedIngredient } from "../../../../../common";
+import { ExtendedIngredient } from "../../../../../../common";
 
 interface Ingredient {
   category: string;

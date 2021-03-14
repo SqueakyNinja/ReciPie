@@ -1,4 +1,4 @@
-import styles from "../../Style/index.module.scss";
+import styles from "../index.module.scss";
 import { ChangeEvent } from "react";
 import { RecipeStepProps } from "../types";
 import { TextField, Button } from "@material-ui/core";
