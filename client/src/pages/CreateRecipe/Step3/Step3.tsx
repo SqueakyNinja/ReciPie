@@ -1,14 +1,14 @@
-import styles from "../../Style/index.module.scss";
-import produce from "immer";
-import { TextField, Button } from "@material-ui/core";
-import { RecipeProps } from "../types";
-import SortableListStep3 from "./SortableListStep3";
-import { ChangeEvent, useState } from "react";
+import styles from '../index.module.scss';
+import produce from 'immer';
+import { TextField, Button } from '@material-ui/core';
+import { RecipeProps } from '../types';
+import SortableListStep3 from './SortableListStep3';
+import { ChangeEvent, useState } from 'react';
 
 const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
   const [firstAdd, setFirstAdd] = useState(true);
   const [editMode, setEditMode] = useState(false);
-  const [step, setStep] = useState("");
+  const [step, setStep] = useState('');
 
   const addStep = () => {
     if (step.length > 0) {
@@ -27,7 +27,7 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
       });
 
       setRecipe(updatedRecipe);
-      setStep("");
+      setStep('');
     } else {
       // setSnackbar("Please enter instructions in the field below", "error")
     }
@@ -35,17 +35,20 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
 
   return (
     <div>
-      <div className="Step3">
+      <div className={styles.Step1}>
         <TextField
-          variant="outlined"
-          label="Add Instructions"
+          className={styles.textfield}
+          variant='outlined'
+          label='Add Instructions'
           value={step}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setStep(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setStep(e.target.value)
+          }
         />
 
         <Button
-          color="primary"
-          variant="contained"
+          color='primary'
+          variant='contained'
           className={styles.secondaryButton}
           onClick={addStep}
           disabled={editMode}
@@ -55,10 +58,19 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
       </div>
       <div>
         {recipe.analyzedInstructions && (
-          <SortableListStep3 recipe={recipe} setRecipe={setRecipe} editMode={editMode} setStep={setStep} />
+          <SortableListStep3
+            recipe={recipe}
+            setRecipe={setRecipe}
+            editMode={editMode}
+            setStep={setStep}
+          />
         )}
-        <Button variant="contained" color="primary" onClick={() => setEditMode(!editMode)}>
-          {editMode ? "Done" : "Edit order"}
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => setEditMode(!editMode)}
+        >
+          {editMode ? 'Done' : 'Edit order'}
         </Button>
       </div>
     </div>

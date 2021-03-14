@@ -62,7 +62,7 @@ const CreateRecipe = () => {
           <Accordion
             expanded={expanded === 'panel1'}
             onChange={handleChange('panel1')}
-            className={styles.stepOne}
+            className={styles.accordion}
           >
             <AccordionSummary
               className={`${styles.accordionHeader} `}
@@ -86,6 +86,7 @@ const CreateRecipe = () => {
           <Accordion
             expanded={expanded === 'panel2'}
             onChange={handleChange('panel2')}
+            className={styles.accordion}
           >
             <AccordionSummary
               className={styles.accordionHeader}
@@ -106,6 +107,7 @@ const CreateRecipe = () => {
           <Accordion
             expanded={expanded === 'panel3'}
             onChange={handleChange('panel3')}
+            className={styles.accordion}
           >
             <AccordionSummary
               className={styles.accordionHeader}

@@ -4,17 +4,36 @@
 
 .accordionHeader {
   background-color: $primary;
+  border-radius: 4px !important;
+  margin: 0 5px 0 5px !important;
+  padding: 5px !important;
+}
+
+.flexContainer {
+  margin: 0 10px 0 10px;
+  padding: 10px;
 }
 
 /// ----- STEPS, GENERAL ----- /////
 .textfield {
-  margin: 20px;
+  margin: 10px !important;
 }
-//TODO: Få detta att funka. Funkar om jag kommenterar ut koden och sedan aktiverar den igen, men inte om sidan laddas om.
 
 ///// ----- STEP 1 ----- /////
 
 .Step1 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Step2 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Step3 {
   width: 100%;
   display: flex;
   flex-direction: column;

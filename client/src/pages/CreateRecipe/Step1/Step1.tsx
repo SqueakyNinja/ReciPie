@@ -1,6 +1,5 @@
-// import styles from './index.module.scss';
 import styles from '../index.module.scss';
-//TVÅ OLIKA STYLE SHEETS?? HUR GÖRA?
+
 import { ChangeEvent } from 'react';
 import { RecipeStepProps } from '../types';
 import { TextField, Button } from '@material-ui/core';
