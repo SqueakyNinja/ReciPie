@@ -39,7 +39,7 @@ const Step1 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
           name='readyInMinutes'
           onChange={handleChange}
         />
-        <ImageDrop />
+        <ImageDrop recipe={recipe} setRecipe={setRecipe} />
 
         <Button
           className={`${styles.secondaryButton} ${styles.nextButton}`}

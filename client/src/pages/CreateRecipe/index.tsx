@@ -36,7 +36,7 @@ const CreateRecipe = () => {
       },
     ],
     instructions: {},
-    image: 'http://placekitten.com/400/200',
+    image: '',
     dishTypes: [],
     analyzedInstructions: [
       {

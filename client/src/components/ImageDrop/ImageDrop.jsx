@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import styles from './index.module.scss';
 
-const ImageDrop = () => {
+const ImageDrop = ({ recipe, setRecipe }) => {
   const [files, setFiles] = useState([]);
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -16,6 +16,12 @@ const ImageDrop = () => {
       );
     },
   });
+
+  useEffect(() => {
+    if (files.length > 0) {
+      setRecipe({ ...recipe, image: files[0].preview });
+    }
+  }, [files]);
 
   const image = files.map((file) => (
     <div key={file.name}>
@@ -31,8 +37,6 @@ const ImageDrop = () => {
         <input {...getInputProps()} />
         <p>Click or drag and drop image here</p>
       </div>
-
-      <div>{image}</div>
     </div>
   );
 };
