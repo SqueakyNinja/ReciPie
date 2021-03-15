@@ -108,58 +108,57 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
   });
 
   return (
-    <div className={styles.Step2}>
-      <Autocomplete
-        className={styles.textfield}
-        forcePopupIcon={false}
-        open={open}
-        inputValue={ingredient}
-        onInputChange={handleIngredientChange}
-        onClose={() => {
-          setOpen(false);
-        }}
-        filterOptions={filterOptions}
-        getOptionSelected={(option: Ingredient, value: Ingredient) =>
-          option.name === value.name
-        }
-        getOptionLabel={(ingredient: any) => ingredient.name}
-        options={ingredientsOptions}
-        renderInput={(params) => (
+    <div className={styles.steps}>
+      <div className={styles.Step2}>
+        <Autocomplete
+          forcePopupIcon={false}
+          open={open}
+          inputValue={ingredient}
+          onInputChange={handleIngredientChange}
+          onClose={() => {
+            setOpen(false);
+          }}
+          filterOptions={filterOptions}
+          getOptionSelected={(option: Ingredient, value: Ingredient) =>
+            option.name === value.name
+          }
+          getOptionLabel={(ingredient: any) => ingredient.name}
+          options={ingredientsOptions}
+          renderInput={(params) => (
+            <TextField
+              className={styles.textfield}
+              {...params}
+              label='Search Ingredient'
+              variant='outlined'
+              name='name'
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: <>{params.InputProps.endAdornment}</>,
+              }}
+            />
+          )}
+        />
+        <div className={styles.step2Measurements}>
           <TextField
             className={styles.textfield}
-            {...params}
-            label='Search Ingredient'
             variant='outlined'
-            name='name'
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: <>{params.InputProps.endAdornment}</>,
-            }}
+            label='Measurements, amount'
+            type='number'
+            name='amount'
+            value={amount}
+            onChange={handleAmountChange}
           />
-        )}
-      />
 
-      <div className='Step2Measurement'>
-        <TextField
-          className={styles.textfield}
-          variant='outlined'
-          label='Measurements, amount'
-          type='number'
-          name='amount'
-          value={amount}
-          onChange={handleAmountChange}
-        />
+          <FormControl variant='outlined' className={styles.textfield}>
+            <InputLabel>Units</InputLabel>
 
-        <FormControl variant='outlined'>
-          <InputLabel>Units</InputLabel>
-
-          <Select
-            label='Grouping'
-            name='unitShort'
-            value={unitShort}
-            onChange={handleSelectChange}
-          >
-            {/* <MenuItem value="" disabled>
+            <Select
+              label='Grouping'
+              name='unitShort'
+              value={unitShort}
+              onChange={handleSelectChange}
+            >
+              {/* <MenuItem value="" disabled>
               Imperial
             </MenuItem>
             <MenuItem value="tsp">teaspoon (tsp)</MenuItem>
@@ -170,54 +169,55 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
             <MenuItem value="qt">quart (qt)</MenuItem>
             <MenuItem value="gal">gallon (gal)</MenuItem>
             <MenuItem value="lb">pound (lb)</MenuItem> */}
-            <MenuItem value='' disabled>
-              Metric
-            </MenuItem>
+              <MenuItem value='' disabled>
+                Metric
+              </MenuItem>
 
-            <MenuItem value=''>None</MenuItem>
-            <MenuItem value='tsp'>teaspoon (tsp)</MenuItem>
-            <MenuItem value='tbsp'>tablespoon (tbsp)</MenuItem>
-            <MenuItem value='ml'>milliliter (ml)</MenuItem>
-            <MenuItem value='cl'>centiliter (cl)</MenuItem>
-            <MenuItem value='dl'>deciliter (dl)</MenuItem>
-            <MenuItem value='l'>liter (l)</MenuItem>
-            <MenuItem value='g'>grams (g)</MenuItem>
-            <MenuItem value='kg'>kilograms (kg)</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
+              <MenuItem value=''>None</MenuItem>
+              <MenuItem value='tsp'>teaspoon (tsp)</MenuItem>
+              <MenuItem value='tbsp'>tablespoon (tbsp)</MenuItem>
+              <MenuItem value='ml'>milliliter (ml)</MenuItem>
+              <MenuItem value='cl'>centiliter (cl)</MenuItem>
+              <MenuItem value='dl'>deciliter (dl)</MenuItem>
+              <MenuItem value='l'>liter (l)</MenuItem>
+              <MenuItem value='g'>grams (g)</MenuItem>
+              <MenuItem value='kg'>kilograms (kg)</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <Button
+          color='primary'
+          variant='contained'
+          className={`${styles.secondaryButton} ${styles.addEditButton}`}
+          onClick={addIngredient}
+          disabled={editMode}
+        >
+          Add Ingredient
+        </Button>
 
-      <Button
-        color='primary'
-        variant='contained'
-        className={styles.secondaryButton}
-        onClick={addIngredient}
-        disabled={editMode}
-      >
-        Add Ingredient
-      </Button>
-      <Button
-        color='primary'
-        variant='contained'
-        className={`${styles.secondaryButton} ${styles.nextButton}`}
-        onClick={() => setExpanded('panel3')}
-        disabled={editMode}
-      >
-        Next
-      </Button>
+        <div className={styles.listOfIngredients}>
+          {recipe.extendedIngredients && (
+            <SortableList
+              recipe={recipe}
+              setRecipe={setRecipe}
+              setIngredient={setIngredient}
+              setAmount={setAmount}
+              setUnitShort={setUnitShort}
+              editMode={editMode}
+              setEditMode={setEditMode}
+            />
+          )}
+        </div>
 
-      <div className={styles.listOfIngredients}>
-        {recipe.extendedIngredients && (
-          <SortableList
-            recipe={recipe}
-            setRecipe={setRecipe}
-            setIngredient={setIngredient}
-            setAmount={setAmount}
-            setUnitShort={setUnitShort}
-            editMode={editMode}
-            setEditMode={setEditMode}
-          />
-        )}
+        <Button
+          color='primary'
+          variant='contained'
+          className={`${styles.secondaryButton} ${styles.nextButton}`}
+          onClick={() => setExpanded('panel3')}
+          disabled={editMode}
+        >
+          Next
+        </Button>
       </div>
     </div>
   );

@@ -1,8 +1,9 @@
-import { Button } from "@material-ui/core";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ExtendedIngredient, Recipe, RecipeProps } from "../types";
-import SortableListRow from "./SortableListRow";
-import { ReactSortable } from "react-sortablejs";
+import { Button } from '@material-ui/core';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { ExtendedIngredient, Recipe, RecipeProps } from '../types';
+import SortableListRow from './SortableListRow';
+import { ReactSortable } from 'react-sortablejs';
+import styles from '../index.module.scss';
 
 interface SortableListProps {
   recipe: Recipe;
@@ -56,45 +57,56 @@ const SortableList = ({
             list={extendedIngredientsCopy}
             setList={updateExtentedIngredients}
             animation={150}
-            chosenClass="draggingRow"
-            handle=".handleDrag"
+            chosenClass='draggingRow'
+            handle='.handleDrag'
           >
             {recipe.extendedIngredients &&
-              recipe.extendedIngredients.map((ingredient: ExtendedIngredient, index: number) => (
-                <SortableListRow
-                  ingredient={ingredient}
-                  index={index}
-                  recipe={recipe}
-                  setRecipe={setRecipe}
-                  key={index}
-                  setIngredient={setIngredient}
-                  setAmount={setAmount}
-                  setUnitShort={setUnitShort}
-                  editMode={editMode}
-                />
-              ))}
+              recipe.extendedIngredients.map(
+                (ingredient: ExtendedIngredient, index: number) => (
+                  <SortableListRow
+                    ingredient={ingredient}
+                    index={index}
+                    recipe={recipe}
+                    setRecipe={setRecipe}
+                    key={index}
+                    setIngredient={setIngredient}
+                    setAmount={setAmount}
+                    setUnitShort={setUnitShort}
+                    editMode={editMode}
+                  />
+                )
+              )}
           </ReactSortable>
         ) : (
           recipe.extendedIngredients &&
-          recipe.extendedIngredients.map((ingredient: ExtendedIngredient, index: number) => (
-            <SortableListRow
-              ingredient={ingredient}
-              index={index}
-              recipe={recipe}
-              setRecipe={setRecipe}
-              key={index}
-              setIngredient={setIngredient}
-              setAmount={setAmount}
-              setUnitShort={setUnitShort}
-              editMode={editMode}
-            />
-          ))
+          recipe.extendedIngredients.map(
+            (ingredient: ExtendedIngredient, index: number) => (
+              <SortableListRow
+                ingredient={ingredient}
+                index={index}
+                recipe={recipe}
+                setRecipe={setRecipe}
+                key={index}
+                setIngredient={setIngredient}
+                setAmount={setAmount}
+                setUnitShort={setUnitShort}
+                editMode={editMode}
+              />
+            )
+          )
         )}
       </div>
+
       <div>
-        <Button variant="contained" color="primary" onClick={handleEditmode}>
-          {editMode ? "Done" : "Edit order"}
-        </Button>
+        {recipe.extendedIngredients[0].name.length > 0 && (
+          <Button
+            className={`${styles.secondaryButton} ${styles.addEditButton}`}
+            variant='contained'
+            onClick={handleEditmode}
+          >
+            {editMode ? 'Done' : 'Edit order'}
+          </Button>
+        )}
       </div>
     </div>
   );

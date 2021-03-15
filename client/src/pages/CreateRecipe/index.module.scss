@@ -6,37 +6,48 @@
   background-color: $primary;
   border-radius: 4px !important;
   margin: 0 5px 0 5px !important;
-  padding: 5px !important;
 }
 
 .flexContainer {
   margin: 0 10px 0 10px;
   padding: 10px;
-}
+  border: 1px solid black;
 
-/// ----- STEPS, GENERAL ----- /////
-.textfield {
-  margin: 10px !important;
-}
+  .accordionBox {
+    border: 1px solid red;
 
-///// ----- STEP 1 ----- /////
+    .steps {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
 
-.Step1 {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
+      .textfield {
+        margin: 10px;
+        width: 100%;
+      }
+      .nextButton {
+        margin-top: 20px;
+        width: 100%;
+        float: right;
+      }
 
-.Step2 {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
+      .addEditButton {
+        width: 35%;
+      }
 
-.Step3 {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+      .Step2 {
+        .step2Measurements {
+          display: flex;
+        }
+      }
+    }
+    .submitButtonDiv {
+      margin: 15px 5px 0 5px;
+      .submitButton {
+        width: 100%;
+      }
+    }
+  }
 }
 
 ///// ----- STEP 2 ----- /////
@@ -69,8 +80,10 @@
     }
   }
 
-  //STEPS
-  .nextButton {
-    align-self: flex-end;
+  .steps {
+    .nextButton {
+      max-width: 20%;
+      align-self: flex-end;
+    }
   }
 }

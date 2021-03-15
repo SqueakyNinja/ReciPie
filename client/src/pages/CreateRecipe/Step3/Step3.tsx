@@ -34,8 +34,8 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
   };
 
   return (
-    <div>
-      <div className={styles.Step1}>
+    <div className={styles.steps}>
+      <div className={styles.Step3}>
         <TextField
           className={styles.textfield}
           variant='outlined'
@@ -47,31 +47,34 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
         />
 
         <Button
+          className={`${styles.secondaryButton} ${styles.addEditButton}`}
           color='primary'
           variant='contained'
-          className={styles.secondaryButton}
           onClick={addStep}
           disabled={editMode}
         >
           Add step
         </Button>
       </div>
+
       <div>
-        {recipe.analyzedInstructions && (
-          <SortableListStep3
-            recipe={recipe}
-            setRecipe={setRecipe}
-            editMode={editMode}
-            setStep={setStep}
-          />
+        {recipe.analyzedInstructions[0].steps[0].step.length > 0 && (
+          <>
+            <SortableListStep3
+              recipe={recipe}
+              setRecipe={setRecipe}
+              editMode={editMode}
+              setStep={setStep}
+            />
+            <Button
+              className={`${styles.secondaryButton} ${styles.addEditButton}`}
+              variant='contained'
+              onClick={() => setEditMode(!editMode)}
+            >
+              {editMode ? 'Done' : 'Edit order'}
+            </Button>
+          </>
         )}
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={() => setEditMode(!editMode)}
-        >
-          {editMode ? 'Done' : 'Edit order'}
-        </Button>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ import RecipeDetails from '../MealGenerator/RecipeDetails';
 import { Recipe } from './types';
 
 const CreateRecipe = () => {
-  const [expanded, setExpanded] = useState('');
+  const [expanded, setExpanded] = useState('panel1');
   const [recipe, setRecipe] = useState<Recipe>({
     id: 0,
     title: '',
@@ -122,17 +122,17 @@ const CreateRecipe = () => {
               <Step3 recipe={recipe} setRecipe={setRecipe} />
             </AccordionDetails>
           </Accordion>
-          <div>
+          <div className={styles.submitButtonDiv}>
             <Button
               color='primary'
               variant='contained'
-              className={styles.secondaryButton}
+              className={`${styles.secondaryButton} ${styles.submitButton}`}
             >
               Submit
             </Button>
           </div>
         </div>
-        {/* accordionBox ends */}
+        {/* accordionBox ends above */}
 
         <div className={styles.recipeDetailsBox}>
           <RecipeDetails recipe={recipe} />

@@ -11,41 +11,43 @@ const Step1 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
   };
 
   return (
-    <div className={styles.Step1}>
-      <TextField
-        className={`${styles.recipeName} ${styles.textfield}`}
-        variant='outlined'
-        label='Name of Recipe'
-        name='title'
-        onChange={handleChange}
-      />
+    <div className={styles.steps}>
+      <div className={styles.Step1}>
+        <TextField
+          className={`${styles.recipeName} ${styles.textfield}`}
+          variant='outlined'
+          label='Name of Recipe'
+          name='title'
+          onChange={handleChange}
+        />
 
-      <TextField
-        className={`${styles.recipeServings} ${styles.textfield}`}
-        variant='outlined'
-        label='Number of portions'
-        type='number'
-        name='servings'
-        onChange={handleChange}
-      />
+        <TextField
+          className={`${styles.recipeServings} ${styles.textfield}`}
+          variant='outlined'
+          label='Number of portions'
+          type='number'
+          name='servings'
+          onChange={handleChange}
+        />
 
-      <TextField
-        className={`${styles.recipeTime} ${styles.textfield}`}
-        variant='outlined'
-        label='Estimated time (minutes)'
-        type='number'
-        name='readyInMinutes'
-        onChange={handleChange}
-      />
+        <TextField
+          className={`${styles.recipeTime} ${styles.textfield}`}
+          variant='outlined'
+          label='Estimated time (minutes)'
+          type='number'
+          name='readyInMinutes'
+          onChange={handleChange}
+        />
 
-      <Button
-        className={`${styles.secondaryButton} ${styles.nextButton}`}
-        color='primary'
-        variant='contained'
-        onClick={() => setExpanded('panel2')}
-      >
-        Next
-      </Button>
+        <Button
+          className={`${styles.secondaryButton} ${styles.nextButton}`}
+          color='primary'
+          variant='contained'
+          onClick={() => setExpanded('panel2')}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 };
