@@ -12,14 +12,21 @@
     .accordionHeader {
       background-color: $primaryHover;
       border-radius: 4px;
-      margin: 0 5px 0 5px;
+      // margin: 0 5px 0 5px;
 
       .heading {
         font-weight: 600;
+        color: white;
       }
     }
 
     .accordionBox {
+      max-height: 75vh;
+      overflow-y: auto;
+
+      > div {
+        box-shadow: none;
+      }
       .active {
         background-color: $primary;
       }
@@ -39,7 +46,7 @@
         }
 
         .addEditButton {
-          width: 35%;
+          width: fit-content;
         }
         .doneButton {
           background-color: $primary;
@@ -58,17 +65,18 @@
         }
       }
     }
+
+    .recipeDetailsBox {
+      max-height: 75vh;
+      overflow-y: auto;
+    }
   }
 }
 
 .submitButtonDiv {
-  margin: 15px 5px 0 5px;
+  margin: 15px 5px 10px 5px;
   display: flex;
   justify-content: center;
-  .submitButton {
-    width: 40%;
-    font-size: 1.5rem;
-  }
 }
 
 ///// ----- STEP 2 ----- /////
