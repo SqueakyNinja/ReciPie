@@ -193,7 +193,7 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
         <Button
           color='primary'
           variant='contained'
-          className={`${styles.secondaryButton} ${styles.addEditButton}`}
+          className={`${styles.secondaryButton} ${styles.addButton}`}
           onClick={addIngredient}
           disabled={editMode}
         >
@@ -214,12 +214,12 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
           )}
         </div>
 
-        <div>
+        <div className={styles.buttonContainer}>
           {recipe.extendedIngredients[0].name.length > 0 && (
             <Button
               className={combineClasses(
                 styles.secondaryButton,
-                styles.addEditButton,
+                styles.editButton,
                 editMode && styles.doneButton
               )}
               variant='contained'

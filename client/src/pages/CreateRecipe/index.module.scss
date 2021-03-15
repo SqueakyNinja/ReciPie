@@ -40,14 +40,11 @@
           margin: 10px auto;
           width: 100%;
         }
+
         .nextButton {
-          margin-top: 20px;
           width: 100%;
         }
 
-        .addEditButton {
-          width: fit-content;
-        }
         .doneButton {
           background-color: $primary;
         }
@@ -76,7 +73,7 @@
 .submitButtonDiv {
   margin: 15px 5px 10px 5px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 ///// ----- STEP 2 ----- /////
@@ -102,19 +99,30 @@
 
     .accordionBox {
       flex: 50%;
+
+      .nextButton {
+        max-width: fit-content;
+        float: right;
+      }
+
+      .buttonContainer {
+        width: 100%;
+        display: flex;
+
+        .nextButton {
+          max-width: fit-content;
+          margin-left: auto;
+        }
+
+        .editButton {
+          max-height: fit-content;
+          margin-right: auto;
+        }
+      }
     }
 
     .recipeDetailsBox {
       flex: 50%;
-    }
-  }
-
-  .steps {
-    .nextButton {
-      max-width: 20%;
-      // align-self: flex-end;
-      // margin-right: 10px auto;
-      float: right;
     }
   }
 }

@@ -48,7 +48,7 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
         />
 
         <Button
-          className={`${styles.secondaryButton} ${styles.addEditButton}`}
+          className={`${styles.secondaryButton} ${styles.addButton}`}
           color='primary'
           variant='contained'
           onClick={addStep}
@@ -70,7 +70,7 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
             <Button
               className={combineClasses(
                 styles.secondaryButton,
-                styles.addEditButton,
+                styles.editButton,
                 editMode && styles.doneButton
               )}
               variant='contained'
