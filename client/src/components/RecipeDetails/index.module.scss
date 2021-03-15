@@ -1,0 +1,47 @@
+@import '../../app.global.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5em;
+  margin-top: 30px;
+  padding-left: 30px;
+
+  .img {
+    max-width: 75%;
+    align-self: center;
+  }
+
+  h2 {
+    text-align: center;
+    margin: 10px 0 10px 0;
+  }
+
+  .recipeName {
+    text-align: center;
+    margin: 10px 0 10px 0;
+  }
+
+  .icon {
+    text-align: center;
+    margin: 10px 0 10px 0;
+  }
+
+  .shortInfo {
+    margin-bottom: 15px;
+  }
+
+  .ingredients {
+    margin-bottom: 15px;
+
+    // ul {
+    //   list-style: none;
+    // }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .container {
+    margin-top: 0px;
+  }
+}

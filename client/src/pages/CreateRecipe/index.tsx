@@ -11,7 +11,7 @@ import styles from './index.module.scss';
 import Step1 from './Step1/Step1';
 import Step2 from './Step2/Step2';
 import Step3 from './Step3/Step3';
-import RecipeDetails from '../MealGenerator/RecipeDetails';
+import RecipeDetails from '../../components/RecipeDetails/RecipeDetails';
 import { Recipe } from './types';
 import { combineClasses } from '../../utils';
 
@@ -132,15 +132,6 @@ const CreateRecipe = () => {
               <Step3 recipe={recipe} setRecipe={setRecipe} />
             </AccordionDetails>
           </Accordion>
-          <div className={styles.submitButtonDiv}>
-            <Button
-              color='primary'
-              variant='contained'
-              className={`${styles.secondaryButton} ${styles.submitButton}`}
-            >
-              Submit
-            </Button>
-          </div>
         </div>
         {/* accordionBox ends above */}
 
@@ -149,6 +140,15 @@ const CreateRecipe = () => {
         </div>
       </div>
       {/* FlexContainer ends above */}
+      <div className={styles.submitButtonDiv}>
+        <Button
+          color='primary'
+          variant='contained'
+          className={`${styles.secondaryButton} ${styles.submitButton}`}
+        >
+          Submit
+        </Button>
+      </div>
     </div>
   );
 };
