@@ -3,7 +3,7 @@
 ///// ----- INDEX ----- /////
 
 .accordionHeader {
-  background-color: $primary;
+  background-color: $primaryHover;
   border-radius: 4px !important;
   margin: 0 5px 0 5px !important;
 }
@@ -15,6 +15,10 @@
 
   .accordionBox {
     border: 1px solid red;
+
+    .active {
+      background-color: $primary;
+    }
 
     .steps {
       width: 100%;
@@ -33,6 +37,9 @@
 
       .addEditButton {
         width: 35%;
+      }
+      .doneButton {
+        background-color: $primary;
       }
 
       .Step2 {

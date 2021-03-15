@@ -4,6 +4,7 @@ import { TextField, Button } from '@material-ui/core';
 import { RecipeProps } from '../types';
 import SortableListStep3 from './SortableListStep3';
 import { ChangeEvent, useState } from 'react';
+import { combineClasses } from '../../../utils';
 
 const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
   const [firstAdd, setFirstAdd] = useState(true);
@@ -67,7 +68,11 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
               setStep={setStep}
             />
             <Button
-              className={`${styles.secondaryButton} ${styles.addEditButton}`}
+              className={combineClasses(
+                styles.secondaryButton,
+                styles.addEditButton,
+                editMode && styles.doneButton
+              )}
               variant='contained'
               onClick={() => setEditMode(!editMode)}
             >

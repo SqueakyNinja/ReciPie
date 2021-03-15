@@ -13,6 +13,7 @@ import Step2 from './Step2/Step2';
 import Step3 from './Step3/Step3';
 import RecipeDetails from '../MealGenerator/RecipeDetails';
 import { Recipe } from './types';
+import { combineClasses } from '../../utils';
 
 const CreateRecipe = () => {
   const [expanded, setExpanded] = useState('panel1');
@@ -65,7 +66,10 @@ const CreateRecipe = () => {
             className={styles.accordion}
           >
             <AccordionSummary
-              className={`${styles.accordionHeader} `}
+              className={combineClasses(
+                styles.accordionHeader,
+                expanded === 'panel1' && styles.active
+              )}
               aria-controls='panel1bh-content'
               id='panel1bh-header'
             >
@@ -89,7 +93,10 @@ const CreateRecipe = () => {
             className={styles.accordion}
           >
             <AccordionSummary
-              className={styles.accordionHeader}
+              className={combineClasses(
+                styles.accordionHeader,
+                expanded === 'panel2' && styles.active
+              )}
               aria-controls='panel2bh-content'
               id='panel2bh-header'
             >
@@ -110,7 +117,10 @@ const CreateRecipe = () => {
             className={styles.accordion}
           >
             <AccordionSummary
-              className={styles.accordionHeader}
+              className={combineClasses(
+                styles.accordionHeader,
+                expanded === 'panel3' && styles.active
+              )}
               aria-controls='panel3bh-content'
               id='panel3bh-header'
             >

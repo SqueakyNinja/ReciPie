@@ -4,6 +4,7 @@ import { ExtendedIngredient, Recipe, RecipeProps } from '../types';
 import SortableListRow from './SortableListRow';
 import { ReactSortable } from 'react-sortablejs';
 import styles from '../index.module.scss';
+import { combineClasses } from '../../../utils';
 
 interface SortableListProps {
   recipe: Recipe;
@@ -100,7 +101,11 @@ const SortableList = ({
       <div>
         {recipe.extendedIngredients[0].name.length > 0 && (
           <Button
-            className={`${styles.secondaryButton} ${styles.addEditButton}`}
+            className={combineClasses(
+              styles.secondaryButton,
+              styles.addEditButton,
+              editMode && styles.doneButton
+            )}
             variant='contained'
             onClick={handleEditmode}
           >
