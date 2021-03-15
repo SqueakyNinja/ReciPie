@@ -16,7 +16,7 @@ const CreateRecipe = () => {
   const history = useHistory();
   const [recipe, setRecipe] = useState<Recipe>({
     title: "Test",
-    sourceName: currentUser.username,
+    sourceName: "",
     servings: 4,
     readyInMinutes: 45,
     extendedIngredients: [
@@ -43,6 +43,7 @@ const CreateRecipe = () => {
         ],
       },
     ],
+    createdBy: currentUser.id,
   });
 
   const handleChange = (panel: any) => (event: any, isExpanded: any) => {

@@ -8,6 +8,8 @@ export interface Recipe {
   image: string;
   dishTypes: string[];
   analyzedInstructions: AnalysedInstructions[];
+  createdBy?: string;
+  apiId?: number;
 }
 
 export interface ExtendedIngredient {
@@ -41,10 +43,10 @@ export type UserObj = Pick<User, "id" | "username">;
 export type LoginRequest = Pick<User, "username" | "password">;
 
 export type NewUser = Pick<User, "username" | "email" | "password">;
-export interface UserRecipesMap {
+export interface UsersRecipesMap {
   id: string;
-  user_id: string;
-  recipe_id: string;
+  userId: string;
+  recipeId: string;
 }
 
 export interface IngredientsForRecipe {

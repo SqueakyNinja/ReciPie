@@ -10,6 +10,7 @@ import MealCard from "./pages/MealGenerator/MealCard";
 import Account from "./pages/LoginSignup";
 import Profile from "./pages/Profile";
 import CreateRecipe from "./pages/Recipes/CreateRecipe";
+import MyRecipes from "./pages/Recipes/MyRecipes";
 
 const Main = () => {
   return (
@@ -19,7 +20,8 @@ const Main = () => {
       <Route exact path="/account/signup" component={Account} />
       <Route exact path="/account/login" component={Account} />
       <Route exact path="/style" component={Style} />
-      <Route exact path="/recipe/add" component={CreateRecipe} />
+      <Route exact path="/recipes/add" component={CreateRecipe} />
+      <Route exact path="/recipes/my-recipes" component={MyRecipes} />
       <Route exact path="/profile" component={Profile} />
       <Route exact path="/settings" component={Settings} />
       <Route exact path="/meal-generator" component={MealGenerator} />

@@ -17,12 +17,12 @@ export const MenuItems = [
       },
       {
         title: "Add New Recipe",
-        path: "/recipe/add",
+        path: "/recipes/add",
         icon: "fas fa-receipt",
       },
       {
         title: "My Recipes",
-        path: "#",
+        path: "/recipes/my-recipes",
         icon: "fas fa-receipt",
       },
     ],
