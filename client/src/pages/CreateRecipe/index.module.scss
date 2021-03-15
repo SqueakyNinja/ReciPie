@@ -1,50 +1,60 @@
 @import '../../app.global.scss';
 
-///// ----- INDEX ----- /////
+.root {
+  h1 {
+    margin-left: 20px;
+    padding-left: 10px;
+  }
+  .flexContainer {
+    margin: 0 10px 0 10px;
+    padding: 10px;
 
-.accordionHeader {
-  background-color: $primaryHover;
-  border-radius: 4px !important;
-  margin: 0 5px 0 5px !important;
-}
+    .accordionHeader {
+      background-color: $primaryHover;
+      border-radius: 4px;
+      margin: 0 5px 0 5px;
 
-.flexContainer {
-  margin: 0 10px 0 10px;
-  padding: 10px;
-  border: 1px solid black;
-
-  .accordionBox {
-    border: 1px solid red;
-
-    .active {
-      background-color: $primary;
+      .heading {
+        font-weight: 600;
+      }
     }
 
-    .steps {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-
-      .textfield {
-        margin: 10px;
-        width: 100%;
-      }
-      .nextButton {
-        margin-top: 20px;
-        width: 100%;
-        float: right;
-      }
-
-      .addEditButton {
-        width: 35%;
-      }
-      .doneButton {
+    .accordionBox {
+      .active {
         background-color: $primary;
       }
 
-      .Step2 {
-        .step2Measurements {
-          display: flex;
+      .steps {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .textfield {
+          margin: 10px auto;
+          width: 100%;
+        }
+        .nextButton {
+          margin-top: 20px;
+          width: 100%;
+        }
+
+        .addEditButton {
+          width: 35%;
+        }
+        .doneButton {
+          background-color: $primary;
+        }
+
+        .Step1 {
+          .imageDrop {
+            justify-self: center;
+          }
+        }
+
+        .Step2 {
+          .step2Measurements {
+            display: flex;
+          }
         }
       }
     }
@@ -94,7 +104,9 @@
   .steps {
     .nextButton {
       max-width: 20%;
-      align-self: flex-end;
+      // align-self: flex-end;
+      // margin-right: 10px auto;
+      float: right;
     }
   }
 }

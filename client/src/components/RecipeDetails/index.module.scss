@@ -34,9 +34,15 @@
   .ingredients {
     margin-bottom: 15px;
 
-    // ul {
-    //   list-style: none;
-    // }
+    ul {
+      list-style-position: inside;
+    }
+  }
+
+  .instructions {
+    ol {
+      list-style-type: none;
+    }
   }
 }
 

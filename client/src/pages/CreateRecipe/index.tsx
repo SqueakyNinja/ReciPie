@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -12,6 +12,7 @@ import Step1 from './Step1/Step1';
 import Step2 from './Step2/Step2';
 import Step3 from './Step3/Step3';
 import RecipeDetails from '../../components/RecipeDetails/RecipeDetails';
+
 import { Recipe } from './types';
 import { combineClasses } from '../../utils';
 
@@ -57,7 +58,7 @@ const CreateRecipe = () => {
 
   return (
     <div className={styles.root}>
-      <h1>Create Recipe</h1>
+      <h1>Create your own recipe</h1>
       <div className={styles.flexContainer}>
         <div className={styles.accordionBox}>
           <Accordion

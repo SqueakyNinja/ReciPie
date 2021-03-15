@@ -1,8 +1,9 @@
-import styles from '../index.module.scss';
-
 import { ChangeEvent } from 'react';
 import { RecipeStepProps } from '../types';
 import { TextField, Button } from '@material-ui/core';
+
+import styles from '../index.module.scss';
+import ImageDrop from '../../../components/ImageDrop/ImageDrop';
 
 const Step1 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +39,7 @@ const Step1 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
           name='readyInMinutes'
           onChange={handleChange}
         />
+        <ImageDrop />
 
         <Button
           className={`${styles.secondaryButton} ${styles.nextButton}`}

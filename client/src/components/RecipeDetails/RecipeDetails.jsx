@@ -26,20 +26,22 @@ const RecipeDetails = ({ recipe }) => {
       <div className={styles.ingredients}>
         <h3>Ingredients:</h3>
         <div>
-          <ul>
-            {recipe.extendedIngredients.map((i, index) => (
-              <li key={index}>
-                {i.measures.metric.amount > 0 && (
-                  <span>
-                    {`
+          {recipe.extendedIngredients[0].name.length > 0 && (
+            <ul>
+              {recipe.extendedIngredients.map((i, index) => (
+                <li key={index}>
+                  {i.measures.metric.amount > 0 && (
+                    <span>
+                      {`
                    ${i.measures.metric.amount} 
                     ${i.measures.metric.unitShort} `}
-                  </span>
-                )}
-                {i.name.length > 0 && <span>{i.name}</span>}
-              </li>
-            ))}
-          </ul>
+                    </span>
+                  )}
+                  {i.name.length > 0 && <span>{i.name}</span>}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 

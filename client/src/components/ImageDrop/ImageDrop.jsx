@@ -26,7 +26,7 @@ const ImageDrop = () => {
   ));
 
   return (
-    <div>
+    <div className={styles.centered}>
       <div className={styles.dropContainer} {...getRootProps()}>
         <input {...getInputProps()} />
         <p>Click or drag and drop image here</p>
