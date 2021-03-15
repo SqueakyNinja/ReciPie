@@ -27,10 +27,6 @@ const SortableList = ({
 }: SortableListProps) => {
   const [extendedIngredientsCopy, setExtendedIngredientsCopy] = useState([]);
 
-  const handleEditmode = () => {
-    setEditMode(!editMode);
-  };
-
   useEffect(() => {
     const prepareExtendedIngredientsCopy = () => {
       const copy = JSON.parse(JSON.stringify(recipe.extendedIngredients));
@@ -95,22 +91,6 @@ const SortableList = ({
               />
             )
           )
-        )}
-      </div>
-
-      <div>
-        {recipe.extendedIngredients[0].name.length > 0 && (
-          <Button
-            className={combineClasses(
-              styles.secondaryButton,
-              styles.addEditButton,
-              editMode && styles.doneButton
-            )}
-            variant='contained'
-            onClick={handleEditmode}
-          >
-            {editMode ? 'Done' : 'Edit order'}
-          </Button>
         )}
       </div>
     </div>

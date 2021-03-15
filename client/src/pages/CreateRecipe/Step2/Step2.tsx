@@ -16,6 +16,7 @@ import {
 import { FilterOptionsState } from '@material-ui/lab/useAutocomplete';
 import { ExtendedIngredient, RecipeStepProps } from '../types';
 import SortableList from './SortableList';
+import { combineClasses } from '../../../utils';
 
 interface Ingredient {
   category: string;
@@ -50,6 +51,10 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value);
+  };
+
+  const handleEditmode = () => {
+    setEditMode(!editMode);
   };
 
   const addIngredient = () => {
@@ -209,15 +214,31 @@ const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
           )}
         </div>
 
-        <Button
-          color='primary'
-          variant='contained'
-          className={`${styles.secondaryButton} ${styles.nextButton}`}
-          onClick={() => setExpanded('panel3')}
-          disabled={editMode}
-        >
-          Next
-        </Button>
+        <div>
+          {recipe.extendedIngredients[0].name.length > 0 && (
+            <Button
+              className={combineClasses(
+                styles.secondaryButton,
+                styles.addEditButton,
+                editMode && styles.doneButton
+              )}
+              variant='contained'
+              onClick={handleEditmode}
+            >
+              {editMode ? 'Done' : 'Edit order'}
+            </Button>
+          )}
+
+          <Button
+            color='primary'
+            variant='contained'
+            className={`${styles.secondaryButton} ${styles.nextButton}`}
+            onClick={() => setExpanded('panel3')}
+            disabled={editMode}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );
