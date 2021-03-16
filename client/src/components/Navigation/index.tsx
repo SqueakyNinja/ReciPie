@@ -44,6 +44,7 @@ const Navbar = () => {
     window.addEventListener("resize", handleResize, { passive: true });
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = () => {

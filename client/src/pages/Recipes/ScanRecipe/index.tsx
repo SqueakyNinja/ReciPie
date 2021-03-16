@@ -41,6 +41,9 @@ const ScanRecipe = () => {
     ],
     createdBy: currentUser.id,
   });
+
+  console.log(recipe, setRecipe, setSnackbar);
+
   const processRecipe = async () => {
     await worker.load();
     await worker.loadLanguage("eng");

@@ -4,7 +4,7 @@ import { TextField, Button } from "@material-ui/core";
 import { validateRecipe } from "./validateRecipe";
 import { ChangeEvent, useRef } from "react";
 import { useStore } from "../../../../store";
-import ImageDrop from "../../../../components/ImageDrop/ImageDrop";
+import ImageDrop from "../../../../components/ImageDrop";
 
 interface Values {
   title: string;

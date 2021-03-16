@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
 import styles from "./index.module.scss";
 import { validateLoginInfo } from "./validation";

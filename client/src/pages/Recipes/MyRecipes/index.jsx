@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAllRecipes } from "../../../api/recipes";
+import RecipeDetails from "../../../components/RecipeDetails/RecipeDetails";
 import { useStore } from "../../../store";
-import RecipeDetails from "../../MealGenerator/RecipeDetails";
 
 const MyRecipes = () => {
   const { currentUser } = useStore();
@@ -19,6 +19,8 @@ const MyRecipes = () => {
       }
     };
     getRecipes();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div>

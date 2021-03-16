@@ -4,7 +4,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { saveFavouriteRecipe } from "../../api/recipes";
-import axios from "axios";
 import { useStore } from "../../store";
 
 const MealItem = ({ meal }) => {
@@ -17,7 +16,7 @@ const MealItem = ({ meal }) => {
 
   const handleSave = async () => {
     try {
-      const saveRecipe = await saveFavouriteRecipe(currentUser.id, null, meal.id);
+      await saveFavouriteRecipe(currentUser.id, null, meal.id);
       setSnackbar("Successfully added recipe to My Recipes", "success");
     } catch (error) {
       console.log(error);

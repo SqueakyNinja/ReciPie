@@ -55,7 +55,7 @@ const CreateRecipe = () => {
 
   const handleSubmit = () => {
     try {
-      const addRecipe = sendRecipe(recipe);
+      sendRecipe(recipe);
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +65,7 @@ const CreateRecipe = () => {
       setSnackbar("Please login to use this feature", "info");
       history.push("/account/login");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
   return (
     <div className={styles.root}>

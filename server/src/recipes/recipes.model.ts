@@ -6,6 +6,7 @@ import axios from "axios";
 
 export const selectAllRecipes = async (userId: string, getSavedRecipes: boolean, searchStr = "") => {
   const recipes = await db("recipes")
+    .select(["recipes.*", "users.username"])
     .leftJoin("users", "users.id", "recipes.createdBy")
     .modify((query) => {
       if (!!userId && !getSavedRecipes) {
