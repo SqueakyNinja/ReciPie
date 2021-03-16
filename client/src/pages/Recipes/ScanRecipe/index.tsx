@@ -1,13 +1,47 @@
 import { useEffect, useState } from "react";
 import { createWorker } from "tesseract.js";
+import { Recipe } from "../../../../../common";
+import { useStore } from "../../../store";
 
-const OCR = () => {
+const ScanRecipe = () => {
+  const { currentUser, setSnackbar } = useStore();
   const [ocr, setOcr] = useState("Recognizing...");
   const [file, setFile] = useState(require("./text.png").default);
   const worker = createWorker({
     logger: (m) => console.log(m),
   });
-  const doOCR = async () => {
+  const [recipe, setRecipe] = useState<Recipe>({
+    title: "Test",
+    sourceName: "",
+    servings: 4,
+    readyInMinutes: 45,
+    extendedIngredients: [
+      {
+        name: "Cheese",
+        measures: {
+          metric: {
+            amount: 2,
+            unitShort: "dl",
+          },
+        },
+      },
+    ],
+    image: "http://placekitten.com/400/200",
+    dishTypes: ["Cheesy"],
+    analyzedInstructions: [
+      {
+        name: "",
+        steps: [
+          {
+            number: 1,
+            step: "Eat cheese",
+          },
+        ],
+      },
+    ],
+    createdBy: currentUser.id,
+  });
+  const processRecipe = async () => {
     await worker.load();
     await worker.loadLanguage("eng");
     await worker.initialize("eng");
@@ -66,12 +100,6 @@ const OCR = () => {
       console.log("fel filtyp! eller något annat knas");
     }
   };
-  useEffect(() => {
-    if (file) {
-      console.log("changing file to read");
-      setFile(file);
-    }
-  }, [file]);
 
   return (
     <>
@@ -86,14 +114,9 @@ const OCR = () => {
           }}
         />
       </div>
-      <img
-        crossOrigin="anonymous"
-        src={file}
-        alt=""
-        style={{ width: "500px" }}
-      />
-      <button onClick={() => doOCR()}>Recognize text!</button>
+      <img crossOrigin="anonymous" src={file} alt="" style={{ width: "250px" }} />
+      <button onClick={() => processRecipe()}>Recognize text!</button>
     </>
   );
 };
-export default OCR;
+export default ScanRecipe;

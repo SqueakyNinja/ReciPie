@@ -26,16 +26,19 @@ const MealGenerator = () => {
     const filteredRecipes = result.data.results.filter((recipe) => {
       return savedApiRecipes.includes(recipe.id) === false;
     });
-    // const sortedRecipes = [...filteredRecipes, ...savedRecipes.recipes].sort() fixar detta imorgon
-    // setRecipes(sortedRecipes);
+    const sortedRecipes = [...filteredRecipes, ...savedRecipes.recipes].sort();
+    console.log(sortedRecipes);
+    setRecipes(sortedRecipes);
   };
 
   useEffect(() => {
-    const timeoutVar = setTimeout(() => {
-      fetchRecipes();
-    }, 500);
+    if (query.length > 0) {
+      const timeoutVar = setTimeout(() => {
+        fetchRecipes();
+      }, 500);
 
-    return () => clearTimeout(timeoutVar);
+      return () => clearTimeout(timeoutVar);
+    }
   }, [query]);
 
   return (

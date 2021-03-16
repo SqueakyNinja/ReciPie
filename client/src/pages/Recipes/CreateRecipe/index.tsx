@@ -53,7 +53,6 @@ const CreateRecipe = () => {
   const handleSubmit = () => {
     try {
       const addRecipe = sendRecipe(recipe);
-      console.log(recipe);
     } catch (error) {
       console.log(error);
     }
