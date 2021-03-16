@@ -1,9 +1,9 @@
-import { ChangeEvent } from 'react';
-import { RecipeStepProps } from '../types';
-import { TextField, Button } from '@material-ui/core';
+import { ChangeEvent } from "react";
+import { RecipeStepProps } from "../types";
+import { TextField, Button } from "@material-ui/core";
 
-import styles from '../index.module.scss';
-import ImageDrop from '../../../components/ImageDrop/ImageDrop';
+import styles from "../index.module.scss";
+import ImageDrop from "../../../../components/ImageDrop/ImageDrop";
 
 const Step1 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -16,36 +16,36 @@ const Step1 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
       <div className={styles.Step1}>
         <TextField
           className={`${styles.recipeName} ${styles.textfield}`}
-          variant='outlined'
-          label='Name of Recipe'
-          name='title'
+          variant="outlined"
+          label="Name of Recipe"
+          name="title"
           onChange={handleChange}
         />
 
         <TextField
           className={`${styles.recipeServings} ${styles.textfield}`}
-          variant='outlined'
-          label='Number of portions'
-          type='number'
-          name='servings'
+          variant="outlined"
+          label="Number of portions"
+          type="number"
+          name="servings"
           onChange={handleChange}
         />
 
         <TextField
           className={`${styles.recipeTime} ${styles.textfield}`}
-          variant='outlined'
-          label='Estimated time (minutes)'
-          type='number'
-          name='readyInMinutes'
+          variant="outlined"
+          label="Estimated time (minutes)"
+          type="number"
+          name="readyInMinutes"
           onChange={handleChange}
         />
         <ImageDrop recipe={recipe} setRecipe={setRecipe} />
 
         <Button
           className={`${styles.secondaryButton} ${styles.nextButton}`}
-          color='primary'
-          variant='contained'
-          onClick={() => setExpanded('panel2')}
+          color="primary"
+          variant="contained"
+          onClick={() => setExpanded("panel2")}
         >
           Next
         </Button>

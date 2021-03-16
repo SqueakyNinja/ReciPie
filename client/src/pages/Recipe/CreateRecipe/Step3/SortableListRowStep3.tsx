@@ -1,6 +1,6 @@
 import { ListItemText, IconButton, ListItem } from "@material-ui/core";
 import { Dispatch, SetStateAction, useState } from "react";
-import { combineClasses } from "../../../utils";
+import { combineClasses } from "../../../../utils";
 import { Step, Recipe } from "../types";
 import styles from "../index.module.scss";
 import produce from "immer";
