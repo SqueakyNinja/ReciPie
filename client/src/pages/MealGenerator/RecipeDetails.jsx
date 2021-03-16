@@ -1,34 +1,35 @@
 import styles from "./MealCard.module.scss";
-import {useEffect, useState } from "react"
 
-const RecipeDetails = ({ recipe }) => { 
-  console.log(recipe.ingredients.extendedIngredients)
-  
-  return (
-
-   recipe.instructions.length > 0 && recipe.ingredients.extendedIngredients.length > 0 ?
+const RecipeDetails = ({ recipe }) => {
+  return recipe.extendedIngredients ? (
     <div className={styles.container}>
       <img src={recipe.image}></img>
 
       <div className={styles.mealInfo}>
-        <h2>{recipe.ingredients.title}</h2>
-        <p>{recipe.ingredients.sourceName}</p>
+        <h2>{recipe.title}</h2>
+        {recipe.sourceName && <p>{recipe.sourceName}</p>}
         <i className="far fa-heart"></i>
         <i className="fas fa-heart"></i>
-        <p>{recipe.ingredients.aggregateLikes} likes</p>
-        <p>Prep time: {recipe.ingredients.readyInMinutes} min</p>
+        {recipe.servings > 0 && <p>Servings: {recipe.servings}</p>}
+        {recipe.aggregateLikes && <p>{recipe.aggregateLikes} likes</p>}
+        {recipe.readyInMinutes > 0 && <p>Prep time: {recipe.readyInMinutes} min</p>}
       </div>
 
       <div className={styles.ingredients}>
         <h3>Ingredients:</h3>
         <div>
           <ul>
-            {recipe.ingredients &&
-              recipe.ingredients.extendedIngredients.map((i) => (
-                <li
-                  key={i.id}
-                >{`${i.measures.metric.amount} ${i.measures.metric.unitShort} ${i.name}`}</li>
-              ))}
+            {recipe.extendedIngredients.map((i, index) => (
+              <li key={index}>
+                {i.measures.metric.amount > 0 && (
+                  <span>
+                    {i.measures.metric.amount}
+                    {i.measures.metric.unitShort}
+                  </span>
+                )}
+                {i.name.length > 0 && <span>{i.name}</span>}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -37,15 +38,22 @@ const RecipeDetails = ({ recipe }) => {
         <h3>Instructions: </h3>
         <div>
           <ol>
-            {recipe.instructions &&
-              recipe.instructions[0].steps.map((obj) => (
-                <li key={obj.number}>{obj.step}</li>
-              ))}
+            {recipe.analyzedInstructions[0].steps.map(
+              (obj) =>
+                obj.step.length > 0 && (
+                  <li key={obj.number}>
+                    <span>
+                      {obj.number}. {obj.step}
+                    </span>
+                  </li>
+                )
+            )}
           </ol>
         </div>
       </div>
     </div>
-  : ""
+  ) : (
+    <></>
   );
 };
 

@@ -1,0 +1,20 @@
+@import "../../../app.global.scss";
+
+.accordionHeader {
+  background-color: $primary;
+}
+
+// step 2
+.sortableList {
+  margin: 0.25rem;
+}
+
+.editMode {
+  transition: background-color 100ms ease-in-out;
+  border: 1px solid rgba(0, 0, 0, 0.295);
+  border-radius: 4px;
+  &:hover {
+    cursor: grab;
+    background-color: rgb(235, 235, 235);
+  }
+}
