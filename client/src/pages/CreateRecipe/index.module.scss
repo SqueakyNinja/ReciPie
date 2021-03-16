@@ -2,8 +2,14 @@
 
 .accordionHeader {
   background-color: $primary;
-}
 
+ 
+}
+.step1 {
+p {
+  font-size: 0.7rem;
+}
+}
 // step 2
 .sortableList {
   margin: 0.25rem;

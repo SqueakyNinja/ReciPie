@@ -8,10 +8,14 @@ import RecipeDetails from "../MealGenerator/RecipeDetails";
 import { sendRecipe } from "../../api/recipes";
 import { Recipe } from "../../../../common";
 import { useStore } from "../../store";
+import { Errors } from "./types";
+
+
 
 const CreateRecipe = () => {
   const { currentUser } = useStore();
   const [expanded, setExpanded] = useState("");
+  const [errors, setErrors] = useState<Errors>({});
   const [recipe, setRecipe] = useState<Recipe>({
     title: "Test",
     sourceName: currentUser,
@@ -64,7 +68,7 @@ const CreateRecipe = () => {
         </AccordionSummary>
 
         <AccordionDetails>
-          <Step1 setExpanded={setExpanded} recipe={recipe} setRecipe={setRecipe} />
+          <Step1 setExpanded={setExpanded} recipe={recipe} setRecipe={setRecipe} errors={errors} setErrors={setErrors}/>
         </AccordionDetails>
       </Accordion>
 
@@ -73,7 +77,7 @@ const CreateRecipe = () => {
           <Typography className={styles.heading}>2. Ingredients</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Step2 setExpanded={setExpanded} recipe={recipe} setRecipe={setRecipe} />
+          <Step2 setExpanded={setExpanded} recipe={recipe} setRecipe={setRecipe} errors={errors} setErrors={setErrors}/>
         </AccordionDetails>
       </Accordion>
 
