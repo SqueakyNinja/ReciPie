@@ -2,7 +2,7 @@ import styles from "../index.module.scss";
 import { RecipeStepProps } from "../types";
 import { TextField, Button } from "@material-ui/core";
 import { validateRecipe } from "./validateRecipe";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { useStore } from "../../../../store";
 import ImageDrop from "../../../../components/ImageDrop";
 
@@ -13,6 +13,7 @@ interface Values {
 }
 
 const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStepProps) => {
+  const [files, setFiles] = useState([]);
   const { setSnackbar } = useStore();
   const values = useRef<Values>({
     title: "",
@@ -35,6 +36,11 @@ const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
     Object.keys(errors).length === 0 && values.current.title
       ? setExpanded("panel2")
       : setSnackbar("Please fill the required fields", "error");
+  };
+
+  const handleCallback = (dataFromChild: any) => {
+    console.log(dataFromChild);
+    setFiles(dataFromChild.map((file: any) => Object.assign(file, { preview: URL.createObjectURL(file) })));
   };
 
   return (
@@ -68,7 +74,7 @@ const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
         />
         {errors.readyInMinutes && <p>{errors.readyInMinutes}</p>}
 
-        <ImageDrop recipe={recipe} setRecipe={setRecipe} />
+        <ImageDrop parentCallback={handleCallback} />
 
         <Button
           className={`${styles.secondaryButton} ${styles.nextButton}`}

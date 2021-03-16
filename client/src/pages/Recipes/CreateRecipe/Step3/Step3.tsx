@@ -57,7 +57,7 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
       </div>
 
       <div>
-        {recipe.analyzedInstructions[0].steps[0].step.length > 0 && (
+        {recipe.analyzedInstructions[0].steps.length > 0 && recipe.analyzedInstructions[0].steps[0].step.length > 0 && (
           <>
             <SortableListStep3 recipe={recipe} setRecipe={setRecipe} editMode={editMode} setStep={setStep} />
             <Button

@@ -11,10 +11,24 @@ import { useHistory } from "react-router";
 import { Errors } from "./types";
 import RecipeDetails from "../../../components/RecipeDetails/RecipeDetails";
 import { combineClasses } from "../../../utils";
+import ScanRecipe from "../ScanRecipe";
+
+interface File {
+  lastModified?: number;
+  lastModifiedDate?: string;
+  name?: string;
+  path?: string;
+  preview?: string;
+  size?: number;
+  type?: string;
+  wekitRelativePath?: string;
+}
 
 const CreateRecipe = () => {
+  const [openUpload, setOpenUpload] = useState(true);
+  const [files, setFiles] = useState<File[]>([]);
   const { currentUser, setSnackbar } = useStore();
-  const [expanded, setExpanded] = useState("");
+  const [expanded, setExpanded] = useState("panel1");
   const history = useHistory();
   const [errors, setErrors] = useState<Errors>({});
   const [recipe, setRecipe] = useState<Recipe>({
@@ -67,9 +81,26 @@ const CreateRecipe = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
+
+  const handleOpenUpload = () => {
+    setOpenUpload(true);
+  };
+
   return (
     <div className={styles.root}>
-      <h1>Create your own recipe</h1>
+      <ScanRecipe
+        recipe={recipe}
+        setRecipe={setRecipe}
+        openUpload={openUpload}
+        setOpenUpload={setOpenUpload}
+        files={files}
+        setFiles={setFiles}
+      />
+      <div>
+        <h1>Create your own recipe</h1>
+        <Button onClick={handleOpenUpload}>Scan Recipe</Button>
+        <Button onClick={() => console.log(files)}>Log files</Button>
+      </div>
       <div className={styles.flexContainer}>
         <div className={styles.accordionBox}>
           <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")} className={styles.accordion}>
@@ -141,8 +172,6 @@ const CreateRecipe = () => {
           Submit
         </Button>
       </div>
-
-      <RecipeDetails recipe={recipe} />
     </div>
   );
 };

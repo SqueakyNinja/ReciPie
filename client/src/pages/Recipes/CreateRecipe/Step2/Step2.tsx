@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
-import axios, { AxiosResponse } from "axios";
+// import axios, { AxiosResponse } from "axios";
 import styles from "../index.module.scss";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { Button, TextField, FormControl, Select, InputLabel, MenuItem } from "@material-ui/core";
@@ -83,8 +83,10 @@ const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
   //IngredientsOptions:
   useEffect(() => {
     const fetchIngredients = async () => {
-      const result: AxiosResponse<Ingredient[]> = await axios("/ingredients.json");
-      setIngredientsOptions(result.data);
+      // const result: AxiosResponse<Ingredient[]> = await axios("./ingredients.json");
+      const result = await fetch("/ingredients.json");
+      const parsedResult = await result.json();
+      setIngredientsOptions(parsedResult);
     };
 
     fetchIngredients();
@@ -193,7 +195,7 @@ const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
         </div>
 
         <div className={styles.buttonContainer}>
-          {recipe.extendedIngredients[0].name.length > 0 && (
+          {recipe.extendedIngredients.length > 0 && recipe.extendedIngredients[0].name.length > 0 && (
             <Button
               className={combineClasses(styles.secondaryButton, styles.editButton, editMode && styles.doneButton)}
               variant="contained"
