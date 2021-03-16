@@ -60,8 +60,9 @@ const ScanRecipe = () => {
 
       const newObject = { [newObjectKey]: newObjectValue };
       console.log(newObject);
-    console.log(text);
-    console.log(ocr);
+      console.log(text);
+      console.log(ocr);
+    }
   };
 
   useEffect(() => {
