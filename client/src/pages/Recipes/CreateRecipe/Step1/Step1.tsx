@@ -1,10 +1,10 @@
 import styles from "../index.module.scss";
-import { ChangeEvent } from "react";
 import { RecipeStepProps } from "../types";
 import { TextField, Button } from "@material-ui/core";
 import { validateRecipe } from "./validateRecipe";
-import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
-import { useStore } from "../../../store";
+import { ChangeEvent, useRef } from "react";
+import { useStore } from "../../../../store";
+import ImageDrop from "../../../../components/ImageDrop/ImageDrop";
 
 interface Values {
   title: string;
@@ -14,6 +14,11 @@ interface Values {
 
 const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStepProps) => {
   const { setSnackbar } = useStore();
+  const values = useRef<Values>({
+    title: "",
+    servings: 0,
+    readyInMinutes: 0,
+  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,12 +31,6 @@ const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
     setErrors(validateRecipe(values.current));
   };
 
-  const values = useRef<Values>({
-    title: "",
-    servings: 0,
-    readyInMinutes: 0,
-  });
-
   const handleNext = () => {
     Object.keys(errors).length === 0 && values.current.title
       ? setExpanded("panel2")
@@ -39,29 +38,47 @@ const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
   };
 
   return (
-    <div className={styles.step1}>
-      <TextField variant="outlined" label="Name of Recipe" name="title" onChange={handleChange} />
-      {errors.title && <p>{errors.title}</p>}
-      <br />
-      <br />
-      <TextField variant="outlined" label="Number of portions" type="number" name="servings" onChange={handleChange} />
-      {errors.servings && <p>{errors.servings}</p>}
-      <br />
-      <br />
+    <div className={styles.steps}>
+      <div className={styles.Step1}>
+        <TextField
+          className={`${styles.recipeName} ${styles.textfield}`}
+          variant="outlined"
+          label="Name of Recipe"
+          name="title"
+          onChange={handleChange}
+        />
+        {errors.title && <p>{errors.title}</p>}
+        <TextField
+          className={`${styles.recipeServings} ${styles.textfield}`}
+          variant="outlined"
+          label="Number of portions"
+          type="number"
+          name="servings"
+          onChange={handleChange}
+        />
+        {errors.servings && <p>{errors.servings}</p>}
 
-      <TextField
-        variant="outlined"
-        label="Estimated time (minutes)"
-        type="number"
-        name="readyInMinutes"
-        onChange={handleChange}
-      />
-      {errors.readyInMinutes && <p>{errors.readyInMinutes}</p>}
-      <br />
+        <TextField
+          className={`${styles.recipeTime} ${styles.textfield}`}
+          variant="outlined"
+          label="Estimated time (minutes)"
+          type="number"
+          name="readyInMinutes"
+          onChange={handleChange}
+        />
+        {errors.readyInMinutes && <p>{errors.readyInMinutes}</p>}
 
-      <Button color="primary" variant="contained" className={styles.secondaryButton} onClick={handleNext}>
-        Next
-      </Button>
+        <ImageDrop recipe={recipe} setRecipe={setRecipe} />
+
+        <Button
+          className={`${styles.secondaryButton} ${styles.nextButton}`}
+          color="primary"
+          variant="contained"
+          onClick={handleNext}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 };

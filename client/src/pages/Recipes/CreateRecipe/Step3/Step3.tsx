@@ -4,6 +4,7 @@ import { TextField, Button } from "@material-ui/core";
 import { RecipeProps } from "../types";
 import SortableListStep3 from "./SortableListStep3";
 import { ChangeEvent, useState } from "react";
+import { combineClasses } from "../../../../utils";
 
 const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
   const [firstAdd, setFirstAdd] = useState(true);
@@ -34,9 +35,10 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
   };
 
   return (
-    <div>
-      <div className="Step3">
+    <div className={styles.steps}>
+      <div className={styles.Step3}>
         <TextField
+          className={styles.textfield}
           variant="outlined"
           label="Add Instructions"
           value={step}
@@ -44,22 +46,29 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
         />
 
         <Button
+          className={`${styles.secondaryButton} ${styles.addButton}`}
           color="primary"
           variant="contained"
-          className={styles.secondaryButton}
           onClick={addStep}
           disabled={editMode}
         >
           Add step
         </Button>
       </div>
+
       <div>
-        {recipe.analyzedInstructions && (
-          <SortableListStep3 recipe={recipe} setRecipe={setRecipe} editMode={editMode} setStep={setStep} />
+        {recipe.analyzedInstructions[0].steps[0].step.length > 0 && (
+          <>
+            <SortableListStep3 recipe={recipe} setRecipe={setRecipe} editMode={editMode} setStep={setStep} />
+            <Button
+              className={combineClasses(styles.secondaryButton, styles.editButton, editMode && styles.doneButton)}
+              variant="contained"
+              onClick={() => setEditMode(!editMode)}
+            >
+              {editMode ? "Done" : "Edit order"}
+            </Button>
+          </>
         )}
-        <Button variant="contained" color="primary" onClick={() => setEditMode(!editMode)}>
-          {editMode ? "Done" : "Edit order"}
-        </Button>
       </div>
     </div>
   );

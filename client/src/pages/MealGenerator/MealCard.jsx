@@ -1,11 +1,11 @@
-import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import RecipeDetails from "./RecipeDetails";
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import RecipeDetails from '../../components/RecipeDetails/RecipeDetails';
 
 const MealCard = () => {
   const recipeId = useParams().id;
-  const apiKey = "8080ada856dd4f439b4a065ae353d836";
+  const apiKey = '8080ada856dd4f439b4a065ae353d836';
   const [recipe, setRecipe] = useState({});
 
   const fetchRecipe = async () => {

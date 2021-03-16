@@ -1,4 +1,3 @@
-import { Button } from "@material-ui/core";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import SortableListRow from "./SortableListRow";
 import { ReactSortable } from "react-sortablejs";
@@ -24,10 +23,6 @@ const SortableList = ({
   setEditMode,
 }: SortableListProps) => {
   const [extendedIngredientsCopy, setExtendedIngredientsCopy] = useState([]);
-
-  const handleEditmode = () => {
-    setEditMode(!editMode);
-  };
 
   useEffect(() => {
     const prepareExtendedIngredientsCopy = () => {
@@ -90,11 +85,6 @@ const SortableList = ({
             />
           ))
         )}
-      </div>
-      <div>
-        <Button variant="contained" color="primary" onClick={handleEditmode}>
-          {editMode ? "Done" : "Edit order"}
-        </Button>
       </div>
     </div>
   );

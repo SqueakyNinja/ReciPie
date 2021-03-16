@@ -11,12 +11,13 @@ import Profile from "./pages/Profile";
 import CreateRecipe from "./pages/Recipes/CreateRecipe";
 import MyRecipes from "./pages/Recipes/MyRecipes";
 import ScanRecipe from "./pages/Recipes/ScanRecipe";
+import ImageDrop from "./components/ImageDrop/ImageDrop";
 
 const Main = () => {
   return (
     <Paper className={styles.mainArea}>
       <Route exact path="/" component={Homepage} />
-      <Route path="/scan" component={ScanRecipe} />
+      <Route exact path="/scan" component={ScanRecipe} />
       <Route exact path="/account/signup" component={Account} />
       <Route exact path="/account/login" component={Account} />
       <Route exact path="/style" component={Style} />
@@ -26,6 +27,7 @@ const Main = () => {
       <Route exact path="/settings" component={Settings} />
       <Route exact path="/meal-generator" component={MealGenerator} />
       <Route exact path="/meal-card/:id" component={MealCard} />
+      <Route exact path="/image" component={ImageDrop} />
     </Paper>
   );
 };

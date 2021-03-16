@@ -8,6 +8,7 @@ import SortableList from "./SortableList";
 import { useStore } from "../../../../store";
 import { RecipeStepProps } from "../types";
 import { ExtendedIngredient } from "../../../../../../common";
+import { combineClasses } from "../../../../utils";
 
 interface Ingredient {
   category: string;
@@ -40,6 +41,10 @@ const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value);
+  };
+
+  const handleEditmode = () => {
+    setEditMode(!editMode);
   };
 
   const addIngredient = () => {
@@ -93,48 +98,50 @@ const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
   });
 
   return (
-    <div className="Step2">
-      <Autocomplete
-        forcePopupIcon={false}
-        open={open}
-        inputValue={ingredient}
-        onInputChange={handleIngredientChange}
-        onClose={() => {
-          setOpen(false);
-        }}
-        filterOptions={filterOptions}
-        getOptionSelected={(option: Ingredient, value: Ingredient) => option.name === value.name}
-        getOptionLabel={(ingredient: any) => ingredient.name}
-        options={ingredientsOptions}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search Ingredient"
-            variant="outlined"
-            name="name"
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: <>{params.InputProps.endAdornment}</>,
-            }}
-          />
-        )}
-      />
-
-      <div className="Step2Measurement">
-        <TextField
-          variant="outlined"
-          label="Measurements, amount"
-          type="number"
-          name="amount"
-          value={amount}
-          onChange={handleAmountChange}
+    <div className={styles.steps}>
+      <div className="Step2">
+        <Autocomplete
+          forcePopupIcon={false}
+          open={open}
+          inputValue={ingredient}
+          onInputChange={handleIngredientChange}
+          onClose={() => {
+            setOpen(false);
+          }}
+          filterOptions={filterOptions}
+          getOptionSelected={(option: Ingredient, value: Ingredient) => option.name === value.name}
+          getOptionLabel={(ingredient: any) => ingredient.name}
+          options={ingredientsOptions}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search Ingredient"
+              variant="outlined"
+              name="name"
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: <>{params.InputProps.endAdornment}</>,
+              }}
+            />
+          )}
         />
 
-        <FormControl variant="outlined">
-          <InputLabel>Units</InputLabel>
+        <div className="Step2Measurement">
+          <TextField
+            className={styles.textfield}
+            variant="outlined"
+            label="Measurements, amount"
+            type="number"
+            name="amount"
+            value={amount}
+            onChange={handleAmountChange}
+          />
 
-          <Select label="Grouping" name="unitShort" value={unitShort} onChange={handleSelectChange}>
-            {/* <MenuItem value="" disabled>
+          <FormControl variant="outlined" className={styles.textfield}>
+            <InputLabel>Units</InputLabel>
+
+            <Select label="Grouping" name="unitShort" value={unitShort} onChange={handleSelectChange}>
+              {/* <MenuItem value="" disabled>
               Imperial
             </MenuItem>
             <MenuItem value="tsp">teaspoon (tsp)</MenuItem>
@@ -145,54 +152,67 @@ const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
             <MenuItem value="qt">quart (qt)</MenuItem>
             <MenuItem value="gal">gallon (gal)</MenuItem>
             <MenuItem value="lb">pound (lb)</MenuItem> */}
-            <MenuItem value="" disabled>
-              Metric
-            </MenuItem>
+              <MenuItem value="" disabled>
+                Metric
+              </MenuItem>
 
-            <MenuItem value="">None</MenuItem>
-            <MenuItem value="tsp">teaspoon (tsp)</MenuItem>
-            <MenuItem value="tbsp">tablespoon (tbsp)</MenuItem>
-            <MenuItem value="ml">milliliter (ml)</MenuItem>
-            <MenuItem value="cl">centiliter (cl)</MenuItem>
-            <MenuItem value="dl">deciliter (dl)</MenuItem>
-            <MenuItem value="l">liter (l)</MenuItem>
-            <MenuItem value="g">grams (g)</MenuItem>
-            <MenuItem value="kg">kilograms (kg)</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
+              <MenuItem value="">None</MenuItem>
+              <MenuItem value="tsp">teaspoon (tsp)</MenuItem>
+              <MenuItem value="tbsp">tablespoon (tbsp)</MenuItem>
+              <MenuItem value="ml">milliliter (ml)</MenuItem>
+              <MenuItem value="cl">centiliter (cl)</MenuItem>
+              <MenuItem value="dl">deciliter (dl)</MenuItem>
+              <MenuItem value="l">liter (l)</MenuItem>
+              <MenuItem value="g">grams (g)</MenuItem>
+              <MenuItem value="kg">kilograms (kg)</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
 
-      <Button
-        color="primary"
-        variant="contained"
-        className={styles.secondaryButton}
-        onClick={addIngredient}
-        disabled={editMode}
-      >
-        Add
-      </Button>
-      <Button
-        color="primary"
-        variant="contained"
-        className={styles.secondaryButton}
-        onClick={() => setExpanded("panel3")}
-        disabled={editMode}
-      >
-        Next
-      </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          className={`${styles.secondaryButton} ${styles.addButton}`}
+          onClick={addIngredient}
+          disabled={editMode}
+        >
+          Add Ingredient
+        </Button>
+        <div className={styles.listOfIngredients}>
+          {recipe.extendedIngredients && (
+            <SortableList
+              recipe={recipe}
+              setRecipe={setRecipe}
+              setIngredient={setIngredient}
+              setAmount={setAmount}
+              setUnitShort={setUnitShort}
+              editMode={editMode}
+              setEditMode={setEditMode}
+            />
+          )}
+        </div>
 
-      <div className={styles.listOfIngredients}>
-        {recipe.extendedIngredients && (
-          <SortableList
-            recipe={recipe}
-            setRecipe={setRecipe}
-            setIngredient={setIngredient}
-            setAmount={setAmount}
-            setUnitShort={setUnitShort}
-            editMode={editMode}
-            setEditMode={setEditMode}
-          />
-        )}
+        <div className={styles.buttonContainer}>
+          {recipe.extendedIngredients[0].name.length > 0 && (
+            <Button
+              className={combineClasses(styles.secondaryButton, styles.editButton, editMode && styles.doneButton)}
+              variant="contained"
+              onClick={handleEditmode}
+            >
+              {editMode ? "Done" : "Edit order"}
+            </Button>
+          )}
+
+          <Button
+            color="primary"
+            variant="contained"
+            className={`${styles.secondaryButton} ${styles.nextButton}`}
+            onClick={() => setExpanded("panel3")}
+            disabled={editMode}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );
