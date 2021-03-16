@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react";
-import { FormControlLabel, Switch, Paper, Grid } from "@material-ui/core";
+import React from "react";
+import { FormControlLabel, Switch } from "@material-ui/core";
 import { useStore } from "../../store";
 
 const Settings = () => {

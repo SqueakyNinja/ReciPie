@@ -1,26 +1,20 @@
 import express from "express";
-import { getAllRecipes } from "./recipes/recipes.controller";
+import { addNewRecipe, allRecipes, postFavourite } from "./recipes/recipes.controller";
 
-import {
-  getAllUsers,
-  getUserById,
-  newUser,
-  removeUser,
-  updateUser,
-} from "./users/users.controllers";
+import { getAllUsers, getUserById, loginUser, newUser, removeUser, updateUser } from "./users/users.controllers";
 
 const apiRouter = express.Router();
 
-apiRouter.get("/users/:user_id", getUserById);
+apiRouter.route("/users/:user_id").get(getUserById).put(updateUser).delete(removeUser);
 
-apiRouter.get("/users", getAllUsers);
+apiRouter.route("/users").get(getAllUsers).post(newUser);
 
-apiRouter.post("/users", newUser);
+apiRouter.post("/users/login", loginUser);
 
-apiRouter.put("/users/:user_id", updateUser);
+apiRouter.get("/recipes", allRecipes);
 
-apiRouter.delete("/users/:user_id", removeUser);
+apiRouter.post("/recipes/add", addNewRecipe);
 
-apiRouter.get("/recipes", getAllRecipes);
+apiRouter.post("/recipes/favourite", postFavourite);
 
 export default apiRouter;
