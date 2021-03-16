@@ -9,11 +9,13 @@ import { sendRecipe } from "../../../api/recipes";
 import { Recipe } from "../../../../../common";
 import { useStore } from "../../../store";
 import { useHistory } from "react-router";
+import { Errors } from "./types";
 
 const CreateRecipe = () => {
   const { currentUser, setSnackbar } = useStore();
   const [expanded, setExpanded] = useState("");
   const history = useHistory();
+  const [errors, setErrors] = useState<Errors>({});
   const [recipe, setRecipe] = useState<Recipe>({
     title: "Test",
     sourceName: "",
@@ -71,7 +73,13 @@ const CreateRecipe = () => {
         </AccordionSummary>
 
         <AccordionDetails>
-          <Step1 setExpanded={setExpanded} recipe={recipe} setRecipe={setRecipe} />
+          <Step1
+            setExpanded={setExpanded}
+            recipe={recipe}
+            setRecipe={setRecipe}
+            errors={errors}
+            setErrors={setErrors}
+          />
         </AccordionDetails>
       </Accordion>
 
@@ -80,7 +88,13 @@ const CreateRecipe = () => {
           <Typography className={styles.heading}>2. Ingredients</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Step2 setExpanded={setExpanded} recipe={recipe} setRecipe={setRecipe} />
+          <Step2
+            setExpanded={setExpanded}
+            recipe={recipe}
+            setRecipe={setRecipe}
+            errors={errors}
+            setErrors={setErrors}
+          />
         </AccordionDetails>
       </Accordion>
 

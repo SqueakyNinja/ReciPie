@@ -15,7 +15,7 @@ interface Ingredient {
   name: string;
 }
 
-const Step2 = ({ recipe, setRecipe, setExpanded }: RecipeStepProps) => {
+const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStepProps) => {
   const { setSnackbar } = useStore();
   const [firstAdd, setFirstAdd] = useState(true);
   const [open, setOpen] = useState<boolean>(false);
