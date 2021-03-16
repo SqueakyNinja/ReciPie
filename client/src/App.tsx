@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./app.global.scss";
 import styles from "./app.module.scss";
 import Main from "./Main";

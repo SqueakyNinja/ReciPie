@@ -6,6 +6,8 @@ import Form from "./pages/Signup/Form";
 import Style from "./pages/Style";
 import Settings from "./pages/Settings";
 import { Paper } from "@material-ui/core";
+import MealGenerator from "./pages/MealGenerator"
+import MealCard from "./pages/MealGenerator/MealCard";
 
 const Main = () => {
   return (
@@ -16,6 +18,18 @@ const Main = () => {
       <Route exact path="/style" component={Style} />
       <Route path="/settings">
         <Settings />
+      </Route>
+      <Route path="/meal-generator">
+        <MealGenerator />
+      </Route>
+      <Route path="/meal-card/:id">
+        <MealCard />
+      </Route>
+      <Route path="/scan">
+        <AddOCRRecipe />
+      </Route>
+      <Route exact path="/signup">
+        <Form />
       </Route>
     </Paper>
   );
