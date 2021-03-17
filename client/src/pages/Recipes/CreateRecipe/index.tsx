@@ -5,7 +5,9 @@ import {
   AccordionSummary,
   Typography,
   Button,
+  Paper,
 } from '@material-ui/core';
+
 import styles from './index.module.scss';
 import Step1 from './Step1/Step1';
 import Step2 from './Step2/Step2';
@@ -73,105 +75,110 @@ const CreateRecipe = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
+
   return (
     <div className={styles.root}>
-      <h1>Create your own recipe</h1>
-      <div className={styles.flexContainer}>
-        <div className={styles.accordionBox}>
-          <Accordion
-            expanded={expanded === 'panel1'}
-            onChange={handleChange('panel1')}
-            className={styles.accordion}
-          >
-            <AccordionSummary
-              className={combineClasses(
-                styles.accordionHeader,
-                expanded === 'panel1' && styles.active
-              )}
-              aria-controls='panel1bh-content'
-              id='panel1bh-header'
+      <Paper elevation={3} className={styles.paper}>
+        <div className={styles.flexContainer}>
+          <div className={styles.accordionBox}>
+            <Accordion
+              expanded={expanded === 'panel1'}
+              onChange={handleChange('panel1')}
+              className={styles.accordion}
             >
-              <Typography className={styles.heading}>
-                1. Name, portions, time, picture
-              </Typography>
-            </AccordionSummary>
+              <AccordionSummary
+                className={combineClasses(
+                  styles.accordionHeader,
+                  expanded === 'panel1' && styles.active
+                )}
+                aria-controls='panel1bh-content'
+                id='panel1bh-header'
+              >
+                <Typography className={styles.heading}>
+                  1. Name, portions, time, picture
+                </Typography>
+              </AccordionSummary>
 
-            <AccordionDetails>
-              <Step1
-                setExpanded={setExpanded}
-                recipe={recipe}
-                setRecipe={setRecipe}
-                errors={errors}
-                setErrors={setErrors}
-              />
-            </AccordionDetails>
-          </Accordion>
+              <AccordionDetails>
+                <Step1
+                  setExpanded={setExpanded}
+                  recipe={recipe}
+                  setRecipe={setRecipe}
+                  errors={errors}
+                  setErrors={setErrors}
+                />
+              </AccordionDetails>
+            </Accordion>
 
-          <Accordion
-            expanded={expanded === 'panel2'}
-            onChange={handleChange('panel2')}
-            className={styles.accordion}
-          >
-            <AccordionSummary
-              className={combineClasses(
-                styles.accordionHeader,
-                expanded === 'panel2' && styles.active
-              )}
-              aria-controls='panel2bh-content'
-              id='panel2bh-header'
+            <Accordion
+              expanded={expanded === 'panel2'}
+              onChange={handleChange('panel2')}
+              className={styles.accordion}
             >
-              <Typography className={styles.heading}>2. Ingredients</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Step2
-                setExpanded={setExpanded}
-                recipe={recipe}
-                setRecipe={setRecipe}
-                errors={errors}
-                setErrors={setErrors}
-              />
-            </AccordionDetails>
-          </Accordion>
+              <AccordionSummary
+                className={combineClasses(
+                  styles.accordionHeader,
+                  expanded === 'panel2' && styles.active
+                )}
+                aria-controls='panel2bh-content'
+                id='panel2bh-header'
+              >
+                <Typography className={styles.heading}>
+                  2. Ingredients
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Step2
+                  setExpanded={setExpanded}
+                  recipe={recipe}
+                  setRecipe={setRecipe}
+                  errors={errors}
+                  setErrors={setErrors}
+                />
+              </AccordionDetails>
+            </Accordion>
 
-          <Accordion
-            expanded={expanded === 'panel3'}
-            onChange={handleChange('panel3')}
-            className={styles.accordion}
-          >
-            <AccordionSummary
-              className={combineClasses(
-                styles.accordionHeader,
-                expanded === 'panel3' && styles.active
-              )}
-              aria-controls='panel3bh-content'
-              id='panel3bh-header'
+            <Accordion
+              expanded={expanded === 'panel3'}
+              onChange={handleChange('panel3')}
+              className={styles.accordion}
             >
-              <Typography className={styles.heading}>
-                3. Instructions
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Step3 recipe={recipe} setRecipe={setRecipe} />
-            </AccordionDetails>
-          </Accordion>
+              <AccordionSummary
+                className={combineClasses(
+                  styles.accordionHeader,
+                  expanded === 'panel3' && styles.active
+                )}
+                aria-controls='panel3bh-content'
+                id='panel3bh-header'
+              >
+                <Typography className={styles.heading}>
+                  3. Instructions
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Step3 recipe={recipe} setRecipe={setRecipe} />
+              </AccordionDetails>
+            </Accordion>
+          </div>
+          {/* accordionBox ends above */}
+
+          <div className={styles.recipeDetailsBox}>
+            <RecipeDetails recipe={recipe} />
+          </div>
         </div>
-        {/* accordionBox ends above */}
 
-        <div className={styles.recipeDetailsBox}>
-          <RecipeDetails recipe={recipe} />
+        {/* FlexContainer ends above */}
+        <div className={styles.submitButtonDiv}>
+          <Button
+            color='primary'
+            variant='contained'
+            className={`${styles.secondaryButton} ${styles.submitButton}`}
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
         </div>
-      </div>
-      {/* FlexContainer ends above */}
-      <div className={styles.submitButtonDiv}>
-        <Button
-          color='primary'
-          variant='contained'
-          className={`${styles.secondaryButton} ${styles.submitButton}`}
-          onClick={handleSubmit}
-        >
-          Submit
-        </Button>
-      </div>
+      </Paper>
     </div>
   );
 };
