@@ -17,8 +17,8 @@ export const allRecipes: express.RequestHandler<
 
 export const addNewRecipe: express.RequestHandler<{}, {}, { recipe: Recipe }> = async (req, res) => {
   try {
-    const reqNewRecipe = await tryAddRecipe(req.body.recipe);
-    res.status(201).send({ reqNewRecipe });
+    const recipeId = await tryAddRecipe(req.body.recipe);
+    res.status(201).send({ recipeId });
   } catch (error) {
     res.status(400).send({ message: error.message });
   }

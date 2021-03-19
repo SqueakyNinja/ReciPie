@@ -48,7 +48,8 @@ export const tryAddRecipe = async (recipe: Recipe) => {
     dishTypes: JSON.stringify(recipe.dishTypes),
   };
   try {
-    await db("recipes").insert(formattedRecipe);
+    const recipe = await db("recipes").insert(formattedRecipe).returning("id");
+    return recipe[0];
   } catch (error) {
     console.log(error);
     throw "something went wrong while adding recipe";

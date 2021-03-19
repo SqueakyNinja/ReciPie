@@ -2,7 +2,7 @@ import styles from "../index.module.scss";
 import { RecipeStepProps } from "../types";
 import { TextField, Button } from "@material-ui/core";
 import { validateRecipe } from "./validateRecipe";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useStore } from "../../../../store";
 import ImageDrop from "../../../../components/ImageDrop";
 
@@ -12,12 +12,15 @@ interface Values {
   readyInMinutes: number;
 }
 
-interface File {
-  preview: string;
+interface FileToUpload {
+  preview?: string;
+}
+interface Files {
+  files: any;
+  setFiles: Dispatch<SetStateAction<any>>;
 }
 
-const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStepProps) => {
-  const [files, setFiles] = useState<File[]>([{ preview: "" }]);
+const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors, files, setFiles }: RecipeStepProps & Files) => {
   const { setSnackbar } = useStore();
   const values = useRef<Values>({
     title: "",
@@ -37,7 +40,9 @@ const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
   };
 
   useEffect(() => {
-    setRecipe({ ...recipe, image: files[0].preview });
+    if (files.length > 0) {
+      setRecipe({ ...recipe, image: files[0].preview });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
@@ -48,7 +53,11 @@ const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
   };
 
   const handleCallback = (dataFromChild: any) => {
-    setFiles(dataFromChild.map((file: any) => Object.assign(file, { preview: URL.createObjectURL(file) })));
+    setFiles(
+      dataFromChild.map((file: any) => {
+        return Object.assign(file, { preview: URL.createObjectURL(file) });
+      })
+    );
   };
 
   return (

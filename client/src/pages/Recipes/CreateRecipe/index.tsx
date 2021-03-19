@@ -12,21 +12,11 @@ import { Errors } from "./types";
 import RecipeDetails from "../../../components/RecipeDetails/RecipeDetails";
 import { combineClasses } from "../../../utils";
 import ScanRecipe from "../ScanRecipe";
-
-// interface File {
-//   lastModified?: number;
-//   lastModifiedDate?: string;
-//   name?: string;
-//   path?: string;
-//   preview?: string;
-//   size?: number;
-//   type?: string;
-//   wekitRelativePath?: string;
-// }
+import { storage } from "../../../firebase";
 
 const CreateRecipe = () => {
   const [openUpload, setOpenUpload] = useState(true);
-  // const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<any>([]);
   const { currentUser, setSnackbar } = useStore();
   const [expanded, setExpanded] = useState("panel1");
   const history = useHistory();
@@ -67,13 +57,39 @@ const CreateRecipe = () => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
-      sendRecipe(recipe);
+      const recipeId = await sendRecipe(recipe);
+      if (files.length > 0) {
+        let fileType = "";
+        if (files[0].path.endsWith("jpeg")) {
+          fileType = "jpeg";
+        } else if (files[0].path.endsWith("png")) {
+          fileType = "png";
+        }
+        if (fileType !== "") {
+          const uploadImage = await storage.ref(`/recipe-images/${recipeId.recipeId}.${fileType}`).put(files[0]);
+          if (uploadImage.state === "success") {
+            const getURL = await storage
+              .ref()
+              .child(`/recipe-images/${recipeId.recipeId}.${fileType}`)
+              .getDownloadURL();
+            setRecipe({ ...recipe, image: getURL });
+            setSnackbar("Recipe successfully added", "success");
+          } else {
+            console.log("File upload failed");
+          }
+        } else {
+          console.log("Invalid file type");
+        }
+      } else {
+        setSnackbar("Recipe successfully added", "success");
+      }
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     if (currentUser.id.length === 0) {
       setSnackbar("Please login to use this feature", "info");
@@ -111,6 +127,8 @@ const CreateRecipe = () => {
                 setRecipe={setRecipe}
                 errors={errors}
                 setErrors={setErrors}
+                files={files}
+                setFiles={setFiles}
               />
             </AccordionDetails>
           </Accordion>
