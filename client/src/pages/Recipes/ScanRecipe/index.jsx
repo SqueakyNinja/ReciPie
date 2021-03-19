@@ -280,7 +280,7 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
                     variant="outlined"
                     value={ingredientsFromImage}
                     onChange={(e) => setIngredientsFromImage(e.target.value)}
-                    helperText="Please separate every entry with a ;"
+                    helperText="Please separate entries with a ;"
                   />
 
                   <TextField
@@ -290,7 +290,7 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
                     variant="outlined"
                     value={instructionsFromImage}
                     onChange={(e) => setInstructionsFromImage(e.target.value)}
-                    helperText="Please separate every entry with a ;"
+                    helperText="Please separate entries with a ;"
                   />
                 </div>
                 <div className={styles.imagePreview}>
