@@ -44,6 +44,11 @@ const Cropping = ({
     }
   };
 
+  const handleReset = () => {
+    setFiles([]);
+    setImagesToProcess(["", ""]);
+  };
+
   return (
     <Paper className={styles.CroppingMain}>
       <div className={styles.imageDiv}>
@@ -111,7 +116,7 @@ const Cropping = ({
           <img src={imagesToProcess[1]} alt="" />
         </div>
         <div className={styles.resetProceed}>
-          <Button variant="contained" color="secondary" onClick={() => setFiles([])}>
+          <Button variant="contained" color="secondary" onClick={handleReset}>
             Reset
           </Button>
           <Button variant="contained" color="primary" onClick={handleProceed}>

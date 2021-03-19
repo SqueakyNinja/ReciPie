@@ -2,7 +2,7 @@ import styles from "../index.module.scss";
 import { FileWithPreview, RecipeStepOneProps } from "../types";
 import { TextField, Button } from "@material-ui/core";
 import { validateRecipe } from "./validateRecipe";
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef } from "react";
 import { useStore } from "../../../../store";
 import ImageDrop from "../../../../components/ImageDrop";
 

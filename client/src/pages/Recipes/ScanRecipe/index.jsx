@@ -9,8 +9,10 @@ import "react-dots-loader/index.css";
 import Cropping from "./Cropping";
 import produce from "immer";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { useStore } from "../../../store";
 
 const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
+  const { setSnackbar } = useStore();
   const [progress, setProgress] = useState(0);
   const [workerOneProgress, setWorkerOneProgress] = useState(0);
   const [workerTwoProgress, setWorkerTwoProgress] = useState(0);
@@ -39,42 +41,75 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
   });
 
   useEffect(() => {
-    setProgress(workerOneProgress / 2 + workerTwoProgress / 2);
-    if (workerOneProgress / 2 + workerTwoProgress / 2 === 1) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1500);
+    if (imagesToProcess[0] === "" || imagesToProcess[1] === "") {
+      setProgress(workerOneProgress + workerTwoProgress);
+      if (workerOneProgress + workerTwoProgress === 1) {
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
+      }
+    } else {
+      setProgress(workerOneProgress / 2 + workerTwoProgress / 2);
+      if (workerOneProgress / 2 + workerTwoProgress / 2 === 1) {
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
+      }
     }
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workerOneProgress, workerTwoProgress]);
 
   const processRecipe = async () => {
-    await workerOne.load();
-    await workerTwo.load();
-    await workerOne.loadLanguage("eng");
-    await workerTwo.loadLanguage("eng");
-    await workerOne.initialize("eng");
-    await workerTwo.initialize("eng");
-    scheduler.addWorker(workerOne);
-    scheduler.addWorker(workerTwo);
-    const results = await Promise.all(
-      imagesToProcess.map((image) => {
-        if (image !== "") {
-          return scheduler.addJob("recognize", image);
-        }
-        return null;
-      })
-    );
-    const regex = /\r?\n|\r/g;
-    const ingredientsResults = results[0].data.lines.map((x) => x.text);
-    const filteredIngredientsString = ingredientsResults.map((x) => x.replace(regex, "")).join(";\n");
-    setIngredientsFromImage(filteredIngredientsString);
-    const instructionsResults = results[1].data.paragraphs.map((x) => x.text);
-    const filteredInstructionsString = instructionsResults.map((x) => x.replace(regex, " ")).join(";\n");
-    setInstructionsFromImage(filteredInstructionsString);
+    if (imagesToProcess[0] !== "" || imagesToProcess[1] !== "") {
+      setLoading(true);
+      await workerOne.load();
+      await workerTwo.load();
+      await workerOne.loadLanguage("eng");
+      await workerTwo.loadLanguage("eng");
+      await workerOne.initialize("eng");
+      await workerTwo.initialize("eng");
+      scheduler.addWorker(workerOne);
+      scheduler.addWorker(workerTwo);
+      const regex = /\r?\n|\r/g;
 
-    setTrimText(true);
+      // If both images will be processed
+      if (imagesToProcess[0] !== "" && imagesToProcess[1] !== "") {
+        const results = await Promise.all(imagesToProcess.map((image) => scheduler.addJob("recognize", image)));
+        const ingredientsResults = results[0].data.lines
+          .map((x) => x.text)
+          .map((x) => x.replace(regex, ""))
+          .join(";\n");
+        setIngredientsFromImage(ingredientsResults);
+        const instructionsResults = results[1].data.paragraphs
+          .map((x) => x.text)
+          .map((x) => x.replace(regex, " "))
+          .join(";\n");
+        setInstructionsFromImage(instructionsResults);
+
+        // If only Ingredients will be processed
+      } else if (imagesToProcess[0] !== "" && imagesToProcess[1] === "") {
+        const results = await scheduler.addJob("recognize", imagesToProcess[0]);
+        const ingredientsResults = results.data.lines
+          .map((x) => x.text)
+          .map((x) => x.replace(regex, ""))
+          .join(";\n");
+        setIngredientsFromImage(ingredientsResults);
+
+        // If only Instructions will be processed
+      } else if (imagesToProcess[0] === "" && imagesToProcess[1] !== "") {
+        const results = await scheduler.addJob("recognize", imagesToProcess[1]);
+        const instructionsResults = results.data.paragraphs
+          .map((x) => x.text)
+          .map((x) => x.replace(regex, " "))
+          .join(";\n");
+        setInstructionsFromImage(instructionsResults);
+      }
+
+      setTrimText(true);
+    } else {
+      setSnackbar("Please mark at least one category to process", "error");
+    }
   };
 
   const handleCloseUpload = () => {
@@ -90,7 +125,6 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
   };
 
   const handleProceed = () => {
-    setLoading(true);
     processRecipe();
   };
 
@@ -246,6 +280,7 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
                     variant="outlined"
                     value={ingredientsFromImage}
                     onChange={(e) => setIngredientsFromImage(e.target.value)}
+                    helperText="Please separate every entry with a ;"
                   />
 
                   <TextField
@@ -255,6 +290,7 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
                     variant="outlined"
                     value={instructionsFromImage}
                     onChange={(e) => setInstructionsFromImage(e.target.value)}
+                    helperText="Please separate every entry with a ;"
                   />
                 </div>
                 <div className={styles.imagePreview}>
