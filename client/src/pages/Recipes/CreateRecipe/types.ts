@@ -55,3 +55,7 @@ export interface RecipeStepOneProps extends RecipeStepProps {
 export interface FileWithPreview extends File {
   preview: string;
 }
+
+export interface IngredientFromDb {
+  name: string;
+}

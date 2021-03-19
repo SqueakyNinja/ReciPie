@@ -1,26 +1,21 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
-// import axios, { AxiosResponse } from "axios";
 import styles from "../index.module.scss";
-import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Button, TextField, FormControl, Select, InputLabel, MenuItem } from "@material-ui/core";
 import { FilterOptionsState } from "@material-ui/lab/useAutocomplete";
 import SortableList from "./SortableList";
 import { useStore } from "../../../../store";
-import { RecipeStepProps } from "../types";
+import { IngredientFromDb, RecipeStepProps } from "../types";
 import { ExtendedIngredient } from "../../../../../../common";
 import { combineClasses } from "../../../../utils";
 import produce from "immer";
-
-interface Ingredient {
-  category: string;
-  id: number;
-  name: string;
-}
+import axios, { AxiosResponse } from "axios";
+import { matchSorter } from "match-sorter";
 
 const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStepProps) => {
   const { setSnackbar } = useStore();
   const [open, setOpen] = useState<boolean>(false);
-  const [ingredientsOptions, setIngredientsOptions] = useState<Ingredient[]>([]);
+  const [ingredientsOptions, setIngredientsOptions] = useState<IngredientFromDb[]>([]);
   const [unitShort, setUnitShort] = useState("");
   const [ingredient, setIngredient] = useState("");
   const [amount, setAmount] = useState<number | string>("");
@@ -31,9 +26,9 @@ const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
   };
 
   const handleIngredientChange = (e: ChangeEvent<{}>, value: string) => {
-    if (value === "") {
+    if (value === "" || value.length < 3) {
       setOpen(false);
-    } else if (!open) {
+    } else if (value.length > 2 && !open) {
       setOpen(true);
     }
     setIngredient(value);
@@ -79,21 +74,15 @@ const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
   //IngredientsOptions:
   useEffect(() => {
     const fetchIngredients = async () => {
-      // const result: AxiosResponse<Ingredient[]> = await axios("./ingredients.json");
-      const result = await fetch("/ingredients.json");
-      const parsedResult = await result.json();
-      setIngredientsOptions(parsedResult);
+      const result: AxiosResponse<IngredientFromDb[]> = await await axios("/ingredients");
+      setIngredientsOptions(result.data);
     };
 
     fetchIngredients();
   }, []);
 
-  const filterOptions: (
-    options: Ingredient[],
-    state: FilterOptionsState<Ingredient>
-  ) => Ingredient[] = createFilterOptions({
-    limit: 10,
-  });
+  const filterOptions = (options: IngredientFromDb[], state: FilterOptionsState<IngredientFromDb>) =>
+    matchSorter(options, state.inputValue, { keys: ["name"] });
 
   return (
     <div className={styles.steps}>
@@ -107,7 +96,7 @@ const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
             setOpen(false);
           }}
           filterOptions={filterOptions}
-          getOptionSelected={(option: Ingredient, value: Ingredient) => option.name === value.name}
+          getOptionSelected={(option: IngredientFromDb, value: IngredientFromDb) => option.name === value.name}
           getOptionLabel={(ingredient: any) => ingredient.name}
           options={ingredientsOptions}
           renderInput={(params) => (

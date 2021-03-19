@@ -1,4 +1,4 @@
-import { AnalysedInstructions, ExtendedIngredient, Recipe } from "../../../common";
+import { AnalysedInstructions, ExtendedIngredient, Ingredients, Recipe } from "../../../common";
 import { DBRecipe } from "../db/types";
 import { ParsedRecipe } from "../../../common/responses";
 import db from "../db/connection";
@@ -89,4 +89,9 @@ export const updateFavouriteStatus = async (userId: string, recipeId?: string, a
   } else {
     await db("usersRecipesMap").insert({ recipeId, userId });
   }
+};
+
+export const getAllIngredients = async () => {
+  const ingredients: Ingredients[] = await db("ingredients").select("ingredients.name");
+  return ingredients;
 };

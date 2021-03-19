@@ -1,5 +1,5 @@
 import express from "express";
-import { addNewRecipe, allRecipes, postFavourite } from "./recipes/recipes.controller";
+import { addNewRecipe, allIngredients, allRecipes, postFavourite } from "./recipes/recipes.controller";
 
 import { getAllUsers, getUserById, loginUser, newUser, removeUser, updateUser } from "./users/users.controllers";
 
@@ -16,5 +16,7 @@ apiRouter.get("/recipes", allRecipes);
 apiRouter.post("/recipes/add", addNewRecipe);
 
 apiRouter.post("/recipes/favourite", postFavourite);
+
+apiRouter.get("/ingredients", allIngredients);
 
 export default apiRouter;

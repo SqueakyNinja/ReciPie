@@ -1,7 +1,7 @@
 import express from "express";
-import { Recipe } from "../../../common";
+import { Ingredients, Recipe } from "../../../common";
 import { RecipesResponse } from "../../../common/responses";
-import { selectAllRecipes, tryAddRecipe, updateFavouriteStatus } from "./recipes.model";
+import { getAllIngredients, selectAllRecipes, tryAddRecipe, updateFavouriteStatus } from "./recipes.model";
 
 export const allRecipes: express.RequestHandler<
   {},
@@ -37,4 +37,10 @@ export const postFavourite: express.RequestHandler<
     console.log(error);
     res.status(400).send({ message: error.message });
   }
+};
+
+export const allIngredients: express.RequestHandler<{}, Ingredients[]> = async (req, res) => {
+  const ingredients = await getAllIngredients();
+
+  res.send(ingredients);
 };
