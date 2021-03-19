@@ -8,7 +8,7 @@ import { sendRecipe } from "../../../api/recipes";
 import { Recipe } from "../../../../../common";
 import { useStore } from "../../../store";
 import { useHistory } from "react-router";
-import { Errors } from "./types";
+import { Errors, FileWithPreview } from "./types";
 import RecipeDetails from "../../../components/RecipeDetails/RecipeDetails";
 import { combineClasses } from "../../../utils";
 import ScanRecipe from "../ScanRecipe";
@@ -16,7 +16,7 @@ import { storage } from "../../../firebase";
 
 const CreateRecipe = () => {
   const [openUpload, setOpenUpload] = useState(true);
-  const [files, setFiles] = useState<any>([]);
+  const [files, setFiles] = useState<FileWithPreview[]>([]);
   const { currentUser, setSnackbar } = useStore();
   const [expanded, setExpanded] = useState("panel1");
   const history = useHistory();
@@ -62,9 +62,9 @@ const CreateRecipe = () => {
       const recipeId = await sendRecipe(recipe);
       if (files.length > 0) {
         let fileType = "";
-        if (files[0].path.endsWith("jpeg")) {
+        if (files[0].name.endsWith("jpeg")) {
           fileType = "jpeg";
-        } else if (files[0].path.endsWith("png")) {
+        } else if (files[0].name.endsWith("png")) {
           fileType = "png";
         }
         if (fileType !== "") {

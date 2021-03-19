@@ -47,3 +47,11 @@ export interface RecipeStepProps {
   errors: Errors;
   setErrors: Dispatch<SetStateAction<Errors>>;
 }
+
+export interface RecipeStepOneProps extends RecipeStepProps {
+  files: FileWithPreview[];
+  setFiles: Dispatch<SetStateAction<FileWithPreview[]>>;
+}
+export interface FileWithPreview extends File {
+  preview: string;
+}

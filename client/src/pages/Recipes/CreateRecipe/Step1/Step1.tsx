@@ -1,5 +1,5 @@
 import styles from "../index.module.scss";
-import { RecipeStepProps } from "../types";
+import { FileWithPreview, RecipeStepOneProps } from "../types";
 import { TextField, Button } from "@material-ui/core";
 import { validateRecipe } from "./validateRecipe";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
@@ -12,15 +12,7 @@ interface Values {
   readyInMinutes: number;
 }
 
-interface FileToUpload {
-  preview?: string;
-}
-interface Files {
-  files: any;
-  setFiles: Dispatch<SetStateAction<any>>;
-}
-
-const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors, files, setFiles }: RecipeStepProps & Files) => {
+const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors, files, setFiles }: RecipeStepOneProps) => {
   const { setSnackbar } = useStore();
   const values = useRef<Values>({
     title: "",
@@ -54,7 +46,7 @@ const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors, files, setFi
 
   const handleCallback = (dataFromChild: any) => {
     setFiles(
-      dataFromChild.map((file: any) => {
+      dataFromChild.map((file: FileWithPreview) => {
         return Object.assign(file, { preview: URL.createObjectURL(file) });
       })
     );
