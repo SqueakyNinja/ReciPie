@@ -9,6 +9,7 @@ import { useStore } from "../../../../store";
 import { RecipeStepProps } from "../types";
 import { ExtendedIngredient } from "../../../../../../common";
 import { combineClasses } from "../../../../utils";
+import produce from "immer";
 
 interface Ingredient {
   category: string;
@@ -18,7 +19,6 @@ interface Ingredient {
 
 const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStepProps) => {
   const { setSnackbar } = useStore();
-  const [firstAdd, setFirstAdd] = useState(true);
   const [open, setOpen] = useState<boolean>(false);
   const [ingredientsOptions, setIngredientsOptions] = useState<Ingredient[]>([]);
   const [unitShort, setUnitShort] = useState("");
@@ -59,18 +59,14 @@ const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
           },
         },
       };
-      if (firstAdd) {
-        setFirstAdd(false);
-        setRecipe({
-          ...recipe,
-          extendedIngredients: [newIngredient],
-        });
-      } else {
-        setRecipe({
-          ...recipe,
-          extendedIngredients: [...(recipe.extendedIngredients ?? []), newIngredient],
-        });
-      }
+      const updatedRecipe = produce(recipe, (newRecipe) => {
+        if (recipe.extendedIngredients[0].name === "") {
+          newRecipe.extendedIngredients[0] = newIngredient;
+        } else {
+          newRecipe.extendedIngredients.push(newIngredient);
+        }
+      });
+      setRecipe(updatedRecipe);
 
       setIngredient("");
       setAmount("");

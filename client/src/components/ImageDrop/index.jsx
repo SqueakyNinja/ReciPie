@@ -4,7 +4,8 @@ import styles from "./index.module.scss";
 
 const ImageDrop = ({ parentCallback }) => {
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
+    accept: ["image/png", "image/jpeg"],
+    multiple: false,
     onDrop: (acceptedFiles) => {
       return parentCallback(acceptedFiles);
     },

@@ -1,54 +1,80 @@
-import { useEffect, useState } from "react";
-import { createWorker } from "tesseract.js";
-import { Button, Modal, Backdrop, Fade, Paper, Typography } from "@material-ui/core";
+import { useEffect, useRef, useState } from "react";
+import { createWorker, createScheduler } from "tesseract.js";
+import { Button, Modal, Backdrop, Fade, Paper, Typography, TextField } from "@material-ui/core";
 import ImageDrop from "../../../components/ImageDrop";
 import Loadingbar from "../../../components/Loadingbar";
 import styles from "./index.module.scss";
 import Loader from "react-dots-loader";
 import "react-dots-loader/index.css";
+import Cropping from "./Cropping";
+import produce from "immer";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload, files, setFiles }) => {
+const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
   const [progress, setProgress] = useState(0);
+  const [workerOneProgress, setWorkerOneProgress] = useState(0);
+  const [workerTwoProgress, setWorkerTwoProgress] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [ocr, setOcr] = useState("Recognizing...");
-  const worker = createWorker({
+  const [files, setFiles] = useState([]);
+  const [trimText, setTrimText] = useState(false);
+  const [imagesToProcess, setImagesToProcess] = useState(["", ""]);
+  const [ingredientsFromImage, setIngredientsFromImage] = useState("");
+  const [instructionsFromImage, setInstructionsFromImage] = useState("");
+  const recipeRef = useRef(recipe);
+
+  const scheduler = createScheduler();
+  const workerOne = createWorker({
     logger: (m) => {
       if (m.status === "recognizing text") {
-        setProgress(m.progress);
-        if (m.progress === 1) {
-          setTimeout(() => {
-            setLoading(false);
-            setOpenUpload(false);
-            setProgress(0);
-            setFiles([]);
-          }, 2000);
-        }
+        setWorkerOneProgress(m.progress);
+      }
+    },
+  });
+  const workerTwo = createWorker({
+    logger: (m) => {
+      if (m.status === "recognizing text") {
+        setWorkerTwoProgress(m.progress);
       }
     },
   });
 
-  const processRecipe = async () => {
-    await worker.load();
-    await worker.loadLanguage("eng");
-    await worker.initialize("eng");
-    const {
-      data: { text },
-    } = await worker.recognize(files[0]);
-    setOcr(text);
-    let resultsarray = text.split("\n");
-    let filteredArray = resultsarray.filter((x) => x !== "");
-
-    const regex = /[0-9,|.]+ (?<=[0-9]\s)(?:\w+)/;
-    for (let i = 0; i < filteredArray.length; i++) {
-      const element = filteredArray[i];
-      const newObjectKey = element.replace(regex, "").trim();
-      const newObjectValue = element.match(regex)?.[0];
-      const newObject = { [newObjectKey]: newObjectValue };
-      // console.log(newObject);
-      // console.log(text);
-      console.log(ocr);
+  useEffect(() => {
+    setProgress(workerOneProgress / 2 + workerTwoProgress / 2);
+    if (workerOneProgress / 2 + workerTwoProgress / 2 === 1) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
     }
-    console.log(filteredArray);
+    return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workerOneProgress, workerTwoProgress]);
+
+  const processRecipe = async () => {
+    await workerOne.load();
+    await workerTwo.load();
+    await workerOne.loadLanguage("eng");
+    await workerTwo.loadLanguage("eng");
+    await workerOne.initialize("eng");
+    await workerTwo.initialize("eng");
+    scheduler.addWorker(workerOne);
+    scheduler.addWorker(workerTwo);
+    const results = await Promise.all(
+      imagesToProcess.map((image) => {
+        if (image !== "") {
+          return scheduler.addJob("recognize", image);
+        }
+        return null;
+      })
+    );
+    const regex = /\r?\n|\r/g;
+    const ingredientsResults = results[0].data.lines.map((x) => x.text);
+    const filteredIngredientsString = ingredientsResults.map((x) => x.replace(regex, "")).join(";\n");
+    setIngredientsFromImage(filteredIngredientsString);
+    const instructionsResults = results[1].data.paragraphs.map((x) => x.text);
+    const filteredInstructionsString = instructionsResults.map((x) => x.replace(regex, " ")).join(";\n");
+    setInstructionsFromImage(filteredInstructionsString);
+
+    setTrimText(true);
   };
 
   const handleCloseUpload = () => {
@@ -56,10 +82,10 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload, files, setFi
   };
 
   const handleCallback = (dataFromChild) => {
-    const allowedFileTypes = ["image/png", "image/jpeg"];
-
-    if (allowedFileTypes.indexOf(dataFromChild[0].type) > -1) {
-      setFiles(dataFromChild.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) })));
+    if (dataFromChild.length > 0) {
+      const [file] = dataFromChild;
+      const fileWithPreview = [{ ...file, preview: URL.createObjectURL(file) }];
+      setFiles(fileWithPreview);
     }
   };
 
@@ -72,6 +98,81 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload, files, setFi
     setLoading(false);
     setFiles([]);
     //Doesn't actually cancel the workers...
+  };
+
+  const setIngredientsAndInstructions = () => {
+    const regexName = /[0-9,|.](?<=[0-9])\s*(?:\w+)/g;
+    const regexAmount = /^[0-9]+(([.,]?[0-9]+)|[0-9]*)/g;
+    const regexMeassure = /(?<=[0-9]\s)\s*(?:\w+)\s*(?<=\s)/g;
+
+    const newIngredientsArray = ingredientsFromImage
+      .split(";")
+      .map((x) => x.trim())
+      .filter((x) => x !== "");
+    for (let i = 0; i < newIngredientsArray.length; i++) {
+      let currentName = "";
+      let currentAmount = "";
+      let currentMeassure = "";
+      const element = newIngredientsArray[i];
+      if (element.replace(regexName, "") !== "") {
+        currentName = element.replace(regexName, "").trim();
+      } else {
+        currentName = element.match(/[^0-9]\D\w+/g)[0].trim();
+      }
+      if (element.match(regexAmount) !== null) {
+        currentAmount = element.match(regexAmount)[0].trim();
+      }
+      if (element.match(regexMeassure) !== null) {
+        currentMeassure = element.match(regexMeassure)[0].trim();
+      }
+      const newAmount = Number(currentAmount);
+      const newIngredient = {
+        name: currentName,
+        measures: {
+          metric: {
+            amount: newAmount,
+            unitShort: currentMeassure,
+          },
+        },
+      };
+      console.log(newIngredient);
+      const updatedRecipe = produce(recipeRef.current, (newRecipe) => {
+        if (recipeRef.current.extendedIngredients[0].name === "") {
+          newRecipe.extendedIngredients[0] = newIngredient;
+        } else {
+          newRecipe.extendedIngredients.push(newIngredient);
+        }
+      });
+      recipeRef.current = updatedRecipe;
+    }
+
+    const newInstructionsArray = instructionsFromImage
+      .split(";")
+      .map((x) => x.trim())
+      .filter((x) => x !== "");
+
+    for (let i = 0; i < newInstructionsArray.length; i++) {
+      const element = newInstructionsArray[i];
+      const newInstructions = { number: recipeRef.current.analyzedInstructions[0].steps.length + 1, step: element };
+
+      const updatedRecipe = produce(recipeRef.current, (newRecipe) => {
+        if (recipeRef.current.analyzedInstructions[0].steps[0].step === "") {
+          newRecipe.analyzedInstructions[0].steps[0].step = element;
+          newRecipe.analyzedInstructions[0].steps[0].number = 1;
+        } else {
+          newRecipe.analyzedInstructions[0].steps.push(newInstructions);
+        }
+      });
+      recipeRef.current = updatedRecipe;
+    }
+
+    console.log(recipeRef.current);
+    setRecipe(recipeRef.current);
+    // setProgress(0);
+    // setFiles([]);
+    // setImagesToProcess(["", ""]);
+    // setTrimText(false);
+    // setOpenUpload(false);
   };
 
   return (
@@ -87,6 +188,17 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload, files, setFi
     >
       <Fade in={openUpload}>
         <Paper className={styles.paper}>
+          {files.length === 0 && <ImageDrop parentCallback={handleCallback} />}
+          {files.length > 0 && trimText === false && (
+            <Cropping
+              files={files}
+              setFiles={setFiles}
+              imagesToProcess={imagesToProcess}
+              setImagesToProcess={setImagesToProcess}
+              handleProceed={handleProceed}
+            />
+          )}
+
           {loading && (
             <Modal
               className={styles.loadingModal}
@@ -102,7 +214,6 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload, files, setFi
                   <div className={styles.loadingTitle}>
                     {progress !== 1 ? (
                       <>
-                        {" "}
                         <Typography align="center" variant="h5">
                           Processing
                         </Typography>
@@ -124,20 +235,41 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload, files, setFi
               </Fade>
             </Modal>
           )}
-          {files.length > 0 && (
-            <div className={styles.imageDiv}>
-              <img src={files[0].preview}></img>
-              <div className={styles.buttonDiv}>
-                <Button variant="contained" color="secondary" onClick={() => setFiles([])}>
-                  Reset
-                </Button>
-                <Button variant="contained" color="primary" onClick={handleProceed}>
-                  Proceed
-                </Button>
+          {trimText && files.length !== 0 && (
+            <div className={styles.editTextFromImage}>
+              <div className={styles.inputsAndImage}>
+                <div className={styles.textFields}>
+                  <TextField
+                    label="Ingredients"
+                    multiline
+                    rowsMax={6}
+                    variant="outlined"
+                    value={ingredientsFromImage}
+                    onChange={(e) => setIngredientsFromImage(e.target.value)}
+                  />
+
+                  <TextField
+                    label="Instructions"
+                    multiline
+                    rowsMax={6}
+                    variant="outlined"
+                    value={instructionsFromImage}
+                    onChange={(e) => setInstructionsFromImage(e.target.value)}
+                  />
+                </div>
+                <div className={styles.imagePreview}>
+                  <TransformWrapper>
+                    <TransformComponent>
+                      <img src={files[0].preview} alt="" />
+                    </TransformComponent>
+                  </TransformWrapper>
+                </div>
               </div>
+              <Button variant="contained" color="primary" onClick={setIngredientsAndInstructions}>
+                Done
+              </Button>
             </div>
           )}
-          {files.length === 0 && <ImageDrop parentCallback={handleCallback} />}
         </Paper>
       </Fade>
     </Modal>

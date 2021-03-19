@@ -2,7 +2,7 @@ import styles from "../index.module.scss";
 import { RecipeStepProps } from "../types";
 import { TextField, Button } from "@material-ui/core";
 import { validateRecipe } from "./validateRecipe";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useStore } from "../../../../store";
 import ImageDrop from "../../../../components/ImageDrop";
 
@@ -12,8 +12,12 @@ interface Values {
   readyInMinutes: number;
 }
 
+interface File {
+  preview: string;
+}
+
 const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStepProps) => {
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<File[]>([{ preview: "" }]);
   const { setSnackbar } = useStore();
   const values = useRef<Values>({
     title: "",
@@ -32,6 +36,11 @@ const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
     setErrors(validateRecipe(values.current));
   };
 
+  useEffect(() => {
+    setRecipe({ ...recipe, image: files[0].preview });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files]);
+
   const handleNext = () => {
     Object.keys(errors).length === 0 && values.current.title
       ? setExpanded("panel2")
@@ -39,7 +48,6 @@ const Step1 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStep
   };
 
   const handleCallback = (dataFromChild: any) => {
-    console.log(dataFromChild);
     setFiles(dataFromChild.map((file: any) => Object.assign(file, { preview: URL.createObjectURL(file) })));
   };
 

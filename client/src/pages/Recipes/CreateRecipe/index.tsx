@@ -13,20 +13,20 @@ import RecipeDetails from "../../../components/RecipeDetails/RecipeDetails";
 import { combineClasses } from "../../../utils";
 import ScanRecipe from "../ScanRecipe";
 
-interface File {
-  lastModified?: number;
-  lastModifiedDate?: string;
-  name?: string;
-  path?: string;
-  preview?: string;
-  size?: number;
-  type?: string;
-  wekitRelativePath?: string;
-}
+// interface File {
+//   lastModified?: number;
+//   lastModifiedDate?: string;
+//   name?: string;
+//   path?: string;
+//   preview?: string;
+//   size?: number;
+//   type?: string;
+//   wekitRelativePath?: string;
+// }
 
 const CreateRecipe = () => {
   const [openUpload, setOpenUpload] = useState(true);
-  const [files, setFiles] = useState<File[]>([]);
+  // const [files, setFiles] = useState<File[]>([]);
   const { currentUser, setSnackbar } = useStore();
   const [expanded, setExpanded] = useState("panel1");
   const history = useHistory();
@@ -88,18 +88,10 @@ const CreateRecipe = () => {
 
   return (
     <div className={styles.root}>
-      <ScanRecipe
-        recipe={recipe}
-        setRecipe={setRecipe}
-        openUpload={openUpload}
-        setOpenUpload={setOpenUpload}
-        files={files}
-        setFiles={setFiles}
-      />
+      <ScanRecipe recipe={recipe} setRecipe={setRecipe} openUpload={openUpload} setOpenUpload={setOpenUpload} />
       <div>
         <h1>Create your own recipe</h1>
         <Button onClick={handleOpenUpload}>Scan Recipe</Button>
-        <Button onClick={() => console.log(files)}>Log files</Button>
       </div>
       <div className={styles.flexContainer}>
         <div className={styles.accordionBox}>
@@ -155,13 +147,12 @@ const CreateRecipe = () => {
             </AccordionDetails>
           </Accordion>
         </div>
-        {/* accordionBox ends above */}
 
         <div className={styles.recipeDetailsBox}>
           <RecipeDetails recipe={recipe} />
         </div>
       </div>
-      {/* FlexContainer ends above */}
+
       <div className={styles.submitButtonDiv}>
         <Button
           color="primary"
