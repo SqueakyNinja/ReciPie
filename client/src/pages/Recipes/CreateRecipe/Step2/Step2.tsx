@@ -11,11 +11,6 @@ import { combineClasses } from "../../../../utils";
 import produce from "immer";
 import axios, { AxiosResponse } from "axios";
 import { matchSorter } from "match-sorter";
-interface Ingredient {
-  category: string;
-  id: number;
-  name: string;
-}
 
 const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStepProps) => {
   const { setSnackbar } = useStore();
