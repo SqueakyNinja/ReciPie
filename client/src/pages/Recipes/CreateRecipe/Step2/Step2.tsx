@@ -1,46 +1,29 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-//import axios, { AxiosResponse } from 'axios';
-import styles from '../index.module.scss';
-import Autocomplete, {
-  createFilterOptions,
-} from '@material-ui/lab/Autocomplete';
-import {
-  Button,
-  TextField,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem,
-} from '@material-ui/core';
-import { FilterOptionsState } from '@material-ui/lab/useAutocomplete';
-import SortableList from './SortableList';
-import { useStore } from '../../../../store';
-import { RecipeStepProps } from '../types';
-import { ExtendedIngredient } from '../../../../../../common';
-import { combineClasses } from '../../../../utils';
-
+import React, { useState, useEffect, ChangeEvent } from "react";
+import styles from "../index.module.scss";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Button, TextField, FormControl, Select, InputLabel, MenuItem } from "@material-ui/core";
+import { FilterOptionsState } from "@material-ui/lab/useAutocomplete";
+import SortableList from "./SortableList";
+import { useStore } from "../../../../store";
+import { IngredientFromDb, RecipeStepProps } from "../types";
+import { ExtendedIngredient } from "../../../../../../common";
+import { combineClasses } from "../../../../utils";
+import produce from "immer";
+import axios, { AxiosResponse } from "axios";
+import { matchSorter } from "match-sorter";
 interface Ingredient {
   category: string;
   id: number;
   name: string;
 }
 
-const Step2 = ({
-  recipe,
-  setRecipe,
-  setExpanded,
-  errors,
-  setErrors,
-}: RecipeStepProps) => {
+const Step2 = ({ recipe, setRecipe, setExpanded, errors, setErrors }: RecipeStepProps) => {
   const { setSnackbar } = useStore();
-  const [firstAdd, setFirstAdd] = useState(true);
   const [open, setOpen] = useState<boolean>(false);
-  const [ingredientsOptions, setIngredientsOptions] = useState<Ingredient[]>(
-    []
-  );
-  const [unitShort, setUnitShort] = useState('');
-  const [ingredient, setIngredient] = useState('');
-  const [amount, setAmount] = useState<number | string>('');
+  const [ingredientsOptions, setIngredientsOptions] = useState<IngredientFromDb[]>([]);
+  const [unitShort, setUnitShort] = useState("");
+  const [ingredient, setIngredient] = useState("");
+  const [amount, setAmount] = useState<number | string>("");
   const [editMode, setEditMode] = useState(false);
 
   const handleSelectChange = (e: React.ChangeEvent<{ value: unknown }>) => {
@@ -48,9 +31,9 @@ const Step2 = ({
   };
 
   const handleIngredientChange = (e: ChangeEvent<{}>, value: string) => {
-    if (value === '') {
+    if (value === "" || value.length < 3) {
       setOpen(false);
-    } else if (!open) {
+    } else if (value.length > 2 && !open) {
       setOpen(true);
     }
     setIngredient(value);
@@ -76,53 +59,39 @@ const Step2 = ({
           },
         },
       };
-      if (firstAdd) {
-        setFirstAdd(false);
-        setRecipe({
-          ...recipe,
-          extendedIngredients: [newIngredient],
-        });
-      } else {
-        setRecipe({
-          ...recipe,
-          extendedIngredients: [
-            ...(recipe.extendedIngredients ?? []),
-            newIngredient,
-          ],
-        });
-      }
+      const updatedRecipe = produce(recipe, (newRecipe) => {
+        if (recipe.extendedIngredients[0].name === "") {
+          newRecipe.extendedIngredients[0] = newIngredient;
+        } else {
+          newRecipe.extendedIngredients.push(newIngredient);
+        }
+      });
+      setRecipe(updatedRecipe);
 
-      setIngredient('');
-      setAmount('');
-      setUnitShort('');
+      setIngredient("");
+      setAmount("");
+      setUnitShort("");
     } else {
-      setSnackbar('Please enter an ingredient in the field below', 'error');
+      setSnackbar("Please enter an ingredient in the field below", "error");
     }
   };
 
   //IngredientsOptions:
   useEffect(() => {
     const fetchIngredients = async () => {
-      const result = await fetch('/ingredients.json');
-      const parsedResult = await result.json();
-      setIngredientsOptions(parsedResult);
-      // const result: AxiosResponse<Ingredient[]> = await axios("/ingredients.json");
-      // setIngredientsOptions(result.data);
+      const result: AxiosResponse<IngredientFromDb[]> = await axios("/ingredients");
+      setIngredientsOptions(result.data);
     };
 
     fetchIngredients();
   }, []);
 
-  const filterOptions: (
-    options: Ingredient[],
-    state: FilterOptionsState<Ingredient>
-  ) => Ingredient[] = createFilterOptions({
-    limit: 10,
-  });
+  const filterOptions = (options: IngredientFromDb[], state: FilterOptionsState<IngredientFromDb>) =>
+    matchSorter(options, state.inputValue, { keys: ["name"] });
 
   return (
     <div className={styles.steps}>
-      <div className='Step2'>
+      <div className="Step2">
         <Autocomplete
           forcePopupIcon={false}
           open={open}
@@ -132,17 +101,15 @@ const Step2 = ({
             setOpen(false);
           }}
           filterOptions={filterOptions}
-          getOptionSelected={(option: Ingredient, value: Ingredient) =>
-            option.name === value.name
-          }
+          getOptionSelected={(option: IngredientFromDb, value: IngredientFromDb) => option.name === value.name}
           getOptionLabel={(ingredient: any) => ingredient.name}
           options={ingredientsOptions}
           renderInput={(params) => (
             <TextField
               {...params}
-              label='Search Ingredient'
-              variant='outlined'
-              name='name'
+              label="Search Ingredient"
+              variant="outlined"
+              name="name"
               InputProps={{
                 ...params.InputProps,
                 endAdornment: <>{params.InputProps.endAdornment}</>,
@@ -151,26 +118,21 @@ const Step2 = ({
           )}
         />
 
-        <div className='Step2Measurement'>
+        <div className="Step2Measurement">
           <TextField
             className={styles.textfield}
-            variant='outlined'
-            label='Measurements, amount'
-            type='number'
-            name='amount'
+            variant="outlined"
+            label="Measurements, amount"
+            type="number"
+            name="amount"
             value={amount}
             onChange={handleAmountChange}
           />
 
-          <FormControl variant='outlined' className={styles.textfield}>
+          <FormControl variant="outlined" className={styles.textfield}>
             <InputLabel>Units</InputLabel>
 
-            <Select
-              label='Grouping'
-              name='unitShort'
-              value={unitShort}
-              onChange={handleSelectChange}
-            >
+            <Select label="Grouping" name="unitShort" value={unitShort} onChange={handleSelectChange}>
               {/* <MenuItem value="" disabled>
               Imperial
             </MenuItem>
@@ -182,26 +144,26 @@ const Step2 = ({
             <MenuItem value="qt">quart (qt)</MenuItem>
             <MenuItem value="gal">gallon (gal)</MenuItem>
             <MenuItem value="lb">pound (lb)</MenuItem> */}
-              <MenuItem value='' disabled>
+              <MenuItem value="" disabled>
                 Metric
               </MenuItem>
 
-              <MenuItem value=''>None</MenuItem>
-              <MenuItem value='tsp'>teaspoon (tsp)</MenuItem>
-              <MenuItem value='tbsp'>tablespoon (tbsp)</MenuItem>
-              <MenuItem value='ml'>milliliter (ml)</MenuItem>
-              <MenuItem value='cl'>centiliter (cl)</MenuItem>
-              <MenuItem value='dl'>deciliter (dl)</MenuItem>
-              <MenuItem value='l'>liter (l)</MenuItem>
-              <MenuItem value='g'>grams (g)</MenuItem>
-              <MenuItem value='kg'>kilograms (kg)</MenuItem>
+              <MenuItem value="">None</MenuItem>
+              <MenuItem value="tsp">teaspoon (tsp)</MenuItem>
+              <MenuItem value="tbsp">tablespoon (tbsp)</MenuItem>
+              <MenuItem value="ml">milliliter (ml)</MenuItem>
+              <MenuItem value="cl">centiliter (cl)</MenuItem>
+              <MenuItem value="dl">deciliter (dl)</MenuItem>
+              <MenuItem value="l">liter (l)</MenuItem>
+              <MenuItem value="g">grams (g)</MenuItem>
+              <MenuItem value="kg">kilograms (kg)</MenuItem>
             </Select>
           </FormControl>
         </div>
 
         <Button
-          color='primary'
-          variant='contained'
+          color="primary"
+          variant="contained"
           className={`${styles.secondaryButton} ${styles.addButton}`}
           onClick={addIngredient}
           disabled={editMode}
@@ -223,25 +185,21 @@ const Step2 = ({
         </div>
 
         <div className={styles.buttonContainer}>
-          {recipe.extendedIngredients[0].name.length > 0 && (
+          {recipe.extendedIngredients.length > 0 && recipe.extendedIngredients[0].name.length > 0 && (
             <Button
-              className={combineClasses(
-                styles.secondaryButton,
-                styles.editButton,
-                editMode && styles.doneButton
-              )}
-              variant='contained'
+              className={combineClasses(styles.secondaryButton, styles.editButton, editMode && styles.doneButton)}
+              variant="contained"
               onClick={handleEditmode}
             >
-              {editMode ? 'Done' : 'Edit order'}
+              {editMode ? "Done" : "Edit order"}
             </Button>
           )}
 
           <Button
-            color='primary'
-            variant='contained'
+            color="primary"
+            variant="contained"
             className={`${styles.secondaryButton} ${styles.nextButton}`}
-            onClick={() => setExpanded('panel3')}
+            onClick={() => setExpanded("panel3")}
             disabled={editMode}
           >
             Next

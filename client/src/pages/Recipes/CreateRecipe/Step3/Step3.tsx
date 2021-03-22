@@ -7,7 +7,6 @@ import { ChangeEvent, useState } from "react";
 import { combineClasses } from "../../../../utils";
 
 const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
-  const [firstAdd, setFirstAdd] = useState(true);
   const [editMode, setEditMode] = useState(false);
   const [step, setStep] = useState("");
 
@@ -18,8 +17,7 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
         step,
       };
       const updatedRecipe = produce(recipe, (newRecipe) => {
-        if (firstAdd) {
-          setFirstAdd(false);
+        if (recipe.analyzedInstructions[0].steps[0].step === "") {
           newRecipe.analyzedInstructions[0].steps[0].step = step;
           newRecipe.analyzedInstructions[0].steps[0].number = 1;
         } else {
@@ -42,6 +40,8 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
           variant="outlined"
           label="Add Instructions"
           value={step}
+          multiline
+          rowsMax={4}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setStep(e.target.value)}
         />
 
@@ -57,7 +57,7 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
       </div>
 
       <div>
-        {recipe.analyzedInstructions[0].steps[0].step.length > 0 && (
+        {recipe.analyzedInstructions[0].steps.length > 0 && recipe.analyzedInstructions[0].steps[0].step.length > 0 && (
           <>
             <SortableListStep3 recipe={recipe} setRecipe={setRecipe} editMode={editMode} setStep={setStep} />
             <Button

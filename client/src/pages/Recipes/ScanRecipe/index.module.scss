@@ -1,0 +1,67 @@
+.modal {
+  display: flex;
+}
+
+.paper {
+  width: 90vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  outline: none;
+  min-height: 50vh;
+}
+
+.loadingModal {
+  display: flex;
+  .loadingPaper {
+    width: 75vw;
+    padding: 2rem;
+    margin: auto;
+    &:focus {
+      outline: none;
+    }
+    .loadingTitle {
+      display: flex;
+      justify-content: center;
+      > div {
+        margin-left: 0.15rem;
+        display: flex !important;
+        > div {
+          margin-top: 1.25rem;
+        }
+      }
+    }
+    .buttonDiv {
+      display: flex;
+      justify-content: flex-end;
+      margin: 1rem 0 0 auto;
+    }
+  }
+}
+
+.editTextFromImage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  .inputsAndImage {
+    display: flex;
+    width: calc(100% - 2rem);
+    .textFields {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      > div {
+        margin: 1rem;
+      }
+    }
+    .imagePreview {
+      width: 50%;
+      img {
+        max-width: 95%;
+      }
+    }
+  }
+}

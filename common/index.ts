@@ -59,4 +59,5 @@ export interface IngredientsForRecipe {
 export interface Ingredients {
   id: string;
   name: string;
+  api_id: string;
 }
