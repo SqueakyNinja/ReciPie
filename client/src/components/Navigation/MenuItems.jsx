@@ -12,7 +12,7 @@ export const MenuItems = [
     subNav: [
       {
         title: "Browse Recipes",
-        path: "#",
+        path: "/browse-recipe",
         icon: "fas fa-receipt",
       },
       {

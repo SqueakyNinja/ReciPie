@@ -1,0 +1,22 @@
+.browseContainer {
+display:flex;
+flex-direction: column;
+
+border: 2px solid black;
+
+    .searchBox{
+        border: 2px solid red;
+        margin: auto;
+        
+    }
+
+    .contentContainer {
+display: flex;
+.filters{
+max-width: 300px;
+}
+.searchResults{
+    border: 2px solid red;
+}
+    }
+}

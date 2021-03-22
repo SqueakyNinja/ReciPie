@@ -12,6 +12,7 @@ import CreateRecipe from "./pages/Recipes/CreateRecipe";
 import MyRecipes from "./pages/Recipes/MyRecipes";
 import ScanRecipe from "./pages/Recipes/ScanRecipe";
 import ImageDrop from "./components/ImageDrop";
+import BrowseRecipe from "./pages/BrowseRecipe"
 
 const Main = () => {
   return (
@@ -28,6 +29,7 @@ const Main = () => {
       <Route exact path="/meal-generator" component={MealGenerator} />
       <Route exact path="/meal-card/:id" component={MealCard} />
       <Route exact path="/image" component={ImageDrop} />
+      <Route exact path="/browse-recipe" component={BrowseRecipe}/>
     </Paper>
   );
 };
