@@ -41,7 +41,7 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
   });
 
   useEffect(() => {
-    if (imagesToProcess[0] === "" || imagesToProcess[1] === "") {
+    if (!imagesToProcess[0] || !imagesToProcess[1]) {
       setProgress(workerOneProgress + workerTwoProgress);
       if (workerOneProgress + workerTwoProgress === 1) {
         setTimeout(() => {
@@ -61,7 +61,7 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
   }, [workerOneProgress, workerTwoProgress]);
 
   const processRecipe = async () => {
-    if (imagesToProcess[0] !== "" || imagesToProcess[1] !== "") {
+    if (!!imagesToProcess[0] || !!imagesToProcess[1]) {
       setLoading(true);
       await workerOne.load();
       await workerTwo.load();
@@ -74,7 +74,7 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
       const regex = /\r?\n|\r/g;
 
       // If both images will be processed
-      if (imagesToProcess[0] !== "" && imagesToProcess[1] !== "") {
+      if (!!imagesToProcess[0] && !!imagesToProcess[1]) {
         const results = await Promise.all(imagesToProcess.map((image) => scheduler.addJob("recognize", image)));
         const ingredientsResults = results[0].data.lines
           .map((x) => x.text)
@@ -86,18 +86,20 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
           .map((x) => x.replace(regex, " "))
           .join(";\n");
         setInstructionsFromImage(instructionsResults);
+      }
 
-        // If only Ingredients will be processed
-      } else if (imagesToProcess[0] !== "" && imagesToProcess[1] === "") {
+      // If only Ingredients will be processed
+      if (imagesToProcess[0] !== "" && imagesToProcess[1] === "") {
         const results = await scheduler.addJob("recognize", imagesToProcess[0]);
         const ingredientsResults = results.data.lines
           .map((x) => x.text)
           .map((x) => x.replace(regex, ""))
           .join(";\n");
         setIngredientsFromImage(ingredientsResults);
+      }
 
-        // If only Instructions will be processed
-      } else if (imagesToProcess[0] === "" && imagesToProcess[1] !== "") {
+      // If only Instructions will be processed
+      if (imagesToProcess[0] === "" && imagesToProcess[1] !== "") {
         const results = await scheduler.addJob("recognize", imagesToProcess[1]);
         const instructionsResults = results.data.paragraphs
           .map((x) => x.text)
@@ -128,57 +130,38 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
     processRecipe();
   };
 
-  const handleCancel = () => {
-    setLoading(false);
-    setFiles([]);
-    //Doesn't actually cancel the workers...
-  };
-
   const setIngredientsAndInstructions = () => {
-    const regexName = /[0-9,|.](?<=[0-9])\s*(?:\w+)/g;
-    const regexAmount = /^[0-9]+(([.,]?[0-9]+)|[0-9]*)/g;
-    const regexMeassure = /(?<=[0-9]\s)\s*(?:\w+)\s*(?<=\s)/g;
-
+    const regex = /^([0-9]+[.,]?[0-9]+|[0-9]*)(\s*[a-z]+)(\s*[a-z\s,-]*)?/i;
     const newIngredientsArray = ingredientsFromImage
       .split(";")
-      .map((x) => x.trim())
+      .map((x) => x.trim() + ";")
       .filter((x) => x !== "");
-    for (let i = 0; i < newIngredientsArray.length; i++) {
-      let currentName = "";
-      let currentAmount = "";
-      let currentMeassure = "";
-      const element = newIngredientsArray[i];
-      if (element.replace(regexName, "") !== "") {
-        currentName = element.replace(regexName, "").trim();
-      } else {
-        currentName = element.match(/[^0-9]\D\w+/g)[0].trim();
-      }
-      if (element.match(regexAmount) !== null) {
-        currentAmount = element.match(regexAmount)[0].trim();
-      }
-      if (element.match(regexMeassure) !== null) {
-        currentMeassure = element.match(regexMeassure)[0].trim();
-      }
-      const newAmount = Number(currentAmount);
-      const newIngredient = {
-        name: currentName,
-        measures: {
-          metric: {
-            amount: newAmount,
-            unitShort: currentMeassure,
+
+    function formatIngredient(ingredient) {
+      const match = ingredient.match(regex);
+
+      if (match) {
+        const hasMeasurement = !!match[3];
+        const result = {
+          name: hasMeasurement ? match[3].trim() : match[2].trim(),
+          measures: {
+            metric: {
+              amount: !!match[1] ? Number(match[1]) : undefined,
+              unitShort: hasMeasurement ? match[2].trim() : undefined,
+            },
           },
-        },
-      };
-      console.log(newIngredient);
-      const updatedRecipe = produce(recipeRef.current, (newRecipe) => {
-        if (recipeRef.current.extendedIngredients[0].name === "") {
-          newRecipe.extendedIngredients[0] = newIngredient;
-        } else {
-          newRecipe.extendedIngredients.push(newIngredient);
-        }
-      });
-      recipeRef.current = updatedRecipe;
+        };
+        const updatedRecipe = produce(recipeRef.current, (newRecipe) => {
+          if (recipeRef.current.extendedIngredients[0].name === "") {
+            newRecipe.extendedIngredients[0] = result;
+          } else {
+            newRecipe.extendedIngredients.push(result);
+          }
+        });
+        recipeRef.current = updatedRecipe;
+      }
     }
+    newIngredientsArray.map((x) => formatIngredient(x));
 
     const newInstructionsArray = instructionsFromImage
       .split(";")
@@ -186,12 +169,14 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
       .filter((x) => x !== "");
 
     for (let i = 0; i < newInstructionsArray.length; i++) {
-      const element = newInstructionsArray[i];
-      const newInstructions = { number: recipeRef.current.analyzedInstructions[0].steps.length + 1, step: element };
+      const newInstructions = {
+        number: recipeRef.current.analyzedInstructions[0].steps.length + 1,
+        step: newInstructionsArray[i],
+      };
 
       const updatedRecipe = produce(recipeRef.current, (newRecipe) => {
         if (recipeRef.current.analyzedInstructions[0].steps[0].step === "") {
-          newRecipe.analyzedInstructions[0].steps[0].step = element;
+          newRecipe.analyzedInstructions[0].steps[0].step = newInstructionsArray[i];
           newRecipe.analyzedInstructions[0].steps[0].number = 1;
         } else {
           newRecipe.analyzedInstructions[0].steps.push(newInstructions);
@@ -200,13 +185,12 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
       recipeRef.current = updatedRecipe;
     }
 
-    console.log(recipeRef.current);
     setRecipe(recipeRef.current);
-    // setProgress(0);
-    // setFiles([]);
-    // setImagesToProcess(["", ""]);
-    // setTrimText(false);
-    // setOpenUpload(false);
+    setProgress(0);
+    setFiles([]);
+    setImagesToProcess(["", ""]);
+    setTrimText(false);
+    setOpenUpload(false);
   };
 
   return (
@@ -260,11 +244,6 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
                     )}
                   </div>
                   <Loadingbar progress={progress} />
-                  <div className={styles.buttonDiv}>
-                    <Button variant="outlined" onClick={handleCancel}>
-                      Cancel
-                    </Button>
-                  </div>
                 </Paper>
               </Fade>
             </Modal>
