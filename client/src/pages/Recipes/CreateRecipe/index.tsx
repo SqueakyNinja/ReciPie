@@ -105,6 +105,11 @@ const CreateRecipe = () => {
   return (
     <div className={styles.root}>
       <Paper elevation={3} className={styles.paper}>
+        <ScanRecipe recipe={recipe} setRecipe={setRecipe} openUpload={openUpload} setOpenUpload={setOpenUpload} />
+        <div>
+          <h1>Create your own recipe</h1>
+          <Button onClick={handleOpenUpload}>Scan Recipe</Button>
+        </div>
         <div className={styles.flexContainer}>
           <div className={styles.accordionBox}>
             <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")} className={styles.accordion}>
@@ -169,17 +174,6 @@ const CreateRecipe = () => {
         </div>
 
         {/* FlexContainer ends above */}
-        <div className={styles.submitButtonDiv}>
-          <Button
-            color="primary"
-            variant="contained"
-            className={`${styles.secondaryButton} ${styles.submitButton}`}
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
-        </div>
-
         <div className={styles.submitButtonDiv}>
           <Button
             color="primary"
