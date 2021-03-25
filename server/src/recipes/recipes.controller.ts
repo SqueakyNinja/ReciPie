@@ -1,18 +1,21 @@
 import express from "express";
 import { Ingredients, Recipe } from "../../../common";
 import { RecipesResponse } from "../../../common/responses";
-import { getAllIngredients, selectAllRecipes, tryAddRecipe, updateFavouriteStatus } from "./recipes.model";
+import { getAllIngredients, selectRecipes, tryAddRecipe, updateFavouriteStatus } from "./recipes.model";
 
-export const allRecipes: express.RequestHandler<
+export const getRecipes: express.RequestHandler<
   {},
   RecipesResponse,
   {},
-  { userId: string; getSavedRecipes: string; searchStr: string }
+  { userId: string; getSavedRecipes: string; searchStr: string; recipeId: string }
 > = async (req, res) => {
   const getSavedRecipes = req.query.getSavedRecipes === "true";
-  const recipes = await selectAllRecipes(req.query.userId, getSavedRecipes, req.query.searchStr);
-
-  res.send({ recipes });
+  try {
+    const recipes = await selectRecipes(req.query.userId, getSavedRecipes, req.query.searchStr, req.query.recipeId);
+    res.send({ recipes });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const addNewRecipe: express.RequestHandler<{}, {}, { recipe: Recipe }> = async (req, res) => {
