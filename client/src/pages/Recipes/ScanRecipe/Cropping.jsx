@@ -84,14 +84,7 @@ const Cropping = ({
           />
 
           <Typography>Width</Typography>
-          <Slider
-            value={width}
-            min={100}
-            max={window.innerWidth}
-            step={10}
-            aria-labelledby="width"
-            onChange={(e, width) => setWidth(width)}
-          />
+          <Slider value={width} min={100} max={window.innerWidth} step={10} onChange={(e, width) => setWidth(width)} />
           <Typography>Height</Typography>
           <Slider
             value={height}
