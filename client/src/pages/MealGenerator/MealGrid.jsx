@@ -5,7 +5,7 @@ import MealCard from './MealCard';
 const MealGrid = ({ recipes }) => {
   return (
     <div>
-      <Grid container className={styles.grid} spacing={2}>
+      <Grid container className={styles.grid} spacing={3}>
         {recipes.map((meal, index) => {
           return <MealCard meal={meal} key={index} />;
         })}

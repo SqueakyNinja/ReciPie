@@ -32,8 +32,8 @@ const MealCard = ({ meal }) => {
 
   return (
     <div key={meal.id} className={styles.MealCard}>
-      <Card elevation={3} className={styles.card} onClick={handleClick}>
-        <CardContent className={styles.content}>
+      <Card elevation={3} className={styles.card}>
+        <CardContent className={styles.content} onClick={handleClick}>
           <img src={meal.image} alt={meal.description} />
           <h2>{textEllipsis(meal.title, 40)}</h2>
         </CardContent>
