@@ -91,6 +91,10 @@
   }
 }
 
+.scanButton {
+  display: none;
+}
+
 @media screen and (min-width: 1024px) {
   ///// ----- INDEX ----- /////
   .flexContainer {
@@ -124,5 +128,9 @@
     .recipeDetailsBox {
       flex: 50%;
     }
+  }
+
+  .scanButton {
+    display: block;
   }
 }

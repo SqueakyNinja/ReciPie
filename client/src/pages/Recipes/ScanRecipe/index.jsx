@@ -27,6 +27,7 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
   const scheduler = createScheduler();
   const workerOne = createWorker({
     logger: (m) => {
+      console.log(m.progress);
       if (m.status === "recognizing text") {
         setWorkerOneProgress(m.progress);
       }
@@ -34,6 +35,7 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
   });
   const workerTwo = createWorker({
     logger: (m) => {
+      console.log(m.progress);
       if (m.status === "recognizing text") {
         setWorkerTwoProgress(m.progress);
       }
@@ -63,19 +65,21 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
   const processRecipe = async () => {
     if (!!imagesToProcess[0] || !!imagesToProcess[1]) {
       setLoading(true);
-      await workerOne.load();
-      await workerTwo.load();
-      await workerOne.loadLanguage("eng");
-      await workerTwo.loadLanguage("eng");
-      await workerOne.initialize("eng");
-      await workerTwo.initialize("eng");
-      scheduler.addWorker(workerOne);
-      scheduler.addWorker(workerTwo);
       const regex = /\r?\n|\r/g;
 
       // If both images will be processed
       if (!!imagesToProcess[0] && !!imagesToProcess[1]) {
-        const results = await Promise.all(imagesToProcess.map((image) => scheduler.addJob("recognize", image)));
+        await workerOne.load();
+        await workerTwo.load();
+        await workerOne.loadLanguage("eng");
+        await workerTwo.loadLanguage("eng");
+        await workerOne.initialize("eng");
+        await workerTwo.initialize("eng");
+        scheduler.addWorker(workerOne);
+        scheduler.addWorker(workerTwo);
+        const results = await Promise.all(
+          imagesToProcess.map((image) => scheduler.addJob("recognize", image, { workerBlobURL: false }))
+        );
         const ingredientsResults = results[0].data.lines
           .map((x) => x.text)
           .map((x) => x.replace(regex, ""))
@@ -90,6 +94,10 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
 
       // If only Ingredients will be processed
       if (imagesToProcess[0] !== "" && imagesToProcess[1] === "") {
+        await workerOne.load();
+        await workerOne.loadLanguage("eng");
+        await workerOne.initialize("eng");
+        scheduler.addWorker(workerOne);
         const results = await scheduler.addJob("recognize", imagesToProcess[0]);
         const ingredientsResults = results.data.lines
           .map((x) => x.text)
@@ -100,6 +108,11 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
 
       // If only Instructions will be processed
       if (imagesToProcess[0] === "" && imagesToProcess[1] !== "") {
+        await workerOne.load();
+        await workerOne.loadLanguage("eng");
+        await workerOne.initialize("eng");
+        scheduler.addWorker(workerOne);
+
         const results = await scheduler.addJob("recognize", imagesToProcess[1]);
         const instructionsResults = results.data.paragraphs
           .map((x) => x.text)
@@ -125,9 +138,13 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
       setFiles(fileWithPreview);
     }
   };
-
   const handleProceed = () => {
-    processRecipe();
+    console.log("start process");
+    try {
+      processRecipe();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const setIngredientsAndInstructions = () => {

@@ -90,13 +90,13 @@ const CreateRecipe = () => {
     }
   };
 
-  useEffect(() => {
-    if (currentUser.id.length === 0) {
-      setSnackbar("Please login to use this feature", "info");
-      history.push("/account/login");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (currentUser.id.length === 0) {
+  //     setSnackbar("Please login to use this feature", "info");
+  //     history.push("/account/login");
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [currentUser]);
 
   const handleOpenUpload = () => {
     setOpenUpload(true);
@@ -107,7 +107,9 @@ const CreateRecipe = () => {
       <ScanRecipe recipe={recipe} setRecipe={setRecipe} openUpload={openUpload} setOpenUpload={setOpenUpload} />
       <div>
         <h1>Create your own recipe</h1>
-        <Button onClick={handleOpenUpload}>Scan Recipe</Button>
+        <Button onClick={handleOpenUpload} className={styles.scanButton}>
+          Scan Recipe
+        </Button>
       </div>
       <div className={styles.flexContainer}>
         <div className={styles.accordionBox}>
