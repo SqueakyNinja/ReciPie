@@ -77,6 +77,7 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
         await workerTwo.initialize("eng");
         scheduler.addWorker(workerOne);
         scheduler.addWorker(workerTwo);
+
         const results = await Promise.all(
           imagesToProcess.map((image) => scheduler.addJob("recognize", image, { workerBlobURL: false }))
         );
