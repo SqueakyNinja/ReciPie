@@ -95,14 +95,7 @@ const Cropping = ({
             onChange={(e, height) => setHeight(height)}
           />
           <Typography>Rotation</Typography>
-          <Slider
-            value={rotation}
-            min={0}
-            max={360}
-            step={1}
-            aria-labelledby="Rotation"
-            onChange={(e, rotation) => setRotation(rotation)}
-          />
+          <Slider value={rotation} min={0} max={360} step={1} onChange={(e, rotation) => setRotation(rotation)} />
         </div>
         <div className={styles.buttonDiv}>
           <Button variant="contained" color="primary" onClick={setIngredientsCrop}>
