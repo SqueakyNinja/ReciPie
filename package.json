@@ -1,0 +1,25 @@
+{
+  "name": "recipe-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "heroku-postbuild": "cd server && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SqueakyNinja/Recipe-app.git"
+  },
+  "workspaces": [
+    "client",
+    "server",
+    "common"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SqueakyNinja/Recipe-app/issues"
+  },
+  "homepage": "https://github.com/SqueakyNinja/Recipe-app#readme"
+}
