@@ -62,8 +62,6 @@ const Homepage = () => {
       `https://api.spoonacular.com/recipes/complexSearch?${url1}=${url2}&number=1&apiKey=${apiKey}`
     );
     setRecipe(result.data.results[0]);
-
-    console.log(result.data.results);
   };
 
   useEffect(() => {

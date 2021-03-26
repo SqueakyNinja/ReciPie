@@ -55,7 +55,7 @@ const Cropping = ({
   };
 
   return (
-    <Paper className={styles.CroppingMain}>
+    <Paper elevation={2} className={styles.CroppingMain}>
       <div className={styles.imageDiv}>
         <i className="fas fa-sync-alt" onClick={rotate}></i>
         <Cropper
@@ -96,17 +96,31 @@ const Cropping = ({
           />
         </div>
         <div className={styles.buttonAndImageDiv}>
-          <div className={styles.imageAndButton}>
+          <div className={styles.eachImageAndButton}>
             <Button variant="contained" color="primary" onClick={setIngredientsCrop}>
               Select Ingredients
             </Button>
-            <img src={imagesToProcess[0]} alt="" />
+            <div className={styles.image}>
+              {imagesToProcess[0].length > 0 && (
+                <>
+                  <i className="fas fa-times" onClick={() => setImagesToProcess(["", imagesToProcess[1]])} />
+                  <img src={imagesToProcess[0]} alt="" />
+                </>
+              )}
+            </div>
           </div>
-          <div className={styles.imageAndButton}>
+          <div className={styles.eachImageAndButton}>
             <Button variant="contained" color="primary" onClick={setInstructionsCrop}>
               Select Instructions
             </Button>
-            <img src={imagesToProcess[1]} alt="" />
+            <div className={styles.image}>
+              {imagesToProcess[1].length > 0 && (
+                <>
+                  <i className="fas fa-times" onClick={() => setImagesToProcess([imagesToProcess[0], ""])} />
+                  <img src={imagesToProcess[1]} alt="" />
+                </>
+              )}
+            </div>
           </div>
         </div>
         <div className={styles.resetProceed}>

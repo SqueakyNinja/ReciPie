@@ -27,7 +27,6 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
   const scheduler = createScheduler();
   const workerOne = createWorker({
     logger: (m) => {
-      console.log(m.progress);
       if (m.status === "recognizing text") {
         setWorkerOneProgress(m.progress);
       }
@@ -35,7 +34,6 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
   });
   const workerTwo = createWorker({
     logger: (m) => {
-      console.log(m.progress);
       if (m.status === "recognizing text") {
         setWorkerTwoProgress(m.progress);
       }
@@ -146,6 +144,16 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const goBack = () => {
+    setWorkerOneProgress(0);
+    setWorkerTwoProgress(0);
+    setProgress(0);
+    setIngredientsFromImage("");
+    setInstructionsFromImage("");
+    setImagesToProcess(["", ""]);
+    setTrimText(false);
   };
 
   const setIngredientsAndInstructions = () => {
@@ -271,36 +279,47 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
               <div className={styles.inputsAndImage}>
                 <div className={styles.textFields}>
                   <TextField
+                    className={styles.eachTextField}
                     label="Ingredients"
                     multiline
-                    rowsMax={6}
+                    rowsMax={20}
                     variant="outlined"
                     value={ingredientsFromImage}
                     onChange={(e) => setIngredientsFromImage(e.target.value)}
-                    helperText="Please separate entries with a ;"
+                    helperText="Please separate entries with a semi-colon ;"
                   />
 
                   <TextField
+                    className={styles.eachTextField}
                     label="Instructions"
                     multiline
-                    rowsMax={6}
+                    rowsMax={15}
                     variant="outlined"
                     value={instructionsFromImage}
                     onChange={(e) => setInstructionsFromImage(e.target.value)}
-                    helperText="Please separate entries with a ;"
+                    helperText="Please separate entries with a semi-colon ;"
                   />
                 </div>
                 <div className={styles.imagePreview}>
-                  <TransformWrapper>
-                    <TransformComponent>
+                  <TransformWrapper
+                    options={{ limitToBounds: false }}
+                    doubleClick={{ mode: "reset" }}
+                    className={styles.transformWrapper}
+                  >
+                    <TransformComponent className={styles.transformComponent}>
                       <img src={files[0].preview} alt="" />
                     </TransformComponent>
                   </TransformWrapper>
                 </div>
               </div>
-              <Button variant="contained" color="primary" onClick={setIngredientsAndInstructions}>
-                Done
-              </Button>
+              <div className={styles.buttonDiv}>
+                <Button variant="contained" color="secondary" onClick={goBack}>
+                  Back
+                </Button>
+                <Button variant="contained" color="primary" onClick={setIngredientsAndInstructions}>
+                  Done
+                </Button>
+              </div>
             </div>
           )}
         </Paper>
