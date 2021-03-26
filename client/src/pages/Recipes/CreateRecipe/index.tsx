@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -98,13 +98,13 @@ const CreateRecipe = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (currentUser.id.length === 0) {
-  //     setSnackbar("Please login to use this feature", "info");
-  //     history.push("/account/login");
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [currentUser]);
+  useEffect(() => {
+    if (currentUser.id.length === 0) {
+      setSnackbar("Please login to use this feature", "info");
+      history.push("/account/login");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
 
   const handleOpenUpload = () => {
     setOpenUpload(true);
