@@ -1,18 +1,53 @@
-@import '../../../app.global.scss';
+@import "../../../app.global.scss";
 
 .root {
   .paper {
+    display: flex;
+    flex-direction: column;
+    min-height: 60vh;
     margin: 15px;
 
+    .headerDiv {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1rem;
+      width: calc(100% - 2rem);
+      position: relative;
+      padding: 1rem 0;
+      h4 {
+        text-align: center;
+        padding: 0 1.5rem;
+      }
+      button {
+        position: absolute;
+        right: 0;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+      }
+      button > span {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        > i {
+          font-size: 2rem;
+        }
+        > p {
+          font-size: 1rem;
+        }
+      }
+    }
+
     .flexContainer {
-      margin: 0 10px 0 10px;
-      padding: 10px;
+      margin: 0 1rem 0 1rem;
+      padding: 0 0 1rem 0;
 
       .accordionHeader {
         background-color: $primaryHover;
         opacity: 0.6;
         border-radius: 4px;
-        margin-bottom: 5px;
+        margin-bottom: 2px;
+        margin: 2px 2px;
 
         .heading {
           font-weight: 600;
@@ -21,8 +56,14 @@
       }
 
       .accordionBox {
-        max-height: 85vh;
+        max-height: 70vh;
         overflow-y: auto;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
+
+        .accordion::before {
+          height: 0px;
+        }
 
         .active {
           background-color: $primary;
@@ -50,6 +91,7 @@
           .nextButton {
             margin-top: 15px;
             width: 100%;
+            margin-bottom: 1rem;
           }
 
           .doneButton {
@@ -71,26 +113,32 @@
       }
 
       .recipeDetailsBox {
-        max-height: 75vh;
+        max-height: 70vh;
         overflow-y: auto;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
+        padding: 1rem;
+        margin-top: 1rem;
       }
     }
   }
 }
 
 .submitButtonDiv {
-  margin: 15px 5px 10px 5px;
-  display: flex;
-  justify-content: flex-end;
-
-  .submitButton {
-    margin: 0 10px 10px 0;
-  }
+  margin: auto 1rem 1rem auto;
 }
 
 ///// ----- STEP 2 ----- /////
 .sortableList {
   margin: 0.25rem;
+  display: flex;
+  > div:first-of-type {
+    margin-right: 0.3rem;
+    flex: 0 0 auto;
+  }
+  > button:first-of-type {
+    margin-left: auto;
+  }
 }
 
 .editMode {
@@ -104,45 +152,61 @@
 }
 
 .scanButton {
-  display: none;
+  display: none !important;
 }
 
 @media screen and (min-width: 1024px) {
   ///// ----- INDEX ----- /////
-  .flexContainer {
-    display: flex;
-    flex-direction: row;
-
-    .accordionBox {
-      flex: 50%;
-
-      .nextButton {
-        max-width: fit-content;
-        float: right;
+  .root {
+    .paper {
+      .headerDiv {
+        justify-content: flex-start;
+        h4 {
+          padding: 0 9rem 0 0;
+          text-align: center;
+        }
+        width: calc(50% - 1.5rem);
       }
-
-      .buttonContainer {
-        width: 100%;
+      .flexContainer {
         display: flex;
+        flex-direction: row;
+        height: 70vh;
 
-        .nextButton {
-          max-width: fit-content;
-          margin-left: auto;
+        .accordionBox {
+          flex: 50%;
+          overflow-y: auto;
+          max-height: 70vh;
+
+          .nextButton {
+            max-width: fit-content;
+            float: right;
+          }
+
+          .buttonContainer {
+            width: 100%;
+            display: flex;
+
+            .nextButton {
+              max-width: fit-content;
+              margin-left: auto;
+            }
+
+            .editButton {
+              max-width: fit-content;
+              margin-right: auto;
+            }
+          }
         }
 
-        .editButton {
-          max-height: fit-content;
-          margin-right: auto;
+        .recipeDetailsBox {
+          flex: 50%;
+          margin: 0 0 0 1rem;
         }
       }
-    }
 
-    .recipeDetailsBox {
-      flex: 50%;
+      .scanButton {
+        display: flex !important;
+      }
     }
-  }
-
-  .scanButton {
-    display: block;
   }
 }

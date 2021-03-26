@@ -1,5 +1,13 @@
-import { useEffect, useState } from "react";
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Button, Paper } from "@material-ui/core";
+import { useState } from "react";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Typography,
+  Button,
+  Paper,
+  IconButton,
+} from "@material-ui/core";
 import styles from "./index.module.scss";
 import Step1 from "./Step1/Step1";
 import Step2 from "./Step2/Step2";
@@ -15,7 +23,7 @@ import ScanRecipe from "../ScanRecipe";
 import { storage } from "../../../firebase";
 
 const CreateRecipe = () => {
-  const [openUpload, setOpenUpload] = useState(true);
+  const [openUpload, setOpenUpload] = useState(false);
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const { currentUser, setSnackbar } = useStore();
   const [expanded, setExpanded] = useState("panel1");
@@ -106,9 +114,12 @@ const CreateRecipe = () => {
     <div className={styles.root}>
       <Paper elevation={3} className={styles.paper}>
         <ScanRecipe recipe={recipe} setRecipe={setRecipe} openUpload={openUpload} setOpenUpload={setOpenUpload} />
-        <div>
-          <h1>Create your own recipe</h1>
-          <Button onClick={handleOpenUpload}>Scan Recipe</Button>
+        <div className={styles.headerDiv}>
+          <Typography variant="h4">Create new recipe</Typography>
+          <IconButton className={styles.scanButton} onClick={handleOpenUpload}>
+            <i className="fas fa-camera"></i>
+            <p>Scan Recipe</p>
+          </IconButton>
         </div>
         <div className={styles.flexContainer}>
           <div className={styles.accordionBox}>
@@ -121,7 +132,7 @@ const CreateRecipe = () => {
                 <Typography className={styles.heading}>1. Name, portions, time, picture</Typography>
               </AccordionSummary>
 
-              <AccordionDetails>
+              <AccordionDetails className={styles.accordionDetails}>
                 <Step1
                   setExpanded={setExpanded}
                   recipe={recipe}
@@ -142,7 +153,7 @@ const CreateRecipe = () => {
               >
                 <Typography className={styles.heading}>2. Ingredients</Typography>
               </AccordionSummary>
-              <AccordionDetails>
+              <AccordionDetails className={styles.accordionDetails}>
                 <Step2
                   setExpanded={setExpanded}
                   recipe={recipe}
@@ -161,7 +172,7 @@ const CreateRecipe = () => {
               >
                 <Typography className={styles.heading}>3. Instructions</Typography>
               </AccordionSummary>
-              <AccordionDetails>
+              <AccordionDetails className={styles.accordionDetails}>
                 <Step3 recipe={recipe} setRecipe={setRecipe} />
               </AccordionDetails>
             </Accordion>

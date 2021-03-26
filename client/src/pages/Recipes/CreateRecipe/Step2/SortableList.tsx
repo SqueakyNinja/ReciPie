@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import SortableListRow from "./SortableListRow";
 import { ReactSortable } from "react-sortablejs";
 import { ExtendedIngredient, Recipe } from "../../../../../../common";
-
+import styles from "../index.module.scss";
 interface SortableListProps {
   recipe: Recipe;
   setRecipe: Dispatch<SetStateAction<Recipe>>;
@@ -44,48 +44,46 @@ const SortableList = ({
   };
 
   return (
-    <div>
-      <div>
-        {extendedIngredientsCopy.length > 0 && editMode ? (
-          <ReactSortable
-            list={extendedIngredientsCopy}
-            setList={updateExtentedIngredients}
-            animation={150}
-            chosenClass="draggingRow"
-            handle=".handleDrag"
-          >
-            {recipe.extendedIngredients &&
-              recipe.extendedIngredients.map((ingredient: ExtendedIngredient, index: number) => (
-                <SortableListRow
-                  ingredient={ingredient}
-                  index={index}
-                  recipe={recipe}
-                  setRecipe={setRecipe}
-                  key={index}
-                  setIngredient={setIngredient}
-                  setAmount={setAmount}
-                  setUnitShort={setUnitShort}
-                  editMode={editMode}
-                />
-              ))}
-          </ReactSortable>
-        ) : (
-          recipe.extendedIngredients &&
-          recipe.extendedIngredients.map((ingredient: ExtendedIngredient, index: number) => (
-            <SortableListRow
-              ingredient={ingredient}
-              index={index}
-              recipe={recipe}
-              setRecipe={setRecipe}
-              key={index}
-              setIngredient={setIngredient}
-              setAmount={setAmount}
-              setUnitShort={setUnitShort}
-              editMode={editMode}
-            />
-          ))
-        )}
-      </div>
+    <div className={styles.listDiv}>
+      {extendedIngredientsCopy.length > 0 && editMode ? (
+        <ReactSortable
+          list={extendedIngredientsCopy}
+          setList={updateExtentedIngredients}
+          animation={150}
+          chosenClass="draggingRow"
+          handle=".handleDrag"
+        >
+          {recipe.extendedIngredients &&
+            recipe.extendedIngredients.map((ingredient: ExtendedIngredient, index: number) => (
+              <SortableListRow
+                ingredient={ingredient}
+                index={index}
+                recipe={recipe}
+                setRecipe={setRecipe}
+                key={index}
+                setIngredient={setIngredient}
+                setAmount={setAmount}
+                setUnitShort={setUnitShort}
+                editMode={editMode}
+              />
+            ))}
+        </ReactSortable>
+      ) : (
+        recipe.extendedIngredients &&
+        recipe.extendedIngredients.map((ingredient: ExtendedIngredient, index: number) => (
+          <SortableListRow
+            ingredient={ingredient}
+            index={index}
+            recipe={recipe}
+            setRecipe={setRecipe}
+            key={index}
+            setIngredient={setIngredient}
+            setAmount={setAmount}
+            setUnitShort={setUnitShort}
+            editMode={editMode}
+          />
+        ))
+      )}
     </div>
   );
 };
