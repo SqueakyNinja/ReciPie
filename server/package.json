@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "dev": "nodemon -r dotenv/config ./src/listen.ts"
+    "dev": "nodemon -r dotenv/config ./src/listen.ts",
+    "start": "ts-node -r dotenv/config ./src/listen.ts"
   },
   "keywords": [],
   "author": "",
