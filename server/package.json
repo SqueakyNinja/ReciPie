@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon -r dotenv/config ./src/listen.ts",
     "start": "node ./dist/server/src/listen",
-    "heroku-postbuild": "tsc"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
