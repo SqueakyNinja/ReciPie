@@ -1,13 +1,13 @@
-import MealItem from "./MealItem";
-import Grid from "@material-ui/core/Grid";
-import styles from "./MealGrid.module.scss";
+import Grid from '@material-ui/core/Grid';
+import styles from './MealGrid.module.scss';
+import MealCard from './MealCard';
 
 const MealGrid = ({ recipes }) => {
   return (
     <div>
-      <Grid container className={styles.grid} spacing={2}>
+      <Grid container className={styles.grid} spacing={3}>
         {recipes.map((meal, index) => {
-          return <MealItem meal={meal} key={index} />;
+          return <MealCard meal={meal} key={index} />;
         })}
       </Grid>
     </div>

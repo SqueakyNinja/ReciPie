@@ -1,13 +1,13 @@
 import styles from "./index.module.scss";
 
 const RecipeDetails = ({ recipe }) => {
-  return recipe.extendedIngredients.length > 0 ? (
+  return recipe.extendedIngredients && recipe.extendedIngredients.length > 0 ? (
     <div className={styles.container}>
       {recipe.image.length > 0 && <img src={recipe.image} alt={"Meal"} className={styles.img}></img>}
 
       <div className={styles.mealInfo}>
         <h2>{recipe.title}</h2>
-        {recipe.sourceName && <p className={styles.recipeName}>{recipe.sourceName}</p>}
+        {recipe.sourceName && <p className={styles.recipeName}>Made by: {recipe.sourceName}</p>}
         <div className={styles.icon}>
           <i className="far fa-heart"></i>
           <i className="fas fa-heart"></i>

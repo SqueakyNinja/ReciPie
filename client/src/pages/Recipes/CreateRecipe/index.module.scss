@@ -1,71 +1,79 @@
-@import "../../../app.global.scss";
+@import '../../../app.global.scss';
 
 .root {
-  h1 {
-    margin-left: 20px;
-    padding-left: 10px;
-  }
-  .flexContainer {
-    margin: 0 10px 0 10px;
-    padding: 10px;
+  .paper {
+    margin: 15px;
 
-    .accordionHeader {
-      background-color: $primaryHover;
-      border-radius: 4px;
-      // margin: 0 5px 0 5px;
+    .flexContainer {
+      margin: 0 10px 0 10px;
+      padding: 10px;
 
-      .heading {
-        font-weight: 600;
-        color: white;
-      }
-    }
+      .accordionHeader {
+        background-color: $primaryHover;
+        opacity: 0.6;
+        border-radius: 4px;
+        margin-bottom: 5px;
 
-    .accordionBox {
-      max-height: 75vh;
-      overflow-y: auto;
-
-      > div {
-        box-shadow: none;
-      }
-      .active {
-        background-color: $primary;
-      }
-
-      .steps {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-
-        .textfield {
-          margin: 10px auto;
-          width: 100%;
+        .heading {
+          font-weight: 600;
+          color: white;
         }
+      }
 
-        .nextButton {
-          width: 100%;
-        }
+      .accordionBox {
+        max-height: 85vh;
+        overflow-y: auto;
 
-        .doneButton {
+        .active {
           background-color: $primary;
+          opacity: 0.9;
         }
 
-        .Step1 {
-          .imageDrop {
-            justify-self: center;
+        > div {
+          box-shadow: none;
+        }
+
+        .steps {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+
+          .textfield {
+            margin: 10px auto;
+            width: 100%;
           }
-        }
 
-        .Step2 {
-          .step2Measurements {
-            display: flex;
+          .editButton {
+            margin-top: 15px;
+          }
+
+          .nextButton {
+            margin-top: 15px;
+            width: 100%;
+          }
+
+          .doneButton {
+            background-color: $primary;
+          }
+
+          .Step1 {
+            .imageDrop {
+              justify-self: center;
+            }
+          }
+
+          .Step2 {
+            .step2Measurements {
+              display: flex;
+            }
           }
         }
       }
-    }
 
-    .recipeDetailsBox {
-      max-height: 75vh;
-      overflow-y: auto;
+      .recipeDetailsBox {
+        max-height: 75vh;
+        overflow-y: auto;
+      }
     }
   }
 }
@@ -74,6 +82,10 @@
   margin: 15px 5px 10px 5px;
   display: flex;
   justify-content: flex-end;
+
+  .submitButton {
+    margin: 0 10px 10px 0;
+  }
 }
 
 ///// ----- STEP 2 ----- /////

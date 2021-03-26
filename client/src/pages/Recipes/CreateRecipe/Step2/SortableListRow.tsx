@@ -47,7 +47,7 @@ function SortableListRow({
     <ListItem key={index} className={combineClasses("handleDrag", styles.sortableList, editMode && styles.editMode)}>
       <>
         {ingredient.measures.metric.amount > 0 && <ListItemText primary={ingredient.measures.metric.amount} />}
-        {ingredient.measures.metric.unitShort.length > 0 && (
+        {ingredient.measures.metric.unitShort?.length > 0 && (
           <ListItemText primary={ingredient.measures.metric.unitShort} />
         )}
 

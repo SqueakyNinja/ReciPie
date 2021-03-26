@@ -1,4 +1,4 @@
-@import '../../app.global.scss';
+@import "../../app.global.scss";
 
 .container {
   display: flex;
@@ -20,6 +20,7 @@
   .recipeName {
     text-align: center;
     margin: 10px 0 10px 0;
+    font-style: italic;
   }
 
   .icon {
