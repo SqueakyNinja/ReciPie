@@ -3,9 +3,9 @@ import { Recipe } from "../../../common";
 
 axios.defaults.baseURL = "http://localhost:9090/api";
 
-export const getAllRecipes = async (filterByUserId = "", getSavedRecipes = false, searchStr = "") => {
+export const getAllRecipes = async (filterByUserId = "", getSavedRecipes = false, searchStr = "", recipeId = "") => {
   const getAllRecipesResponse = await axios.get(
-    `/recipes?userId=${filterByUserId}&getSavedRecipes=${getSavedRecipes}&searchStr=${searchStr}`
+    `/recipes?userId=${filterByUserId}&getSavedRecipes=${getSavedRecipes}&searchStr=${searchStr}&recipeId=${recipeId}`
   );
   return getAllRecipesResponse.data;
 };

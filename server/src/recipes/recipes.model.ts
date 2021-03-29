@@ -4,7 +4,7 @@ import { ParsedRecipe } from "../../../common/responses";
 import db from "../db/connection";
 import axios from "axios";
 
-export const selectAllRecipes = async (userId: string, getSavedRecipes: boolean, searchStr = "") => {
+export const selectRecipes = async (userId: string, getSavedRecipes: boolean, searchStr = "", recipeId = "") => {
   const recipes = await db("recipes")
     .select(["recipes.*", "users.username"])
     .leftJoin("users", "users.id", "recipes.createdBy")
@@ -18,6 +18,9 @@ export const selectAllRecipes = async (userId: string, getSavedRecipes: boolean,
       }
       if (!!searchStr.length) {
         query.where("title", "ilike", `%${searchStr}%`);
+      }
+      if (!!recipeId.length) {
+        query.where("recipes.id", recipeId);
       }
     });
   const parsedRecipes: ParsedRecipe[] = recipes.map((x: DBRecipe & { username: string }) => {
