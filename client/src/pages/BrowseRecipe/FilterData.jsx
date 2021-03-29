@@ -65,7 +65,7 @@ export const DietData = [
 export const TypeData = [
   {
     param: "type",
-    value: "main+course",
+    value: "main course",
     title: "Main Course",
   },
 

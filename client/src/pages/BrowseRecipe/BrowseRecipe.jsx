@@ -24,34 +24,29 @@ const BrowseRecipe = () => {
   const [recipes, setRecipes] = useState([]);
   const [query, setQuery] = useState("");
   const [type, setType] = useState([]);
-  const [cuisine, setCuisine] = useState("");
-  const [diet, setDiet] = useState("");
+  const [cuisine, setCuisine] = useState([]);
+  const [diet, setDiet] = useState([]);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
-    
-    const allTypes = newChecked.filter((x) => x.param === "type")
-    console.log(allTypes)
 
     if (currentIndex === -1) {
       newChecked.push(value);
 
       switch (value.param) {
         case "type":
-          //console.log(value.param)
-          console.log([...type, value.value].join("+"))
-          setType([...type, value.value].join("+"));
+
+          console.log([...type, value.value])
+          setType([...type, value.value]);
           break;
 
         case "cuisine":
-          //console.log(value.param)
-          setCuisine(value.value);
+          setCuisine([...cuisine, value.value]);
           break;
 
         case "diet":
-          //console.log(value.param)
-          setDiet(value.value);
+          setDiet([...diet, value.value]);
           break;
 
         default:
@@ -64,27 +59,26 @@ const BrowseRecipe = () => {
       switch (value.param) {
         case "type":
           //setType(""); Här vill vi ta bort endast det value som skickas in som parameter
-
           break;
 
         case "cuisine":
-          setCuisine("");
-
+          //setCuisine(""); Här vill vi ta bort endast det value som skickas in som parameter
           break;
 
         case "diet":
-          setDiet("");
-
+          //setDiet(""); Här vill vi ta bort endast det value som skickas in som parameter
           break;
       }
     }
-// console.log(newChecked);
-    //fetchRecipes();
-   
+
     setChecked(newChecked);
   };
 
   const fetchRecipes = async () => {
+    const typeString = type.join(',');
+    const dietString = diet.join(',');
+    const cuisineString = cuisine.join(',');
+
     const result = await axios(
       "https://api.spoonacular.com/recipes/complexSearch",
       {
@@ -94,12 +88,13 @@ const BrowseRecipe = () => {
           query: query,
           number: 2,
           sort: "popularity",
-          type: type,
-          cuisine: cuisine,
-          diet: diet,
+          type: typeString,
+          diet: dietString,
+          cuisine: cuisineString,
         },
       }
     );
+console.log(result.data.totalResults)
     setRecipes(result.data.results);
     /*const savedRecipes = await getAllRecipes("", false, query);
     const savedApiRecipes = savedRecipes.recipes
