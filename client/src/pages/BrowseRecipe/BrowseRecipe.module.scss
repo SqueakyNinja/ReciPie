@@ -1,22 +1,32 @@
 .browseContainer {
-display:flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-border: 2px solid black;
+  border: 2px solid black;
 
-    .searchBox{
-        border: 2px solid red;
-        margin: auto;
-        
+  .searchBox {
+    margin: auto;
+  }
+
+  .contentContainer {
+    display: flex;
+    .filters {
+      max-width: 300px;
+
+      .filterPaper {
+        margin: 30px;
+        padding: 15px;
+      }
+
+      > p {
+        text-align: center;
+      }
+
+      .eachListItemsCheckbox {
+        padding: 0;
+      }
     }
-
-    .contentContainer {
-display: flex;
-.filters{
-max-width: 300px;
-}
-.searchResults{
-    border: 2px solid red;
-}
+    .searchResults {
     }
+  }
 }
