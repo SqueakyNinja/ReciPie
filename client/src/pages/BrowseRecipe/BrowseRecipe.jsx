@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-
+import { FixedSizeList } from 'react-window';
+import { Paper } from "@material-ui/core";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
@@ -11,7 +12,11 @@ import Search from "../MealGenerator/Search";
 import styles from "./BrowseRecipe.module.scss";
 import axios from "axios";
 import MealGrid from "../MealGenerator/MealGrid";
-
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const BrowseRecipe = () => {
   const [checked, setChecked] = useState([0]);
 
@@ -71,7 +76,20 @@ const BrowseRecipe = () => {
         <button onClick={ () => console.log(recipes)}>klicka</button>
       </div>
       <div className={styles.contentContainer}>
-        <div className={styles.filters}><List>
+       <div className={styles.filters}>
+       <Paper className={styles.filterPaper}>
+          <h1>Filter your search</h1>
+        <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>Type</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+          <List>
         {[0, 1, 2, 3].map((value) => {
           const labelId = `checkbox-list-label-${value}`;
 
@@ -82,6 +100,7 @@ const BrowseRecipe = () => {
               dense
               button
               onClick={handleToggle(value)}
+              className={styles.eachListItems}
             >
               <ListItemIcon>
                 <Checkbox
@@ -90,13 +109,45 @@ const BrowseRecipe = () => {
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ "aria-labelledby": labelId }}
+             className={styles.eachListItemsCheckbox}
+
                 />
               </ListItemIcon>
               <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
             </ListItem>
           );
         })}
-      </List></div>
+      </List>
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography>Cuisine</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+            sit amet blandit leo lobortis eget.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3a-content"
+          id="panel3a-header"
+        >
+          <Typography>Något mer</Typography>
+        </AccordionSummary>
+      </Accordion>
+       
+    
+      </Paper> </div>
         <div className={styles.searchResults}><MealGrid recipes={recipes}  /></div>
 
 
