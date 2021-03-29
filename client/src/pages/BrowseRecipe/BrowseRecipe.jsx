@@ -19,26 +19,70 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 const BrowseRecipe = () => {
-  const [checked, setChecked] = useState([0]);
+  const [checked, setChecked] = useState([]);
+
+  const [recipes, setRecipes] = useState([]);
+  const [query, setQuery] = useState("");
+  const [type, setType] = useState([]);
+  const [cuisine, setCuisine] = useState("");
+  const [diet, setDiet] = useState("");
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
+    
+    const allTypes = newChecked.filter((x) => x.param === "type")
+    console.log(allTypes)
 
     if (currentIndex === -1) {
       newChecked.push(value);
+
+      switch (value.param) {
+        case "type":
+          //console.log(value.param)
+          console.log([...type, value.value].join("+"))
+          setType([...type, value.value].join("+"));
+          break;
+
+        case "cuisine":
+          //console.log(value.param)
+          setCuisine(value.value);
+          break;
+
+        case "diet":
+          //console.log(value.param)
+          setDiet(value.value);
+          break;
+
+        default:
+          break;
+      }
+      
     } else {
       newChecked.splice(currentIndex, 1);
-    }
 
+      switch (value.param) {
+        case "type":
+          //setType(""); Här vill vi ta bort endast det value som skickas in som parameter
+
+          break;
+
+        case "cuisine":
+          setCuisine("");
+
+          break;
+
+        case "diet":
+          setDiet("");
+
+          break;
+      }
+    }
+// console.log(newChecked);
+    //fetchRecipes();
+   
     setChecked(newChecked);
   };
-
-  const [recipes, setRecipes] = useState([]);
-  const [query, setQuery] = useState("");
-  const [type, setType] = useState("");
-  const [cuisine, setCuisine] = useState("");
-  const [diet, setDiet] = useState("");
 
   const fetchRecipes = async () => {
     const result = await axios(
@@ -78,7 +122,7 @@ const BrowseRecipe = () => {
       return () => clearTimeout(timeoutVar);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  }, [query, checked]);
   return (
     <div className={styles.browseContainer}>
       <div className={styles.searchBox}>
@@ -98,14 +142,13 @@ const BrowseRecipe = () => {
                 <Typography>Type</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
+                <div>
                   <List>
-                    {TypeData.map((value) => {
+                    {TypeData.map((value, index) => {
                       const labelId = `checkbox-list-label-${value.value}`;
-
                       return (
                         <ListItem
-                          key={value.value}
+                          key={index}
                           role={undefined}
                           dense
                           button
@@ -127,7 +170,7 @@ const BrowseRecipe = () => {
                       );
                     })}
                   </List>
-                </Typography>
+                  </div>
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -139,14 +182,14 @@ const BrowseRecipe = () => {
                 <Typography>Cuisine</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
+                <div>
                   <List>
-                    {CuisineData.map((value) => {
+                    {CuisineData.map((value, index) => {
                       const labelId = `checkbox-list-label-${value.value}`;
 
                       return (
                         <ListItem
-                          key={value.value}
+                          key={index}
                           role={undefined}
                           dense
                           button
@@ -168,7 +211,7 @@ const BrowseRecipe = () => {
                       );
                     })}
                   </List>
-                </Typography>
+                </div>
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -180,14 +223,14 @@ const BrowseRecipe = () => {
                 <Typography>Diet</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
+                <div>
                   <List>
-                    {DietData.map((value) => {
+                    {DietData.map((value, index) => {
                       const labelId = `checkbox-list-label-${value.value}`;
 
                       return (
                         <ListItem
-                          key={value}
+                          key={index}
                           role={undefined}
                           dense
                           button
@@ -209,7 +252,7 @@ const BrowseRecipe = () => {
                       );
                     })}
                   </List>
-                </Typography>
+                </div>
               </AccordionDetails>
             </Accordion>
           </Paper>{" "}
