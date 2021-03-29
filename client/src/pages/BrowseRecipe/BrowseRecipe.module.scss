@@ -5,7 +5,6 @@
   border: 2px solid black;
 
   .searchBox {
-    
     margin: auto;
   }
 
@@ -20,16 +19,14 @@
       }
 
       > p {
-text-align: center;
+        text-align: center;
       }
-      
-        .eachListItemsCheckbox {
-            padding: 0;
-        }
-      
+
+      .eachListItemsCheckbox {
+        padding: 0;
+      }
     }
     .searchResults {
-      
     }
   }
 }
