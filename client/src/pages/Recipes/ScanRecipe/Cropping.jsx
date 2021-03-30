@@ -21,6 +21,7 @@ const Cropping = ({
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
+
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -28,7 +29,11 @@ const Cropping = ({
 
   const setIngredientsCrop = async () => {
     try {
-      const croppedImage = await getCroppedImg(files[0].preview, croppedAreaPixels, rotation);
+      const croppedImage = await getCroppedImg(
+        files[0].preview,
+        croppedAreaPixels,
+        rotation
+      );
       setImagesToProcess([croppedImage, imagesToProcess[1]]);
     } catch (e) {
       console.error(e);
@@ -37,7 +42,11 @@ const Cropping = ({
 
   const setInstructionsCrop = async () => {
     try {
-      const croppedImage = await getCroppedImg(files[0].preview, croppedAreaPixels, rotation);
+      const croppedImage = await getCroppedImg(
+        files[0].preview,
+        croppedAreaPixels,
+        rotation
+      );
       setImagesToProcess([imagesToProcess[0], croppedImage]);
     } catch (e) {
       console.error(e);
@@ -49,9 +58,14 @@ const Cropping = ({
     setImagesToProcess(["", ""]);
   };
 
+  const rotate = () => {
+    setRotation((rotation + 90) % 360);
+  };
+
   return (
-    <Paper className={styles.CroppingMain}>
+    <Paper elevation={2} className={styles.CroppingMain}>
       <div className={styles.imageDiv}>
+        <i className="fas fa-sync-alt" onClick={rotate}></i>
         <Cropper
           image={files[0].preview}
           crop={crop}
@@ -76,37 +90,66 @@ const Cropping = ({
             aria-labelledby="zooooom"
             onChange={(e, zoom) => setZoom(zoom)}
           />
+
           <Typography>Width</Typography>
           <Slider
             value={width}
             min={100}
-            max={1000}
+            max={window.innerWidth}
             step={10}
-            aria-labelledby="width"
             onChange={(e, width) => setWidth(width)}
           />
           <Typography>Height</Typography>
           <Slider
             value={height}
             min={100}
-            max={1000}
+            max={window.innerHeight}
             step={10}
             aria-labelledby="height"
             onChange={(e, height) => setHeight(height)}
           />
-          <Typography>Rotation</Typography>
-          <Slider value={rotation} min={0} max={360} step={1} onChange={(e, rotation) => setRotation(rotation)} />
         </div>
-        <div className={styles.buttonDiv}>
-          <Button variant="contained" color="primary" onClick={setIngredientsCrop}>
-            Select Ingredients
-          </Button>
-          <img src={imagesToProcess[0]} alt="" />
-
-          <Button variant="contained" color="primary" onClick={setInstructionsCrop}>
-            Select Instructions
-          </Button>
-          <img src={imagesToProcess[1]} alt="" />
+        <div className={styles.buttonAndImageDiv}>
+          <div className={styles.eachImageAndButton}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={setIngredientsCrop}
+            >
+              Select Ingredients
+            </Button>
+            <div className={styles.image}>
+              {imagesToProcess[0].length > 0 && (
+                <>
+                  <i
+                    className="fas fa-times"
+                    onClick={() => setImagesToProcess(["", imagesToProcess[1]])}
+                  />
+                  <img src={imagesToProcess[0]} alt="" />
+                </>
+              )}
+            </div>
+          </div>
+          <div className={styles.eachImageAndButton}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={setInstructionsCrop}
+            >
+              Select Instructions
+            </Button>
+            <div className={styles.image}>
+              {imagesToProcess[1].length > 0 && (
+                <>
+                  <i
+                    className="fas fa-times"
+                    onClick={() => setImagesToProcess([imagesToProcess[0], ""])}
+                  />
+                  <img src={imagesToProcess[1]} alt="" />
+                </>
+              )}
+            </div>
+          </div>
         </div>
         <div className={styles.resetProceed}>
           <Button variant="contained" color="secondary" onClick={handleReset}>

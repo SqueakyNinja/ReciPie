@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
 import { Recipe, Step } from "../../../../../../common";
 import SortableListRowStep3 from "./SortableListRowStep3";
+import styles from "../index.module.scss";
 
 interface CreateRecipeStep3Props {
   recipe: Recipe;
@@ -36,7 +37,7 @@ const SortableListStep3 = ({ recipe, setRecipe, editMode, setStep }: CreateRecip
   };
 
   return (
-    <div>
+    <div className={styles.listDiv}>
       {instructionsCopy.length > 0 && editMode ? (
         <ReactSortable
           list={instructionsCopy}

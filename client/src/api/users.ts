@@ -1,7 +1,7 @@
 import { LoginRequest, NewUser } from "../../../common/index";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:9090/api";
+axios.defaults.baseURL = "https://reci-pie-server.herokuapp.com/api";
 
 export const addNewUser = async (user: NewUser) => {
   const postUser = await axios.post("/users", { user });

@@ -63,19 +63,22 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
   const processRecipe = async () => {
     if (!!imagesToProcess[0] || !!imagesToProcess[1]) {
       setLoading(true);
-      await workerOne.load();
-      await workerTwo.load();
-      await workerOne.loadLanguage("eng");
-      await workerTwo.loadLanguage("eng");
-      await workerOne.initialize("eng");
-      await workerTwo.initialize("eng");
-      scheduler.addWorker(workerOne);
-      scheduler.addWorker(workerTwo);
       const regex = /\r?\n|\r/g;
 
       // If both images will be processed
       if (!!imagesToProcess[0] && !!imagesToProcess[1]) {
-        const results = await Promise.all(imagesToProcess.map((image) => scheduler.addJob("recognize", image)));
+        await workerOne.load();
+        await workerTwo.load();
+        await workerOne.loadLanguage("eng");
+        await workerTwo.loadLanguage("eng");
+        await workerOne.initialize("eng");
+        await workerTwo.initialize("eng");
+        scheduler.addWorker(workerOne);
+        scheduler.addWorker(workerTwo);
+
+        const results = await Promise.all(
+          imagesToProcess.map((image) => scheduler.addJob("recognize", image, { workerBlobURL: false }))
+        );
         const ingredientsResults = results[0].data.lines
           .map((x) => x.text)
           .map((x) => x.replace(regex, ""))
@@ -90,6 +93,10 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
 
       // If only Ingredients will be processed
       if (imagesToProcess[0] !== "" && imagesToProcess[1] === "") {
+        await workerOne.load();
+        await workerOne.loadLanguage("eng");
+        await workerOne.initialize("eng");
+        scheduler.addWorker(workerOne);
         const results = await scheduler.addJob("recognize", imagesToProcess[0]);
         const ingredientsResults = results.data.lines
           .map((x) => x.text)
@@ -100,6 +107,11 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
 
       // If only Instructions will be processed
       if (imagesToProcess[0] === "" && imagesToProcess[1] !== "") {
+        await workerOne.load();
+        await workerOne.loadLanguage("eng");
+        await workerOne.initialize("eng");
+        scheduler.addWorker(workerOne);
+
         const results = await scheduler.addJob("recognize", imagesToProcess[1]);
         const instructionsResults = results.data.paragraphs
           .map((x) => x.text)
@@ -125,9 +137,23 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
       setFiles(fileWithPreview);
     }
   };
-
   const handleProceed = () => {
-    processRecipe();
+    console.log("start process");
+    try {
+      processRecipe();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const goBack = () => {
+    setWorkerOneProgress(0);
+    setWorkerTwoProgress(0);
+    setProgress(0);
+    setIngredientsFromImage("");
+    setInstructionsFromImage("");
+    setImagesToProcess(["", ""]);
+    setTrimText(false);
   };
 
   const setIngredientsAndInstructions = () => {
@@ -253,36 +279,47 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
               <div className={styles.inputsAndImage}>
                 <div className={styles.textFields}>
                   <TextField
+                    className={styles.eachTextField}
                     label="Ingredients"
                     multiline
-                    rowsMax={6}
+                    rowsMax={20}
                     variant="outlined"
                     value={ingredientsFromImage}
                     onChange={(e) => setIngredientsFromImage(e.target.value)}
-                    helperText="Please separate entries with a ;"
+                    helperText="Please separate entries with a semi-colon ;"
                   />
 
                   <TextField
+                    className={styles.eachTextField}
                     label="Instructions"
                     multiline
-                    rowsMax={6}
+                    rowsMax={15}
                     variant="outlined"
                     value={instructionsFromImage}
                     onChange={(e) => setInstructionsFromImage(e.target.value)}
-                    helperText="Please separate entries with a ;"
+                    helperText="Please separate entries with a semi-colon ;"
                   />
                 </div>
                 <div className={styles.imagePreview}>
-                  <TransformWrapper>
-                    <TransformComponent>
+                  <TransformWrapper
+                    options={{ limitToBounds: false }}
+                    doubleClick={{ mode: "reset" }}
+                    className={styles.transformWrapper}
+                  >
+                    <TransformComponent className={styles.transformComponent}>
                       <img src={files[0].preview} alt="" />
                     </TransformComponent>
                   </TransformWrapper>
                 </div>
               </div>
-              <Button variant="contained" color="primary" onClick={setIngredientsAndInstructions}>
-                Done
-              </Button>
+              <div className={styles.buttonDiv}>
+                <Button variant="contained" color="secondary" onClick={goBack}>
+                  Back
+                </Button>
+                <Button variant="contained" color="primary" onClick={setIngredientsAndInstructions}>
+                  Done
+                </Button>
+              </div>
             </div>
           )}
         </Paper>
