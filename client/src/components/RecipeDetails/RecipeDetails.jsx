@@ -1,21 +1,27 @@
-import styles from "./index.module.scss";
+import styles from './index.module.scss';
 
 const RecipeDetails = ({ recipe }) => {
   return recipe.extendedIngredients && recipe.extendedIngredients.length > 0 ? (
     <div className={styles.container}>
-      {recipe.image.length > 0 && <img src={recipe.image} alt={"Meal"} className={styles.img}></img>}
+      {recipe.image.length > 0 && (
+        <img src={recipe.image} alt={'Meal'} className={styles.img}></img>
+      )}
 
       <div className={styles.mealInfo}>
         <h2>{recipe.title}</h2>
-        {recipe.sourceName && <p className={styles.recipeName}>Made by: {recipe.sourceName}</p>}
+        {recipe.sourceName && (
+          <p className={styles.recipeName}>Made by: {recipe.sourceName}</p>
+        )}
         <div className={styles.icon}>
-          <i className="far fa-heart"></i>
-          <i className="fas fa-heart"></i>
+          <i className='far fa-heart'></i>
+          <i className='fas fa-heart'></i>
         </div>
         <div className={styles.shortInfo}>
           {recipe.servings > 0 && <p>Servings: {recipe.servings}</p>}
           {recipe.aggregateLikes && <p>{recipe.aggregateLikes} likes</p>}
-          {recipe.readyInMinutes > 0 && <p>Prep time: {recipe.readyInMinutes} min</p>}
+          {recipe.readyInMinutes > 0 && (
+            <p>Prep time: {recipe.readyInMinutes} min</p>
+          )}
         </div>
       </div>
       <>
@@ -30,7 +36,7 @@ const RecipeDetails = ({ recipe }) => {
                     {i.measures.metric.amount > 0 && (
                       <span>
                         {`
-                   ${i.measures.metric.amount} 
+                   ${Math.ceil(i.measures.metric.amount)} 
                     ${i.measures.metric.unitShort} `}
                       </span>
                     )}
@@ -38,31 +44,33 @@ const RecipeDetails = ({ recipe }) => {
                   </li>
                 ))}
               </ul>
-              {/* )} */}
             </div>
           </div>
         )}
       </>
       <>
-        {recipe.analyzedInstructions[0].steps.length > 0 && recipe.analyzedInstructions[0].steps[0].step && (
-          <div className={styles.instructions}>
-            <h3>Instructions: </h3>
-            <div>
-              <ol>
-                {recipe.analyzedInstructions[0].steps.map(
-                  (obj) =>
-                    obj.step.length > 0 && (
-                      <li key={obj.number}>
-                        <span>
-                          {obj.number}. {obj.step}
-                        </span>
-                      </li>
-                    )
-                )}
-              </ol>
+        {/* //TODO: Fixa så att recept syns även om det ej finns instructions (ex. cheese) 
+     https://api.spoonacular.com/recipes/716423/information?apiKey=8080ada856dd4f439b4a065ae353d836*/}
+        {recipe.analyzedInstructions[0].steps.length > 0 &&
+          recipe.analyzedInstructions[0].steps[0].step && (
+            <div className={styles.instructions}>
+              <h3>Instructions: </h3>
+              <div>
+                <ol>
+                  {recipe.analyzedInstructions[0].steps.map(
+                    (obj) =>
+                      obj.step.length > 0 && (
+                        <li key={obj.number}>
+                          <span>
+                            {obj.number}. {obj.step}
+                          </span>
+                        </li>
+                      )
+                  )}
+                </ol>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </>
     </div>
   ) : (

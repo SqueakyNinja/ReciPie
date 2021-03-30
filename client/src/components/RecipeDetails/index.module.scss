@@ -1,4 +1,4 @@
-@import "../../app.global.scss";
+@import '../../app.global.scss';
 
 .container {
   display: flex;
@@ -43,6 +43,10 @@
   .instructions {
     ol {
       list-style-type: none;
+
+      li {
+        line-height: 2rem;
+      }
     }
   }
 }
