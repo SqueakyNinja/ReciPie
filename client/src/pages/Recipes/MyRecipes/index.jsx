@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllRecipes } from "../../../api/recipes";
+import MealCard from "../../../components/MealCard/MealCard";
+import MealGrid from "../../../components/MealGrid/MealGrid";
 import RecipeDetails from "../../../components/RecipeDetails/RecipeDetails";
 import { useStore } from "../../../store";
 
@@ -22,15 +24,12 @@ const MyRecipes = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div>
       <div>
         <h2>Created Recipes</h2>
-
-        {myRecipes.map((eachRecipe, index) => {
-          //   Ersätt RecipeDetails med typ RecipeSummary?
-          return <RecipeDetails recipe={eachRecipe} key={index} />;
-        })}
+        <MealGrid recipes={myRecipes} />
       </div>
       <div>
         <br />
@@ -38,10 +37,7 @@ const MyRecipes = () => {
       </div>
       <div>
         <h2>Saved Recipes</h2>
-        {savedRecipes.map((eachRecipe, index) => {
-          //   Ersätt RecipeDetails med typ RecipeSummary?
-          return <RecipeDetails recipe={eachRecipe} key={index} />;
-        })}
+        <MealGrid recipes={savedRecipes} />
       </div>
     </div>
   );
