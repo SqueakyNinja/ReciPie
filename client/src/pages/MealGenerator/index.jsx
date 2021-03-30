@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import MealGrid from './MealGrid';
+import MealGrid from '../../components/MealGrid/MealGrid';
 import Search from './Search';
 import { getAllRecipes } from '../../api/recipes';
 
