@@ -2,6 +2,8 @@ import styles from "./index.module.scss";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Paper } from "@material-ui/core";
+import Searchbar from "../../components/Navigation/Searchbar";
+
 
 const Homepage = () => {
   const apiKey = "8080ada856dd4f439b4a065ae353d836";
@@ -81,19 +83,8 @@ const Homepage = () => {
         </div>
       </Paper>
       <div className={styles.whatToDo}>
-        <div className={styles.whatToDoBox}>
-          Start your culinary journey today by sign up to search, create and share recipes!
-        </div>
-        <div className={styles.whatToDoBox}>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta incidunt eaque sunt explicabo illum quidem
-          consectetur quam nesciunt amet, voluptate quaerat debitis eum nisi cumque, impedit unde blanditiis perferendis
-          nemo.
-        </div>
-        <div className={styles.whatToDoBox}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi voluptas voluptates architecto iure at laborum
-          omnis? Illum, voluptatem eos? Neque consequatur sed adipisci ipsam beatae? Sapiente placeat architecto et
-          eius?
-        </div>
+        <div className={styles.search}><Searchbar/></div>
+       
       </div>
       <Paper className={styles.homePagePaper}>
         <div className={styles.mealOftheDay}>

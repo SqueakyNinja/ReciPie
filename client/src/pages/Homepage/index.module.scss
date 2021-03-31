@@ -7,27 +7,18 @@
     display: grid;
     grid-template-rows: auto;
 
+    
     .whatToDo {
+      
+      background-image: url("meal.png");
+      height: 250px;
+      background-position: center;
       display: flex;
-      flex-direction: row;
-      align-content: center;
-      justify-content: space-evenly;
-      padding-top: 20px;
-      padding-bottom: 20px;
+      align-items: center;
+       justify-content: center;
 
-      .whatToDoBox {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        color: white;
-        width: 300px;
-        height: 300px;
-        box-shadow: 5px 3px 15px 1px rgba(0, 0, 0, 0.57);
-        background: linear-gradient(90deg, rgb(216, 132, 54) 0%, rgb(216, 85, 45) 100%);
-        padding: auto auto;
-      }
     }
-
+  
     .homePagePaper {
       margin: 10px;
     }
