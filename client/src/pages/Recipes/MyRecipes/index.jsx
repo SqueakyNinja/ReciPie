@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
-import { getAllRecipes } from "../../../api/recipes";
-import MealCard from "../../../components/MealCard/MealCard";
-import MealGrid from "../../../components/MealGrid/MealGrid";
-import RecipeDetails from "../../../components/RecipeDetails/RecipeDetails";
-import { useStore } from "../../../store";
+import { useEffect, useState } from 'react';
+import { getAllRecipes } from '../../../api/recipes';
+import MealGrid from '../../../components/MealGrid/MealGrid';
+import { useStore } from '../../../store';
+import styles from './index.module.scss';
+import { Paper } from '@material-ui/core';
 
 const MyRecipes = () => {
   const { currentUser } = useStore();
   const [myRecipes, setMyRecipes] = useState([]);
   const [savedRecipes, setSavedRecipes] = useState([]);
+
   useEffect(() => {
     const getRecipes = async () => {
       try {
@@ -26,20 +27,20 @@ const MyRecipes = () => {
   }, []);
 
   return (
-    <div>
+    <Paper className={styles.myRecipesContainer}>
       <div>
         <h2>Created Recipes</h2>
-        <MealGrid recipes={myRecipes} />
-      </div>
-      <div>
-        <br />
-        <br />
+        {myRecipes.length > 0 ? (
+          <MealGrid recipes={myRecipes} />
+        ) : (
+          <p>You have not created any recipes yet...</p>
+        )}
       </div>
       <div>
         <h2>Saved Recipes</h2>
         <MealGrid recipes={savedRecipes} />
       </div>
-    </div>
+    </Paper>
   );
 };
 

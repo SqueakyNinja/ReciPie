@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
-
-import Search from '../MealGenerator/Search';
-
+import Search from '../../components/Search/Search';
 import styles from './BrowseRecipe.module.scss';
 import axios from 'axios';
 import MealGrid from '../../components/MealGrid/MealGrid';
-
 import Filter from './Filter';
+import { useStore } from '../../store';
+import { Paper } from '@material-ui/core';
+import { getAllRecipes } from '../../api/recipes';
+
 const BrowseRecipe = () => {
   const [checked, setChecked] = useState([]);
-
   const [recipes, setRecipes] = useState([]);
-  const [query, setQuery] = useState('');
+  const { query, setQuery } = useStore();
   const [type, setType] = useState([]);
   const [cuisine, setCuisine] = useState([]);
   const [diet, setDiet] = useState([]);
@@ -83,9 +83,9 @@ const BrowseRecipe = () => {
         },
       }
     );
-    console.log(result.data.totalResults);
+
     setRecipes(result.data.results);
-    /*const savedRecipes = await getAllRecipes("", false, query);
+    const savedRecipes = await getAllRecipes('', false, query);
     const savedApiRecipes = savedRecipes.recipes
       .filter((recipe) => recipe.apiId !== null)
       .map((recipe) => recipe.apiId);
@@ -93,8 +93,7 @@ const BrowseRecipe = () => {
       return savedApiRecipes.includes(recipe.id) === false;
     });
     const sortedRecipes = [...filteredRecipes, ...savedRecipes.recipes].sort();
-    console.log(sortedRecipes);
-    setRecipes(sortedRecipes);*/
+    setRecipes(sortedRecipes);
   };
 
   useEffect(() => {
@@ -109,7 +108,7 @@ const BrowseRecipe = () => {
   }, [query, checked]);
 
   return (
-    <div className={styles.browseContainer}>
+    <Paper className={styles.browseContainer}>
       <div className={styles.searchBox}>
         <Search query={query} setQuery={setQuery} />
       </div>
@@ -121,7 +120,7 @@ const BrowseRecipe = () => {
           <MealGrid recipes={recipes} />
         </div>
       </div>
-    </div>
+    </Paper>
   );
 };
 

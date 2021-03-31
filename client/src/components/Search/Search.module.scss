@@ -1,0 +1,43 @@
+.search {
+  margin: 0 auto;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.774);
+  border-radius: 16px;
+  width: 75%;
+  height: 75px;
+  min-width: 200px;
+
+  > div {
+    border-radius: 16px;
+  }
+
+  .searchField {
+    width: 100%;
+    min-width: 200px;
+    border-radius: 16px;
+    background-color: white;
+
+    min-width: 200px;
+    > div {
+      border-radius: 16px;
+    }
+  }
+
+  i {
+    color: rgba(0, 0, 0, 0.699);
+    margin-left: 1rem;
+  }
+  input {
+    color: rgba(0, 0, 0, 0.699);
+    padding: 0.75rem 1rem;
+    font-size: 1.5rem;
+    height: calc(75px - 1.5rem);
+  }
+}
+
+.visible {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+}
