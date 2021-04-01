@@ -12,10 +12,7 @@ const RecipeDetails = ({ recipe }) => {
         {recipe.sourceName && (
           <p className={styles.recipeName}>Made by: {recipe.sourceName}</p>
         )}
-        <div className={styles.icon}>
-          <i className='far fa-heart'></i>
-          <i className='fas fa-heart'></i>
-        </div>
+
         <div className={styles.shortInfo}>
           {recipe.servings > 0 && <p>Servings: {recipe.servings}</p>}
           {recipe.aggregateLikes && <p>{recipe.aggregateLikes} likes</p>}
