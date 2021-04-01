@@ -243,7 +243,6 @@
     }
 
     &:hover {
-      //Man kan inte transitiona gradients :(
       background: linear-gradient(90deg, rgb(216, 85, 45) 0%, rgb(216, 132, 54) 100%);
       border-radius: 4px;
     }

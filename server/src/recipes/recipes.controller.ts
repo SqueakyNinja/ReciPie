@@ -30,12 +30,12 @@ export const addNewRecipe: express.RequestHandler<{}, {}, { recipe: Recipe }> = 
 export const postFavourite: express.RequestHandler<
   {},
   {},
-  { userId: string; recipeId?: string; apiId?: number }
+  { userId: string; getOnlyStatus: boolean; recipeId?: string; apiId?: number }
 > = async (req, res) => {
   try {
-    const { userId, recipeId, apiId } = req.body;
-    const favouriteStatus = await updateFavouriteStatus(userId, recipeId, apiId);
-    res.sendStatus(200);
+    const { userId, getOnlyStatus, recipeId, apiId } = req.body;
+    const favouriteStatus = await updateFavouriteStatus(userId, getOnlyStatus, recipeId, apiId);
+    res.status(200).send({ status: favouriteStatus });
   } catch (error) {
     console.log(error);
     res.status(400).send({ message: error.message });

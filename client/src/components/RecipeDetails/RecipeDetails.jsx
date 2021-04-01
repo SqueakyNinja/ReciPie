@@ -29,7 +29,6 @@ const RecipeDetails = ({ recipe }) => {
           <div className={styles.ingredients}>
             <h3>Ingredients:</h3>
             <div>
-              {/* {recipe.extendedIngredients[0].name.length > 0 && ( */}
               <ul>
                 {recipe.extendedIngredients.map((i, index) => (
                   <li key={index}>
@@ -49,8 +48,6 @@ const RecipeDetails = ({ recipe }) => {
         )}
       </>
       <>
-        {/* //TODO: Fixa så att recept syns även om det ej finns instructions (ex. cheese) 
-     https://api.spoonacular.com/recipes/716423/information?apiKey=8080ada856dd4f439b4a065ae353d836*/}
         {recipe.analyzedInstructions[0].steps.length > 0 &&
           recipe.analyzedInstructions[0].steps[0].step && (
             <div className={styles.instructions}>

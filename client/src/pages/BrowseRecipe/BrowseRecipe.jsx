@@ -1,17 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import Search from "../MealGenerator/Search";
+import styles from "./BrowseRecipe.module.scss";
+import axios from "axios";
+import MealGrid from "../../components/MealGrid/MealGrid";
+import Filter from "./Filter";
+import { getAllRecipes } from "../../api/recipes";
 
-import Search from '../MealGenerator/Search';
-
-import styles from './BrowseRecipe.module.scss';
-import axios from 'axios';
-import MealGrid from '../../components/MealGrid/MealGrid';
-
-import Filter from './Filter';
 const BrowseRecipe = () => {
   const [checked, setChecked] = useState([]);
-
   const [recipes, setRecipes] = useState([]);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [type, setType] = useState([]);
   const [cuisine, setCuisine] = useState([]);
   const [diet, setDiet] = useState([]);
@@ -24,15 +22,15 @@ const BrowseRecipe = () => {
       newChecked.push(value);
 
       switch (value.param) {
-        case 'type':
+        case "type":
           setType([...type, value.value]);
           break;
 
-        case 'cuisine':
+        case "cuisine":
           setCuisine([...cuisine, value.value]);
           break;
 
-        case 'diet':
+        case "diet":
           setDiet([...diet, value.value]);
           break;
 
@@ -43,19 +41,21 @@ const BrowseRecipe = () => {
       newChecked.splice(currentIndex, 1);
 
       switch (value.param) {
-        case 'type':
+        case "type":
           const newTypes = type.filter((x) => x !== value.value);
           setType(newTypes);
           break;
 
-        case 'cuisine':
+        case "cuisine":
           const newCuisines = cuisine.filter((x) => x !== value.value);
           setCuisine(newCuisines);
           break;
 
-        case 'diet':
+        case "diet":
           const newDiets = diet.filter((x) => x !== value.value);
           setDiet(newDiets);
+          break;
+        default:
           break;
       }
     }
@@ -64,28 +64,24 @@ const BrowseRecipe = () => {
   };
 
   const fetchRecipes = async () => {
-    const typeString = type.join(',');
-    const dietString = diet.join(',');
-    const cuisineString = cuisine.join(',');
+    const typeString = type.join(",");
+    const dietString = diet.join(",");
+    const cuisineString = cuisine.join(",");
 
-    const result = await axios(
-      'https://api.spoonacular.com/recipes/complexSearch',
-      {
-        params: {
-          apiKey: '34a95b9efbbe41dbaa0ba4b9d0d76287',
-          // apiKey: "8080ada856dd4f439b4a065ae353d836",
-          query: query,
-          number: 2,
-          sort: 'popularity',
-          type: typeString,
-          diet: dietString,
-          cuisine: cuisineString,
-        },
-      }
-    );
-    console.log(result.data.totalResults);
+    const result = await axios("https://api.spoonacular.com/recipes/complexSearch", {
+      params: {
+        apiKey: "34a95b9efbbe41dbaa0ba4b9d0d76287",
+        // apiKey: "8080ada856dd4f439b4a065ae353d836",
+        query: query,
+        number: 2,
+        sort: "popularity",
+        type: typeString,
+        diet: dietString,
+        cuisine: cuisineString,
+      },
+    });
     setRecipes(result.data.results);
-    /*const savedRecipes = await getAllRecipes("", false, query);
+    const savedRecipes = await getAllRecipes("", false, query);
     const savedApiRecipes = savedRecipes.recipes
       .filter((recipe) => recipe.apiId !== null)
       .map((recipe) => recipe.apiId);
@@ -93,8 +89,7 @@ const BrowseRecipe = () => {
       return savedApiRecipes.includes(recipe.id) === false;
     });
     const sortedRecipes = [...filteredRecipes, ...savedRecipes.recipes].sort();
-    console.log(sortedRecipes);
-    setRecipes(sortedRecipes);*/
+    setRecipes(sortedRecipes);
   };
 
   useEffect(() => {

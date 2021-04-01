@@ -138,7 +138,6 @@ const ScanRecipe = ({ recipe, setRecipe, openUpload, setOpenUpload }) => {
     }
   };
   const handleProceed = () => {
-    console.log("start process");
     try {
       processRecipe();
     } catch (error) {

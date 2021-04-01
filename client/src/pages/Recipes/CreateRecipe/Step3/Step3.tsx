@@ -5,10 +5,12 @@ import { RecipeProps } from "../types";
 import SortableListStep3 from "./SortableListStep3";
 import { ChangeEvent, useState } from "react";
 import { combineClasses } from "../../../../utils";
+import { useStore } from "../../../../store";
 
 const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
   const [editMode, setEditMode] = useState(false);
   const [step, setStep] = useState("");
+  const { setSnackbar } = useStore();
 
   const addStep = () => {
     if (step.length > 0) {
@@ -28,7 +30,7 @@ const Step3 = ({ recipe, setRecipe }: RecipeProps) => {
       setRecipe(updatedRecipe);
       setStep("");
     } else {
-      // setSnackbar("Please enter instructions in the field below", "error")
+      setSnackbar("Please enter instructions in the field below", "error");
     }
   };
 

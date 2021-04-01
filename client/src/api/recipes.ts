@@ -15,7 +15,12 @@ export const sendRecipe = async (recipe: Recipe) => {
   return addRecipeResponse.data;
 };
 
-export const saveFavouriteRecipe = async (userId: string, recipeId?: string, apiId?: number) => {
-  const addRecipeResponse = await axios.post("/recipes/favourite", { userId, recipeId, apiId });
+export const saveFavouriteRecipe = async (userId: string, getOnlyStatus = false, recipeId?: string, apiId?: number) => {
+  const addRecipeResponse = await axios.post("/recipes/favourite", {
+    userId,
+    getOnlyStatus,
+    recipeId,
+    apiId,
+  });
   return addRecipeResponse.data;
 };

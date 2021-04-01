@@ -1,17 +1,20 @@
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import { useHistory } from 'react-router-dom';
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import { useHistory } from "react-router-dom";
 
-import { useStore } from '../../store';
-import { saveFavouriteRecipe } from '../../api/recipes';
-import styles from './MealCard.module.scss';
-import { textEllipsis } from '../../utils';
+import { useStore } from "../../store";
+import { saveFavouriteRecipe } from "../../api/recipes";
+import styles from "./MealCard.module.scss";
+import { textEllipsis } from "../../utils";
+import { useEffect, useState } from "react";
 
 const MealCard = ({ meal }) => {
   const history = useHistory();
   const { setSnackbar, currentUser } = useStore();
+  const [favouriteStatus, setFavouriteStatus] = useState(false);
+  const [useEffectActivator, setUseEffectActivator] = useState(false);
 
   const handleClick = () => {
     history.push(`/recipe/${meal.id}`);
@@ -19,16 +22,33 @@ const MealCard = ({ meal }) => {
 
   const handleSave = async () => {
     try {
-      await saveFavouriteRecipe(currentUser.id, null, meal.id);
-      setSnackbar('Successfully added recipe to My Recipes', 'success');
+      if (meal.id.length === 36) {
+        await saveFavouriteRecipe(currentUser.id, false, meal.id, null);
+        setUseEffectActivator(!useEffectActivator);
+      } else {
+        await saveFavouriteRecipe(currentUser.id, false, null, meal.id);
+        setUseEffectActivator(!useEffectActivator);
+      }
+      setSnackbar("Successfully added recipe to My Recipes", "success");
     } catch (error) {
       console.log(error);
-      setSnackbar(
-        'Something went wrong, please contact site administrator',
-        'error'
-      );
+      setSnackbar("Something went wrong, please contact site administrator", "error");
     }
   };
+
+  useEffect(() => {
+    const status = async () => {
+      if (meal.id.length === 36) {
+        const favouriteStatus = await saveFavouriteRecipe(currentUser.id, true, meal.id, null);
+        setFavouriteStatus(favouriteStatus.status);
+      } else {
+        const favouriteStatus = await saveFavouriteRecipe(currentUser.id, true, null, meal.id);
+        setFavouriteStatus(favouriteStatus.status);
+      }
+    };
+    status();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [useEffectActivator]);
 
   return (
     <div key={meal.id} className={styles.MealCard}>
@@ -38,9 +58,8 @@ const MealCard = ({ meal }) => {
           <h2>{textEllipsis(meal.title, 40)}</h2>
         </CardContent>
         <CardActions className={styles.actions}>
-          {/* <Button size='small'>Yum pick me!</Button> */}
           <Button className={styles.save} onClick={handleSave}>
-            Save
+            {favouriteStatus ? "Remove" : "Save"}
           </Button>
         </CardActions>
       </Card>

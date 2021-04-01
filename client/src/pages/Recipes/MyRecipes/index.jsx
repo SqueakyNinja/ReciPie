@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { getAllRecipes } from "../../../api/recipes";
-import MealCard from "../../../components/MealCard/MealCard";
 import MealGrid from "../../../components/MealGrid/MealGrid";
-import RecipeDetails from "../../../components/RecipeDetails/RecipeDetails";
 import { useStore } from "../../../store";
+import styles from "./index.module.scss";
 
 const MyRecipes = () => {
   const { currentUser } = useStore();
@@ -28,7 +27,7 @@ const MyRecipes = () => {
   return (
     <div>
       <div>
-        <h2>Created Recipes</h2>
+        <h2 className={styles.h2}>Created Recipes</h2>
         <MealGrid recipes={myRecipes} />
       </div>
       <div>
@@ -36,7 +35,7 @@ const MyRecipes = () => {
         <br />
       </div>
       <div>
-        <h2>Saved Recipes</h2>
+        <h2 className={styles.h2}>Saved Recipes</h2>
         <MealGrid recipes={savedRecipes} />
       </div>
     </div>

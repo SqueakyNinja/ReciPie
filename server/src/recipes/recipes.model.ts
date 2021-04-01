@@ -59,10 +59,14 @@ export const tryAddRecipe = async (recipe: Recipe) => {
   }
 };
 
-export const updateFavouriteStatus = async (userId: string, recipeId?: string, apiId?: number) => {
+export const updateFavouriteStatus = async (
+  userId: string,
+  getOnlyStatus: boolean,
+  recipeId?: string,
+  apiId?: number
+) => {
   if (apiId) {
     const [existingRecipe] = await db("recipes").where({ apiId });
-
     if (!!existingRecipe) {
       recipeId = existingRecipe.id;
     } else {
@@ -87,10 +91,18 @@ export const updateFavouriteStatus = async (userId: string, recipeId?: string, a
   // Add or remove favourite recipe for a user
 
   const count = await db("usersRecipesMap").where({ recipeId, userId });
-  if (count.length) {
-    await db("usersRecipesMap").delete().where({ recipeId, userId });
+  if (getOnlyStatus) {
+    if (count.length) {
+      return true;
+    } else {
+      return false;
+    }
   } else {
-    await db("usersRecipesMap").insert({ recipeId, userId });
+    if (count.length) {
+      await db("usersRecipesMap").delete().where({ recipeId, userId });
+    } else {
+      await db("usersRecipesMap").insert({ recipeId, userId });
+    }
   }
 };
 
