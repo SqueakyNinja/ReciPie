@@ -17,26 +17,22 @@ const Homepage = () => {
   let day;
   switch (new Date().getDay()) {
     case 0:
-      //söndag//
       url1 = 'cuisine';
       url2 = 'italian';
       day = 'Sunday';
       break;
 
     case 1:
-      //måndag//
       url1 = 'cuisine';
       url2 = 'nordic';
       day = 'Monday';
       break;
     case 2:
-      //tisdag//
       url1 = 'includeIngredients';
       url2 = 'fish';
       day = 'Tuesday';
       break;
     case 3:
-      //onsdag//
       url1 = 'type';
       url2 = 'salad';
       day = 'Wednesday';
@@ -96,19 +92,10 @@ const Homepage = () => {
           <Search />
         </div>
         <div className={styles.homePagePaper}>
-          <h3> Happy {day}!</h3>
+          <h2> Happy {day}!</h2>
           <h3> Tip of the day: {capitalizeFirstLetter(url2)}</h3>
           <div className={styles.mealOftheDay}>
             <MealGrid recipes={recipesOfTheDay} />
-            {/* <div className={styles.homePageRight}>
-              <h1>
-                /* Today is {day}! <br></br>On {day}s we eat {recipe.title}
-              </h1>
-            </div>
-
-            <div className={styles.homePageLeft}>
-               <img src={recipe.image} alt={'Meal'} /> 
-            </div>*/}
           </div>
         </div>
       </Paper>

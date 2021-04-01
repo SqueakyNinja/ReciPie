@@ -1,11 +1,7 @@
-@import "../../app.global.scss";
+@import '../../app.global.scss';
 
 .button {
   margin: 1rem;
-}
-
-.formPaper {
-  margin: auto 2rem;
 }
 
 .signupContainer {
@@ -27,6 +23,11 @@
     position: relative;
     display: grid;
     grid-row: 1;
+
+    .formImg {
+      width: 100%;
+      object-fit: cover;
+    }
   }
   .signupRight {
     display: flex;
