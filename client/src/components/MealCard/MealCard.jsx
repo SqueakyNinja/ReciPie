@@ -1,9 +1,6 @@
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
-
+import { IconButton, CardContent, CardActions, Card } from "@material-ui/core";
 import { useStore } from "../../store";
 import { saveFavouriteRecipe } from "../../api/recipes";
 import styles from "./MealCard.module.scss";
@@ -56,12 +53,17 @@ const MealCard = ({ meal }) => {
         <CardContent className={styles.content} onClick={handleClick}>
           <img src={meal.image} alt={meal.description} />
           <h2>{textEllipsis(meal.title, 40)}</h2>
+          <CardActions className={styles.actions}>
+            <IconButton className={styles.favouriteIcon}>
+              <i
+                className={styles.save}
+                onClick={handleSave}
+                className={favouriteStatus ? "fas fa-heart" : "far fa-heart"}
+              ></i>
+            </IconButton>
+          </CardActions>
         </CardContent>
-        <CardActions className={styles.actions}>
-          <Button className={styles.save} onClick={handleSave}>
-            {favouriteStatus ? "Remove" : "Save"}
-          </Button>
-        </CardActions>
+        <Button className={styles.save} onClick={handleSave}></Button>
       </Card>
     </div>
   );

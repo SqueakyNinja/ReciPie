@@ -6,6 +6,14 @@
     max-height: 300px;
     display: flex;
     flex-direction: column;
+    position: relative;
+
+    .favouriteIcon {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 2rem;
+    }
 
     .content {
       cursor: pointer;
