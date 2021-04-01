@@ -5,10 +5,11 @@ import { Paper } from '@material-ui/core';
 import Search from '../../components/Search/Search';
 import { useStore } from '../../store';
 import { useHistory } from 'react-router-dom';
+import MealGrid from '../../components/MealGrid/MealGrid';
 
 const Homepage = () => {
   const apiKey = '8080ada856dd4f439b4a065ae353d836';
-  const [recipe, setRecipe] = useState({});
+  const [recipesOfTheDay, setRecipesOfTheDay] = useState([]);
   const { query, setQuery } = useStore();
   const history = useHistory();
   let url1;
@@ -61,11 +62,15 @@ const Homepage = () => {
       day = '';
   }
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   const fetchRecipe = async () => {
     const result = await axios(
       `https://api.spoonacular.com/recipes/complexSearch?${url1}=${url2}&number=4&apiKey=${apiKey}`
     );
-    setRecipe(result.data.results);
+    setRecipesOfTheDay(result.data.results);
   };
 
   useEffect(() => {
@@ -91,16 +96,19 @@ const Homepage = () => {
           <Search />
         </div>
         <div className={styles.homePagePaper}>
+         <h3> Happy {day}!</h3><h3> Tip of the day: {capitalizeFirstLetter(url2)}</h3>
           <div className={styles.mealOftheDay}>
-            <div className={styles.homePageRight}>
+          
+            <MealGrid recipes={recipesOfTheDay}/>
+          { /* <div className={styles.homePageRight}>
               <h1>
-                {/* Today is {day}! <br></br>On {day}s we eat {recipe.title} */}
+                /* Today is {day}! <br></br>On {day}s we eat {recipe.title}
               </h1>
             </div>
 
             <div className={styles.homePageLeft}>
-              {/* <img src={recipe.image} alt={'Meal'} /> */}
-            </div>
+               <img src={recipe.image} alt={'Meal'} /> 
+            </div>*/}
           </div>
         </div>
       </Paper>

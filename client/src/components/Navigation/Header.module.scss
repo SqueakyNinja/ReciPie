@@ -5,10 +5,16 @@
   grid-area: header;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+ 
+  
+  
 
   .button {
+  
     color: #fff;
     margin-right: 1rem;
+   
     i {
       font-size: 2rem;
     }

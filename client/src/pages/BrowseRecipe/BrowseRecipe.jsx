@@ -16,6 +16,8 @@ const BrowseRecipe = () => {
   const [cuisine, setCuisine] = useState([]);
   const [diet, setDiet] = useState([]);
 
+  
+
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
