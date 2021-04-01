@@ -2,7 +2,7 @@ import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { IconButton, CardContent, CardActions, Card } from "@material-ui/core";
 import { useStore } from "../../store";
-import { saveFavouriteRecipe } from "../../api/recipes";
+import { checkFavourite, saveFavouriteRecipe } from "../../api/recipes";
 import styles from "./MealCard.module.scss";
 import { textEllipsis } from "../../utils";
 import { useEffect, useState } from "react";
@@ -20,10 +20,10 @@ const MealCard = ({ meal }) => {
   const handleSave = async () => {
     try {
       if (meal.id.length === 36) {
-        await saveFavouriteRecipe(currentUser.id, false, meal.id, null);
+        await saveFavouriteRecipe(currentUser.id, meal.id, null);
         setUseEffectActivator(!useEffectActivator);
       } else {
-        await saveFavouriteRecipe(currentUser.id, false, null, meal.id);
+        await saveFavouriteRecipe(currentUser.id, null, meal.id);
         setUseEffectActivator(!useEffectActivator);
       }
       setSnackbar("Successfully added recipe to My Recipes", "success");
@@ -36,10 +36,10 @@ const MealCard = ({ meal }) => {
   useEffect(() => {
     const status = async () => {
       if (meal.id.length === 36) {
-        const favouriteStatus = await saveFavouriteRecipe(currentUser.id, true, meal.id, null);
+        const favouriteStatus = await checkFavourite(currentUser.id, meal.id, "");
         setFavouriteStatus(favouriteStatus.status);
       } else {
-        const favouriteStatus = await saveFavouriteRecipe(currentUser.id, true, null, meal.id);
+        const favouriteStatus = await checkFavourite(currentUser.id, "", meal.id);
         setFavouriteStatus(favouriteStatus.status);
       }
     };

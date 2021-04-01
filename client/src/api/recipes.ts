@@ -1,7 +1,8 @@
 import axios from "axios";
 import { Recipe } from "../../../common";
 
-axios.defaults.baseURL = "https://reci-pie-server.herokuapp.com/api";
+axios.defaults.baseURL = "http://localhost:9090/api";
+// axios.defaults.baseURL = "https://reci-pie-server.herokuapp.com/api";
 
 export const getAllRecipes = async (filterByUserId = "", getSavedRecipes = false, searchStr = "", recipeId = "") => {
   const getAllRecipesResponse = await axios.get(
@@ -15,12 +16,16 @@ export const sendRecipe = async (recipe: Recipe) => {
   return addRecipeResponse.data;
 };
 
-export const saveFavouriteRecipe = async (userId: string, getOnlyStatus = false, recipeId?: string, apiId?: number) => {
-  const addRecipeResponse = await axios.post("/recipes/favourite", {
+export const saveFavouriteRecipe = async (userId: string, recipeId?: string, apiId?: number) => {
+  const setFavouriteResponse = await axios.post("/recipes/favourite", {
     userId,
-    getOnlyStatus,
     recipeId,
     apiId,
   });
-  return addRecipeResponse.data;
+  return setFavouriteResponse.data;
+};
+
+export const checkFavourite = async (userId: string, recipeId = "") => {
+  const checkFavouriteResponse = await axios.get(`/recipes/favourite?userId=${userId}&recipeId=${recipeId}`);
+  return checkFavouriteResponse.data;
 };

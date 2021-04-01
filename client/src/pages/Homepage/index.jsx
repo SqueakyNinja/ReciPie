@@ -1,14 +1,16 @@
-import styles from './index.module.scss';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Paper } from '@material-ui/core';
-import Search from '../../components/Search/Search';
-import { useStore } from '../../store';
-import { useHistory } from 'react-router-dom';
-import MealGrid from '../../components/MealGrid/MealGrid';
+import styles from "./index.module.scss";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Paper } from "@material-ui/core";
+import Search from "../../components/Search/Search";
+import { useStore } from "../../store";
+import { useHistory } from "react-router-dom";
+import MealGrid from "../../components/MealGrid/MealGrid";
 
 const Homepage = () => {
-  const apiKey = '8080ada856dd4f439b4a065ae353d836';
+  // const apiKey = '8080ada856dd4f439b4a065ae353d836';
+  const apiKey = "34a95b9efbbe41dbaa0ba4b9d0d76287";
+
   const [recipesOfTheDay, setRecipesOfTheDay] = useState([]);
   const { query, setQuery } = useStore();
   const history = useHistory();
@@ -18,48 +20,48 @@ const Homepage = () => {
   switch (new Date().getDay()) {
     case 0:
       //söndag//
-      url1 = 'cuisine';
-      url2 = 'italian';
-      day = 'Sunday';
+      url1 = "cuisine";
+      url2 = "italian";
+      day = "Sunday";
       break;
 
     case 1:
       //måndag//
-      url1 = 'cuisine';
-      url2 = 'nordic';
-      day = 'Monday';
+      url1 = "cuisine";
+      url2 = "nordic";
+      day = "Monday";
       break;
     case 2:
       //tisdag//
-      url1 = 'includeIngredients';
-      url2 = 'fish';
-      day = 'Tuesday';
+      url1 = "includeIngredients";
+      url2 = "fish";
+      day = "Tuesday";
       break;
     case 3:
       //onsdag//
-      url1 = 'type';
-      url2 = 'salad';
-      day = 'Wednesday';
+      url1 = "type";
+      url2 = "salad";
+      day = "Wednesday";
       break;
     case 4:
-      url1 = 'type';
-      url2 = 'soup';
-      day = 'Thursday';
+      url1 = "type";
+      url2 = "soup";
+      day = "Thursday";
       break;
     case 5:
-      url1 = 'cuisine';
-      url2 = 'mexican';
-      day = 'Friday';
+      url1 = "cuisine";
+      url2 = "mexican";
+      day = "Friday";
       break;
     case 6:
-      url1 = 'cuisine';
-      url2 = 'nordic';
-      day = 'Saturday';
+      url1 = "cuisine";
+      url2 = "nordic";
+      day = "Saturday";
       break;
     default:
-      url1 = '';
-      url2 = '';
-      day = '';
+      url1 = "";
+      url2 = "";
+      day = "";
   }
 
   function capitalizeFirstLetter(string) {
@@ -68,13 +70,13 @@ const Homepage = () => {
 
   const fetchRecipe = async () => {
     const result = await axios(
-      `https://api.spoonacular.com/recipes/complexSearch?${url1}=${url2}&number=8&apiKey=${apiKey}`
+      `https://api.spoonacular.com/recipes/complexSearch?${url1}=${url2}&number=1&apiKey=${apiKey}`
     );
     setRecipesOfTheDay(result.data.results);
   };
 
   useEffect(() => {
-    setQuery('');
+    setQuery("");
     fetchRecipe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -82,7 +84,7 @@ const Homepage = () => {
   useEffect(() => {
     if (query.length > 0) {
       const timeoutVar = setTimeout(() => {
-        history.push('/browse-recipe');
+        history.push("/browse-recipe");
       }, 750);
       return () => clearTimeout(timeoutVar);
     }

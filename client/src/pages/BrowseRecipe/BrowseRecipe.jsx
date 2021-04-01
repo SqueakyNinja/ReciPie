@@ -94,14 +94,6 @@ const BrowseRecipe = () => {
     setRecipes(sortedRecipes);
   };
 
-  const fetchRandom = async () => {
-    const result = await axios(
-      "https://api.spoonacular.com/recipes/random?number=2&apiKey=34a95b9efbbe41dbaa0ba4b9d0d76287"
-    );
-    console.log(result.data.results);
-    //setRecipes(result.data.results);
-  };
-
   useEffect(() => {
     fetchRecipes();
   }, []);

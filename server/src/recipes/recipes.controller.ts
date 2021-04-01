@@ -1,7 +1,13 @@
 import express from "express";
 import { Ingredients, Recipe } from "../../../common";
 import { RecipesResponse } from "../../../common/responses";
-import { getAllIngredients, selectRecipes, tryAddRecipe, updateFavouriteStatus } from "./recipes.model";
+import {
+  checkFavouriteStatus,
+  getAllIngredients,
+  selectRecipes,
+  tryAddRecipe,
+  updateFavouriteStatus,
+} from "./recipes.model";
 
 export const getRecipes: express.RequestHandler<
   {},
@@ -30,11 +36,25 @@ export const addNewRecipe: express.RequestHandler<{}, {}, { recipe: Recipe }> = 
 export const postFavourite: express.RequestHandler<
   {},
   {},
-  { userId: string; getOnlyStatus: boolean; recipeId?: string; apiId?: number }
+  { userId: string; recipeId?: string; apiId?: number }
 > = async (req, res) => {
   try {
-    const { userId, getOnlyStatus, recipeId, apiId } = req.body;
-    const favouriteStatus = await updateFavouriteStatus(userId, getOnlyStatus, recipeId, apiId);
+    const { userId, recipeId, apiId } = req.body;
+    const favouriteStatus = await updateFavouriteStatus(userId, recipeId, apiId);
+    res.status(200).send({ status: favouriteStatus });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ message: error.message });
+  }
+};
+
+export const getFavourite: express.RequestHandler<{}, {}, {}, { userId: string; recipeId?: string }> = async (
+  req,
+  res
+) => {
+  try {
+    const { userId, recipeId } = req.query;
+    const favouriteStatus = await checkFavouriteStatus(userId, recipeId ?? "");
     res.status(200).send({ status: favouriteStatus });
   } catch (error) {
     console.log(error);
