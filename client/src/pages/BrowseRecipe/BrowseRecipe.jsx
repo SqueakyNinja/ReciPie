@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import Search from "../MealGenerator/Search";
 import styles from "./BrowseRecipe.module.scss";
@@ -5,11 +6,26 @@ import axios from "axios";
 import MealGrid from "../../components/MealGrid/MealGrid";
 import Filter from "./Filter";
 import { getAllRecipes } from "../../api/recipes";
+=======
+import { useState, useEffect } from 'react';
+import Search from '../../components/Search/Search';
+import styles from './BrowseRecipe.module.scss';
+import axios from 'axios';
+import MealGrid from '../../components/MealGrid/MealGrid';
+import Filter from './Filter';
+import { useStore } from '../../store';
+import { Paper } from '@material-ui/core';
+import { getAllRecipes } from '../../api/recipes';
+>>>>>>> 1d206a3e11e680e37ad76ea9681224bd00912648
 
 const BrowseRecipe = () => {
   const [checked, setChecked] = useState([]);
   const [recipes, setRecipes] = useState([]);
+<<<<<<< HEAD
   const [query, setQuery] = useState("");
+=======
+  const { query, setQuery } = useStore();
+>>>>>>> 1d206a3e11e680e37ad76ea9681224bd00912648
   const [type, setType] = useState([]);
   const [cuisine, setCuisine] = useState([]);
   const [diet, setDiet] = useState([]);
@@ -92,6 +108,18 @@ const BrowseRecipe = () => {
     setRecipes(sortedRecipes);
   };
 
+  const fetchRandom = async () => {
+    const result = await axios(
+      'https://api.spoonacular.com/recipes/random?number=2&apiKey=34a95b9efbbe41dbaa0ba4b9d0d76287'
+    );
+    console.log(result.data.results);
+    //setRecipes(result.data.results);
+  };
+
+  useEffect(() => {
+    fetchRecipes();
+  }, []);
+
   useEffect(() => {
     if (query.length > 0) {
       const timeoutVar = setTimeout(() => {
@@ -104,7 +132,7 @@ const BrowseRecipe = () => {
   }, [query, checked]);
 
   return (
-    <div className={styles.browseContainer}>
+    <Paper elevation={3} className={styles.browseContainer}>
       <div className={styles.searchBox}>
         <Search query={query} setQuery={setQuery} />
       </div>
@@ -116,7 +144,7 @@ const BrowseRecipe = () => {
           <MealGrid recipes={recipes} />
         </div>
       </div>
-    </div>
+    </Paper>
   );
 };
 

@@ -1,11 +1,11 @@
-@import "../../../app.global.scss";
+@import '../../../app.global.scss';
 
 .root {
   .paper {
     display: flex;
     flex-direction: column;
     min-height: 60vh;
-    margin: 15px;
+    margin: 1rem;
 
     .headerDiv {
       display: flex;
@@ -137,6 +137,10 @@
   }
   > button:first-of-type {
     margin-left: auto;
+  }
+  .unitShortSpan {
+    flex: 0 1 auto;
+    padding-right: 5px;
   }
 }
 

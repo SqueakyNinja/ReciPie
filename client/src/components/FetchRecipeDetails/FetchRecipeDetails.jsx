@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Paper } from "@material-ui/core";
 import RecipeDetails from "../RecipeDetails/RecipeDetails";
+import styles from "./index.module.scss";
 
 const FetchRecipeDetails = () => {
   const recipeId = useParams().id;
@@ -25,9 +27,9 @@ const FetchRecipeDetails = () => {
   }, []);
 
   return (
-    <div>
+    <Paper className={styles.paper}>
       <RecipeDetails recipe={recipe} />
-    </div>
+    </Paper>
   );
 };
 

@@ -3,8 +3,8 @@
   grid-template-columns: [left] 0px [right] 100%;
   grid-template-rows: [header]70px [main] calc(100% - 70px);
   grid-template-areas:
-    "navbar header"
-    "navbar main";
+    'navbar header'
+    'navbar main';
   height: 100%;
 }
 
@@ -12,13 +12,17 @@
   grid-area: main;
   overflow-y: auto;
   border-radius: 0px !important;
+
+  background: #6d6027;
+  background: -webkit-linear-gradient(to right, #d4b77971, #eecf4888);
+  background: linear-gradient(to right, #d4b77971, #eecf4888);
 }
 
 @media screen and (min-width: 1024px) {
   .container {
     grid-template-columns: [left] 250px [right] calc(100% - 250px);
     grid-template-areas:
-      "navbar header"
-      "navbar main";
+      'navbar header'
+      'navbar main';
   }
 }

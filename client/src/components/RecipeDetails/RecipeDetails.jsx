@@ -1,30 +1,26 @@
-import styles from './index.module.scss';
+import { Paper } from "@material-ui/core";
+
+import styles from "./index.module.scss";
 
 const RecipeDetails = ({ recipe }) => {
   return recipe.extendedIngredients && recipe.extendedIngredients.length > 0 ? (
     <div className={styles.container}>
-      {recipe.image.length > 0 && (
-        <img src={recipe.image} alt={'Meal'} className={styles.img}></img>
-      )}
+      {recipe.image.length > 0 && <img src={recipe.image} alt={"Meal"} className={styles.img}></img>}
 
       <div className={styles.mealInfo}>
         <h2>{recipe.title}</h2>
-        {recipe.sourceName && (
-          <p className={styles.recipeName}>Made by: {recipe.sourceName}</p>
-        )}
+        {recipe.sourceName && <p className={styles.recipeName}>Made by: {recipe.sourceName}</p>}
         <div className={styles.icon}>
-          <i className='far fa-heart'></i>
-          <i className='fas fa-heart'></i>
+          <i className="far fa-heart"></i>
+          <i className="fas fa-heart"></i>
         </div>
         <div className={styles.shortInfo}>
           {recipe.servings > 0 && <p>Servings: {recipe.servings}</p>}
           {recipe.aggregateLikes && <p>{recipe.aggregateLikes} likes</p>}
-          {recipe.readyInMinutes > 0 && (
-            <p>Prep time: {recipe.readyInMinutes} min</p>
-          )}
+          {recipe.readyInMinutes > 0 && <p>Prep time: {recipe.readyInMinutes} min</p>}
         </div>
       </div>
-      <>
+      <div>
         {recipe.extendedIngredients[0].name.length > 0 && (
           <div className={styles.ingredients}>
             <h3>Ingredients:</h3>
@@ -46,9 +42,10 @@ const RecipeDetails = ({ recipe }) => {
             </div>
           </div>
         )}
-      </>
-      <>
-        {recipe.analyzedInstructions[0].steps.length > 0 &&
+      </div>
+      <div>
+        {recipe.analyzedInstructions.length > 0 ? (
+          recipe.analyzedInstructions[0].steps.length > 0 &&
           recipe.analyzedInstructions[0].steps[0].step && (
             <div className={styles.instructions}>
               <h3>Instructions: </h3>
@@ -67,8 +64,11 @@ const RecipeDetails = ({ recipe }) => {
                 </ol>
               </div>
             </div>
-          )}
-      </>
+          )
+        ) : (
+          <div>Mix everything together. Eat. Enjoy!</div>
+        )}
+      </div>
     </div>
   ) : (
     <></>
