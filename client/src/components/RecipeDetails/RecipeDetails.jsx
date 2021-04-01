@@ -1,3 +1,5 @@
+import { Paper } from '@material-ui/core';
+
 import styles from './index.module.scss';
 
 const RecipeDetails = ({ recipe }) => {
@@ -24,7 +26,7 @@ const RecipeDetails = ({ recipe }) => {
           )}
         </div>
       </div>
-      <>
+      <div>
         {recipe.extendedIngredients[0].name.length > 0 && (
           <div className={styles.ingredients}>
             <h3>Ingredients:</h3>
@@ -47,8 +49,8 @@ const RecipeDetails = ({ recipe }) => {
             </div>
           </div>
         )}
-      </>
-      <>
+      </div>
+      <div>
         {recipe.analyzedInstructions.length > 0 ? (
           recipe.analyzedInstructions[0].steps.length > 0 &&
           recipe.analyzedInstructions[0].steps[0].step && (
@@ -71,9 +73,9 @@ const RecipeDetails = ({ recipe }) => {
             </div>
           )
         ) : (
-          <div>No specific instructions found</div>
+          <div>Mix everything together. Eat. Enjoy!</div>
         )}
-      </>
+      </div>
     </div>
   ) : (
     <></>

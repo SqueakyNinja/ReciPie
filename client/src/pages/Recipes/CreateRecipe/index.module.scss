@@ -138,6 +138,10 @@
   > button:first-of-type {
     margin-left: auto;
   }
+  .unitShortSpan {
+    flex: 0 1 auto;
+    padding-right: 5px;
+  }
 }
 
 .editMode {

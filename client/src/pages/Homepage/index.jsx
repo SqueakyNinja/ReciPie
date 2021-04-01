@@ -68,7 +68,7 @@ const Homepage = () => {
 
   const fetchRecipe = async () => {
     const result = await axios(
-      `https://api.spoonacular.com/recipes/complexSearch?${url1}=${url2}&number=4&apiKey=${apiKey}`
+      `https://api.spoonacular.com/recipes/complexSearch?${url1}=${url2}&number=8&apiKey=${apiKey}`
     );
     setRecipesOfTheDay(result.data.results);
   };
@@ -91,16 +91,16 @@ const Homepage = () => {
 
   return (
     <div className={styles.containerHomepage}>
-      <Paper>
+      <Paper elevation={3}>
         <div className={styles.whatToDo}>
           <Search />
         </div>
         <div className={styles.homePagePaper}>
-         <h3> Happy {day}!</h3><h3> Tip of the day: {capitalizeFirstLetter(url2)}</h3>
+          <h3> Happy {day}!</h3>
+          <h3> Tip of the day: {capitalizeFirstLetter(url2)}</h3>
           <div className={styles.mealOftheDay}>
-          
-            <MealGrid recipes={recipesOfTheDay}/>
-          { /* <div className={styles.homePageRight}>
+            <MealGrid recipes={recipesOfTheDay} />
+            {/* <div className={styles.homePageRight}>
               <h1>
                 /* Today is {day}! <br></br>On {day}s we eat {recipe.title}
               </h1>

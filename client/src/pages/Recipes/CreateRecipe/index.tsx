@@ -70,7 +70,11 @@ const CreateRecipe = () => {
       const recipeId = await sendRecipe(recipe);
       if (files.length > 0) {
         let fileType = '';
-        if (files[0].name.endsWith('jpeg')) {
+        if (files[0].name.endsWith('jpg')) {
+          fileType = 'jpg';
+        } else if (files[0].name.endsWith('JPG')) {
+          fileType = 'JPG';
+        } else if (files[0].name.endsWith('jpeg')) {
           fileType = 'jpeg';
         } else if (files[0].name.endsWith('png')) {
           fileType = 'png';
@@ -86,6 +90,7 @@ const CreateRecipe = () => {
               .getDownloadURL();
             setRecipe({ ...recipe, image: getURL });
             setSnackbar('Recipe successfully added', 'success');
+            history.push('/recipes/saved-recipes');
           } else {
             console.log('File upload failed');
           }
@@ -94,6 +99,7 @@ const CreateRecipe = () => {
         }
       } else {
         setSnackbar('Recipe successfully added', 'success');
+        history.push('/recipes/saved-recipes');
       }
     } catch (error) {
       console.log(error);
