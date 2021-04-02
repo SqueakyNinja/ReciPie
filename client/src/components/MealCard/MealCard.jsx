@@ -56,9 +56,11 @@ const MealCard = ({ meal }) => {
         <CardContent className={styles.content} onClick={handleClick}>
           <img src={meal.image} alt={meal.description} />
           <h2>{textEllipsis(meal.title, 40)}</h2>
-          <IconButton className={styles.favouriteIcon} onClick={handleSave}>
-            <i className={combineClasses(styles.save && favouriteStatus ? "fas fa-heart" : "far fa-heart")}></i>
-          </IconButton>
+          {currentUser.id.length > 0 && (
+            <IconButton className={styles.favouriteIcon} onClick={handleSave}>
+              <i className={combineClasses(styles.save && favouriteStatus ? "fas fa-heart" : "far fa-heart")}></i>
+            </IconButton>
+          )}
         </CardContent>
       </Card>
     </div>

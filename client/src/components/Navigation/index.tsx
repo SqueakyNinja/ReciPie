@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
 import { useHistory } from "react-router-dom";
 import SubItems from "./SubItems";
-import { FormControlLabel, Switch, Button, InputAdornment, TextField, ClickAwayListener } from "@material-ui/core";
+import { Button, InputAdornment, TextField, ClickAwayListener } from "@material-ui/core";
 import { useStore } from "../../store";
 import AccountMenu from "./AccountMenu";
 
@@ -13,7 +13,7 @@ type ViewType = "desktop" | "mobile";
 const Navbar = () => {
   const ref = useRef<HTMLUListElement>(null);
   const currentView = useRef<ViewType>(window.innerWidth >= 1024 ? "desktop" : "mobile");
-  const { expandedSidebar, setExpandedSidebar, darkMode, setDarkMode, currentUser, height, setHeight } = useStore();
+  const { expandedSidebar, setExpandedSidebar, currentUser, height, setHeight } = useStore();
   const [expandNoTransitions, setExpandNoTransitions] = useState(false);
   const history = useHistory();
 
@@ -87,12 +87,7 @@ const Navbar = () => {
           ) : (
             <img src={"/images/ReciPie-light-logo.png"} alt="logo" onClick={() => history.push("/")} />
           )}
-          <FormControlLabel
-            control={
-              <Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} name="darkmode" color="primary" />
-            }
-            label="Dark Mode"
-          />
+
           <div
             onClick={handleClick}
             className={combineClasses(styles.hamburger, expandedSidebar && styles.open)}
@@ -111,19 +106,6 @@ const Navbar = () => {
         >
           {currentView.current === "mobile" ? (
             <li className={styles.searchbarMobile}>
-              <div className={styles.search}>
-                <TextField
-                  placeholder="Search…"
-                  variant="outlined"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <i className="fas fa-search"></i>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </div>
               {currentUser.id.length === 0 ? (
                 <div className={styles.buttonDiv}>
                   <Button variant="outlined" className={styles.button} onClick={HandleSignupClick}>
