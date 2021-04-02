@@ -1,10 +1,9 @@
-import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
-import { IconButton, CardContent, CardActions, Card } from "@material-ui/core";
+import { IconButton, CardContent, Card } from "@material-ui/core";
 import { useStore } from "../../store";
 import { checkFavourite, saveFavouriteRecipe } from "../../api/recipes";
 import styles from "./MealCard.module.scss";
-import { textEllipsis } from "../../utils";
+import { combineClasses, textEllipsis } from "../../utils";
 import { useEffect, useState } from "react";
 
 const MealCard = ({ meal }) => {
@@ -17,7 +16,8 @@ const MealCard = ({ meal }) => {
     history.push(`/recipe/${meal.id}`);
   };
 
-  const handleSave = async () => {
+  const handleSave = async (e) => {
+    e.stopPropagation();
     try {
       if (meal.id.length === 36) {
         await saveFavouriteRecipe(currentUser.id, meal.id, null);
@@ -26,7 +26,11 @@ const MealCard = ({ meal }) => {
         await saveFavouriteRecipe(currentUser.id, null, meal.id);
         setUseEffectActivator(!useEffectActivator);
       }
-      setSnackbar("Successfully added recipe to My Recipes", "success");
+      if (favouriteStatus) {
+        setSnackbar("Successfully removed recipe to My Recipes", "success");
+      } else {
+        setSnackbar("Successfully added recipe to My Recipes", "success");
+      }
     } catch (error) {
       console.log(error);
       setSnackbar("Something went wrong, please contact site administrator", "error");
@@ -39,8 +43,7 @@ const MealCard = ({ meal }) => {
         const favouriteStatus = await checkFavourite(currentUser.id, meal.id, "");
         setFavouriteStatus(favouriteStatus.status);
       } else {
-        const favouriteStatus = await checkFavourite(currentUser.id, "", meal.id);
-        setFavouriteStatus(favouriteStatus.status);
+        setFavouriteStatus(false);
       }
     };
     status();
@@ -53,17 +56,10 @@ const MealCard = ({ meal }) => {
         <CardContent className={styles.content} onClick={handleClick}>
           <img src={meal.image} alt={meal.description} />
           <h2>{textEllipsis(meal.title, 40)}</h2>
-          <CardActions className={styles.actions}>
-            <IconButton className={styles.favouriteIcon}>
-              <i
-                className={styles.save}
-                onClick={handleSave}
-                className={favouriteStatus ? "fas fa-heart" : "far fa-heart"}
-              ></i>
-            </IconButton>
-          </CardActions>
+          <IconButton className={styles.favouriteIcon} onClick={handleSave}>
+            <i className={combineClasses(styles.save && favouriteStatus ? "fas fa-heart" : "far fa-heart")}></i>
+          </IconButton>
         </CardContent>
-        <Button className={styles.save} onClick={handleSave}></Button>
       </Card>
     </div>
   );
