@@ -20,9 +20,9 @@ apiRouter.post("/users/login", loginUser);
 
 apiRouter.get("/recipes", getRecipes);
 
-apiRouter.post("/recipes/:recipeId", postNewUrl);
-
 apiRouter.post("/recipes/add", addNewRecipe);
+
+apiRouter.post("/recipes/update", postNewUrl);
 
 apiRouter.route("/recipes/favourite").post(postFavourite).get(getFavourite);
 

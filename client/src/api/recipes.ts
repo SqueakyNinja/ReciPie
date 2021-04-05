@@ -1,8 +1,9 @@
 import axios from "axios";
 import { Recipe } from "../../../common";
 
-// axios.defaults.baseURL = "http://localhost:9090/api";
-axios.defaults.baseURL = "https://reci-pie-server.herokuapp.com/api";
+// axios.defaults.baseURL = "https://reci-pie-server.herokuapp.com/api";
+axios.defaults.baseURL = "http://localhost:9090/api";
+console.log(axios.defaults.baseURL);
 
 export const getAllRecipes = async (filterByUserId = "", getSavedRecipes = false, searchStr = "", recipeId = "") => {
   const getAllRecipesResponse = await axios.get(
@@ -31,6 +32,11 @@ export const checkFavourite = async (userId: string, recipeId = "") => {
 };
 
 export const updatedImagePath = async (recipeId: string, newURL: string) => {
-  const response = await axios.post(`/recipes/:${recipeId}`, { recipeId, newURL });
-  return response.data;
+  try {
+    const response = await axios.post(`/recipes/update`, { recipeId, newURL });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return "something went wrong";
+  }
 };

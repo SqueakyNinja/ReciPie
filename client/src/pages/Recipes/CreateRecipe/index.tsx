@@ -80,16 +80,10 @@ const CreateRecipe = () => {
           fileType = "png";
         }
         if (fileType !== "") {
-          const uploadImage = await storage.ref(`/recipe-images/${recipeId.recipeId}.${fileType}`).put(files[0]);
+          const uploadImage = await storage.ref(`/recipe-images/${recipeId}.${fileType}`).put(files[0]);
           if (uploadImage.state === "success") {
-            const getURL = await storage
-              .ref()
-              .child(`/recipe-images/${recipeId.recipeId}.${fileType}`)
-              .getDownloadURL();
-            console.log(getURL);
+            const getURL = await storage.ref().child(`/recipe-images/${recipeId}.${fileType}`).getDownloadURL();
             const setNewUrl = await updatedImagePath(recipeId, getURL);
-            console.log(setNewUrl);
-            setRecipe({ ...recipe, image: getURL });
             setSnackbar("Recipe successfully added", "success");
             history.push("/recipes/saved-recipes");
           } else {
