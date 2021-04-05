@@ -96,11 +96,19 @@ export const updateFavouriteStatus = async (userId: string, recipeId?: string, a
 
 export const checkFavouriteStatus = async (userId: string, recipeId: string) => {
   const count = await db("usersRecipesMap").where({ userId, recipeId });
-  console.log(!!count.length);
   return !!count.length;
 };
 
 export const getAllIngredients = async () => {
   const ingredients: Ingredients[] = await db("ingredients").select("ingredients.name");
   return ingredients;
+};
+
+export const setNewImagePath = async (recipeId: string, newURL: string) => {
+  try {
+    const recipe = await db("recipes").where("id", recipeId).update({ image: newURL });
+    return recipe;
+  } catch (error) {
+    console.log(error);
+  }
 };
