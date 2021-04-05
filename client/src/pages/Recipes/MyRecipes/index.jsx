@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { getAllRecipes } from "../../../api/recipes";
-import MealGrid from "../../../components/MealGrid/MealGrid";
-import { useStore } from "../../../store";
-import styles from "./index.module.scss";
-import { Paper } from "@material-ui/core";
+import { useEffect, useState } from 'react';
+import { getAllRecipes } from '../../../api/recipes';
+import MealGrid from '../../../components/MealGrid/MealGrid';
+import { useStore } from '../../../store';
+import styles from './index.module.scss';
+import { Paper } from '@material-ui/core';
 
 const MyRecipes = () => {
   const { currentUser } = useStore();
@@ -29,11 +29,15 @@ const MyRecipes = () => {
   return (
     <Paper className={styles.myRecipesContainer}>
       <div>
-        <h2>Created Recipes</h2>
-        {myRecipes.length > 0 ? <MealGrid recipes={myRecipes} /> : <p>You have not created any recipes yet...</p>}
+        <h2 className={styles.header}>Created Recipes</h2>
+        {myRecipes.length > 0 ? (
+          <MealGrid recipes={myRecipes} />
+        ) : (
+          <p>You have not created any recipes yet...</p>
+        )}
       </div>
       <div>
-        <h2 className={styles.h2}>Saved Recipes</h2>
+        <h2 className={styles.header}>Saved Recipes</h2>
         <MealGrid recipes={savedRecipes} />
       </div>
     </Paper>
