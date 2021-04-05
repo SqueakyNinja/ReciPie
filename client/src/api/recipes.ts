@@ -1,9 +1,8 @@
 import axios from "axios";
 import { Recipe } from "../../../common";
 
-// axios.defaults.baseURL = "https://reci-pie-server.herokuapp.com/api";
-axios.defaults.baseURL = "http://localhost:9090/api";
-console.log(axios.defaults.baseURL);
+// axios.defaults.baseURL = "http://localhost:9090/api";
+axios.defaults.baseURL = "https://reci-pie-server.herokuapp.com/api";
 
 export const getAllRecipes = async (filterByUserId = "", getSavedRecipes = false, searchStr = "", recipeId = "") => {
   const getAllRecipesResponse = await axios.get(

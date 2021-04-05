@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import { combineClasses } from "../../utils";
 import { useHistory } from "react-router-dom";
 import SubItems from "./SubItems";
-import { Button, InputAdornment, TextField, ClickAwayListener } from "@material-ui/core";
+import { Button, ClickAwayListener } from "@material-ui/core";
 import { useStore } from "../../store";
 import AccountMenu from "./AccountMenu";
 

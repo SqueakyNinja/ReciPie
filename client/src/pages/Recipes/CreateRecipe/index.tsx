@@ -83,7 +83,7 @@ const CreateRecipe = () => {
           const uploadImage = await storage.ref(`/recipe-images/${recipeId}.${fileType}`).put(files[0]);
           if (uploadImage.state === "success") {
             const getURL = await storage.ref().child(`/recipe-images/${recipeId}.${fileType}`).getDownloadURL();
-            const setNewUrl = await updatedImagePath(recipeId, getURL);
+            await updatedImagePath(recipeId, getURL);
             setSnackbar("Recipe successfully added", "success");
             history.push("/recipes/saved-recipes");
           } else {
