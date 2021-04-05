@@ -29,3 +29,8 @@ export const checkFavourite = async (userId: string, recipeId = "") => {
   const checkFavouriteResponse = await axios.get(`/recipes/favourite?userId=${userId}&recipeId=${recipeId}`);
   return checkFavouriteResponse.data;
 };
+
+export const updatedImagePath = async (recipeId: string, newURL: string) => {
+  const response = await axios.post(`/recipes/:${recipeId}`, { recipeId, newURL });
+  return response.data;
+};

@@ -104,3 +104,8 @@ export const getAllIngredients = async () => {
   const ingredients: Ingredients[] = await db("ingredients").select("ingredients.name");
   return ingredients;
 };
+
+export const setNewImagePath = async (recipeId: string, newURL: string) => {
+  const recipe = await db("recipes").where(recipeId).update({ image: newURL });
+  return recipe;
+};

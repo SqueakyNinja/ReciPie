@@ -7,6 +7,7 @@ import {
   selectRecipes,
   tryAddRecipe,
   updateFavouriteStatus,
+  setNewImagePath,
 } from "./recipes.model";
 
 export const getRecipes: express.RequestHandler<
@@ -66,4 +67,14 @@ export const allIngredients: express.RequestHandler<{}, Ingredients[]> = async (
   const ingredients = await getAllIngredients();
 
   res.send(ingredients);
+};
+
+export const postNewUrl: express.RequestHandler<{}, {}, { recipeId: string; newURL: string }> = async (req, res) => {
+  try {
+    const { recipeId, newURL } = req.body;
+    const response = await setNewImagePath(recipeId, newURL);
+    res.send(202).send(response);
+  } catch (error) {
+    res.status(400).send({ message: error });
+  }
 };
