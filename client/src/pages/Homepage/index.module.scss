@@ -6,7 +6,7 @@
     grid-template-rows: auto;
 
     .whatToDo {
-      background-image: url("meal.png");
+      background-image: url('meal.png');
       height: 250px;
       background-position: center;
       display: flex;
@@ -41,5 +41,15 @@
       justify-content: space-evenly;
       margin: 20px;
     }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .whatToDo {
+    padding: 20px;
+  }
+
+  .homePagePaper {
+    text-align: center;
   }
 }
