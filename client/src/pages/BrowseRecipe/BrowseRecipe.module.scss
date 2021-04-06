@@ -5,6 +5,7 @@
   flex-direction: column;
   margin: 1rem;
   min-height: 85vh;
+
   .searchBox {
     margin: 2rem auto 1rem auto;
     width: 60%;
@@ -12,6 +13,7 @@
 
   .contentContainer {
     display: flex;
+
     .filters {
       //max-width: 300px;
 
@@ -40,7 +42,19 @@
         padding: 0;
       }
     }
-    .searchResults {
+    // .searchResults {
+    // }
+  }
+}
+
+@media only screen and (max-width: 1226px) {
+  .contentContainer {
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .filters {
+      min-width: 90%;
+      margin-right: 30px;
     }
   }
 }
