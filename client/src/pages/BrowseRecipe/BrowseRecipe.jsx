@@ -83,18 +83,19 @@ const BrowseRecipe = () => {
         cuisine: cuisineString,
       },
     });
-    const savedRecipes = await getAllRecipes("", false, query);
-    // console.log(savedRecipes.recipes);
-    const savedApiRecipes = savedRecipes.recipes.filter((recipe) => recipe.apiId !== null);
+    if (query.length === 0) {
+      return setRecipes(result.data.results);
+    } else {
+      const savedRecipes = await getAllRecipes("", false, query);
+      const savedApiRecipes = savedRecipes.recipes.filter((recipe) => recipe.apiId !== null);
+      const filteredRecipes = result.data.results.filter(
+        (recipe) => savedApiRecipes.map((recipe) => recipe.apiId).includes(recipe.id) === false
+      );
 
-    // console.log(savedApiRecipes);
-    const filteredRecipes = result.data.results.filter(
-      (recipe) => savedApiRecipes.map((recipe) => recipe.apiId).includes(recipe.id) === false
-    );
-
-    const allRecipes = [...filteredRecipes, ...savedRecipes.recipes];
-    const results = (options, query) => matchSorter(options, query, { keys: ["title"] });
-    setRecipes(results(allRecipes, query));
+      const allRecipes = [...filteredRecipes, ...savedRecipes.recipes];
+      const results = (options, query) => matchSorter(options, query, { keys: ["title"] });
+      setRecipes(results(allRecipes, query));
+    }
   };
 
   useEffect(() => {

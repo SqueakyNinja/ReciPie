@@ -40,15 +40,15 @@ const MealCard = ({ meal }) => {
   useEffect(() => {
     const status = async () => {
       if (meal.id.length === 36) {
-        const favouriteStatus = await checkFavourite(currentUser.id, meal.id, "");
-        setFavouriteStatus(favouriteStatus.status);
+        const getFavouriteStatus = await checkFavourite(currentUser.id, meal.id, "");
+        setFavouriteStatus(getFavouriteStatus.status);
       } else {
         setFavouriteStatus(false);
       }
     };
     status();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [useEffectActivator]);
+  }, [useEffectActivator, meal]);
 
   return (
     <div key={meal.id} className={styles.MealCard}>
