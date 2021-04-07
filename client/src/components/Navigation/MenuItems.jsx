@@ -1,36 +1,36 @@
 export const MenuItems = [
   {
-    title: 'Home',
-    icon: 'fas fa-home',
-    url: '/',
+    title: "Home",
+    icon: "fas fa-home",
+    url: "/",
   },
   {
-    title: 'Recipes',
-    url: '#',
-    icon: 'fas fa-receipt',
+    title: "Recipes",
+    url: "#",
+    icon: "fas fa-utensils",
 
     subNav: [
       {
-        title: 'Browse',
-        path: '/browse-recipe',
-        icon: 'fas fa-receipt',
+        title: "Search",
+        path: "/browse-recipe",
+        icon: "fas fa-search",
       },
       {
-        title: 'Create',
-        path: '/recipes/create',
-        icon: 'fas fa-receipt',
+        title: "Create",
+        path: "/recipes/create",
+        icon: "fas fa-plus",
       },
       {
-        title: 'Saved Recipes',
-        path: '/recipes/saved-recipes',
-        icon: 'fas fa-receipt',
+        title: "Saved Recipes",
+        path: "/recipes/saved-recipes",
+        icon: "far fa-save",
       },
     ],
   },
 
   {
-    title: 'Settings',
-    url: '/settings',
-    icon: 'fas fa-cogs',
+    title: "Settings",
+    url: "/settings",
+    icon: "fas fa-cogs",
   },
 ];

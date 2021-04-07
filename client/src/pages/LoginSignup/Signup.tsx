@@ -1,12 +1,12 @@
-import React, { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { Button, TextField, Paper } from '@material-ui/core';
-import { validateSignupInfo } from './validation';
-import styles from './index.module.scss';
-import FormSuccess from './FormSuccess';
-import { addNewUser, sendLogin } from '../../api/users';
-import { LoginRequest, NewUser } from '../../../../common';
-import { Link, useHistory } from 'react-router-dom';
-import { useStore } from '../../store';
+import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { Button, TextField, Paper } from "@material-ui/core";
+import { validateSignupInfo } from "./validation";
+import styles from "./index.module.scss";
+import FormSuccess from "./FormSuccess";
+import { addNewUser, sendLogin } from "../../db/users";
+import { LoginRequest, NewUser } from "../../../../common";
+import { Link, useHistory } from "react-router-dom";
+import { useStore } from "../../store";
 
 interface Errors {
   username?: string;
@@ -29,10 +29,10 @@ const Signup = () => {
   const isSubmitted = useRef<boolean>(false);
   const [errors, setErrors] = useState<Errors>({});
   const values = useRef<Values>({
-    username: '',
-    email: '',
-    password: '',
-    password2: '',
+    username: "",
+    email: "",
+    password: "",
+    password2: "",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +57,7 @@ const Signup = () => {
       };
       try {
         const newUserSuccess = await addNewUser(newUser);
-        setSnackbar(newUserSuccess.data.reqNewUser, 'success');
+        setSnackbar(newUserSuccess.data.reqNewUser, "success");
         const newLoginData: LoginRequest = {
           username: values.current.username,
           password: values.current.password,
@@ -71,15 +71,15 @@ const Signup = () => {
           };
           setCurrentUser(newUser);
           isSubmitted.current = true;
-          history.push('/');
+          history.push("/");
         } else {
-          setSnackbar('Something went wrong...', 'error');
+          setSnackbar("Something went wrong...", "error");
         }
       } catch (error) {
-        setSnackbar(error.response.data.message, 'error');
+        setSnackbar(error.response.data.message, "error");
       }
     } else {
-      setSnackbar('Please resolve all errors and try again!', 'error');
+      setSnackbar("Please resolve all errors and try again!", "error");
     }
   };
 
@@ -89,47 +89,47 @@ const Signup = () => {
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1>Sign up today and start register your own recipes!</h1>
           <div className={styles.formInputs}>
-            <label htmlFor='username' className={styles.formLabel}>
+            <label htmlFor="username" className={styles.formLabel}>
               Username
             </label>
             <TextField
               className={styles.input}
-              variant='outlined'
-              id='username'
-              type='text'
-              name='username'
-              label='Username'
+              variant="outlined"
+              id="username"
+              type="text"
+              name="username"
+              label="Username"
               value={values.current.username}
               onChange={handleChange}
             />
             {errors.username && submitting && <p>{errors.username}</p>}
           </div>
           <div className={styles.formInputs}>
-            <label htmlFor='email' className={styles.formLabel}>
+            <label htmlFor="email" className={styles.formLabel}>
               Email
             </label>
             <TextField
               className={styles.input}
-              variant='outlined'
-              id='email'
-              type='email'
-              name='email'
-              label='Email'
+              variant="outlined"
+              id="email"
+              type="email"
+              name="email"
+              label="Email"
               value={values.current.email}
               onChange={handleChange}
             />
             {errors.email && submitting && <p>{errors.email}</p>}
           </div>
           <div className={styles.formInputs}>
-            <label htmlFor='password' className={styles.formLabel}>
+            <label htmlFor="password" className={styles.formLabel}>
               Password
             </label>
             <TextField
-              variant='outlined'
-              id='password'
-              type='password'
-              name='password'
-              label='Password'
+              variant="outlined"
+              id="password"
+              type="password"
+              name="password"
+              label="Password"
               className={styles.input}
               value={values.current.password}
               onChange={handleChange}
@@ -138,31 +138,26 @@ const Signup = () => {
           </div>
 
           <div className={styles.formInputs}>
-            <label htmlFor='password2' className={styles.formLabel}>
+            <label htmlFor="password2" className={styles.formLabel}>
               Repeat Password
             </label>
             <TextField
-              id='password2'
-              type='password'
-              name='password2'
-              label='Repeat your password'
+              id="password2"
+              type="password"
+              name="password2"
+              label="Repeat your password"
               className={styles.input}
-              variant='outlined'
+              variant="outlined"
               value={values.current.password2}
               onChange={handleChange}
             />
             {errors.password2 && submitting && <p>{errors.password2}</p>}
           </div>
-          <Button
-            color='primary'
-            variant='contained'
-            type='submit'
-            className={styles.button}
-          >
+          <Button color="primary" variant="contained" type="submit" className={styles.button}>
             Sign up
           </Button>
-          <p className='form-input-login'>Already have an account?</p>
-          <Link to='/account/login'>Login here</Link>
+          <p className="form-input-login">Already have an account?</p>
+          <Link to="/account/login">Login here</Link>
         </form>
       </Paper>
     </div>

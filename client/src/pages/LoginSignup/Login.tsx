@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
 import styles from "./index.module.scss";
 import { validateLoginInfo } from "./validation";
-import { sendLogin } from "../../api/users";
+import { sendLogin } from "../../db/users";
 import { Link, useHistory } from "react-router-dom";
 import { useStore } from "../../store";
 

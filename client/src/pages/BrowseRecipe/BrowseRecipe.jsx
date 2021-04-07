@@ -6,7 +6,7 @@ import MealGrid from "../../components/MealGrid/MealGrid";
 import Filter from "./Filter";
 import { useStore } from "../../store";
 import { Paper } from "@material-ui/core";
-import { getAllRecipes } from "../../api/recipes";
+import { getAllRecipes } from "../../db/recipes";
 import { matchSorter } from "match-sorter";
 
 const BrowseRecipe = () => {
@@ -76,7 +76,7 @@ const BrowseRecipe = () => {
         apiKey: "34a95b9efbbe41dbaa0ba4b9d0d76287",
         // apiKey: "8080ada856dd4f439b4a065ae353d836",
         query: query,
-        number: 2,
+        number: 8,
         sort: "popularity",
         type: typeString,
         diet: dietString,
@@ -99,17 +99,14 @@ const BrowseRecipe = () => {
   };
 
   useEffect(() => {
-    fetchRecipes();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     if (query.length > 0) {
       const timeoutVar = setTimeout(() => {
         fetchRecipes();
       }, 500);
 
       return () => clearTimeout(timeoutVar);
+    } else {
+      fetchRecipes();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, checked]);

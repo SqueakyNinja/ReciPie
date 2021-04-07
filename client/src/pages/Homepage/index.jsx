@@ -66,7 +66,7 @@ const Homepage = () => {
 
   const fetchRecipe = async () => {
     const result = await axios(
-      `https://api.spoonacular.com/recipes/complexSearch?${url1}=${url2}&number=1&apiKey=${apiKey}`
+      `https://api.spoonacular.com/recipes/complexSearch?${url1}=${url2}&number=8&apiKey=${apiKey}`
     );
     setRecipesOfTheDay(result.data.results);
   };

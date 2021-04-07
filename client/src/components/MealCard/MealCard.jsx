@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom";
 import { IconButton, CardContent, Card } from "@material-ui/core";
 import { useStore } from "../../store";
-import { checkFavourite, saveFavouriteRecipe } from "../../api/recipes";
+import { checkFavourite, saveFavouriteRecipe } from "../../db/recipes";
 import styles from "./MealCard.module.scss";
 import { combineClasses, textEllipsis } from "../../utils";
 import { useEffect, useState } from "react";
