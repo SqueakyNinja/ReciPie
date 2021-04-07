@@ -2,7 +2,6 @@ import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { Button, TextField, Paper } from "@material-ui/core";
 import { validateSignupInfo } from "./validation";
 import styles from "./index.module.scss";
-import FormSuccess from "./FormSuccess";
 import { addNewUser, sendLogin } from "../../db/users";
 import { LoginRequest, NewUser } from "../../../../common";
 import { Link, useHistory } from "react-router-dom";
@@ -83,11 +82,14 @@ const Signup = () => {
     }
   };
 
-  return isSubmitted ? (
+  return (
     <div className={styles.signupRight}>
       <Paper className={styles.formPaper}>
         <form className={styles.form} onSubmit={handleSubmit}>
-          <h1>Sign up today and start register your own recipes!</h1>
+          <h1>
+            <p>Sign up today to create</p>
+            <p>and save recipes!</p>
+          </h1>
           <div className={styles.formInputs}>
             <label htmlFor="username" className={styles.formLabel}>
               Username
@@ -145,7 +147,7 @@ const Signup = () => {
               id="password2"
               type="password"
               name="password2"
-              label="Repeat your password"
+              label="Repeat password"
               className={styles.input}
               variant="outlined"
               value={values.current.password2}
@@ -161,9 +163,7 @@ const Signup = () => {
         </form>
       </Paper>
     </div>
-  ) : (
-    <FormSuccess values={values} />
-  );
+  ) 
 };
 
 export default Signup;

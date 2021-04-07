@@ -7,8 +7,8 @@ import Account from "./pages/LoginSignup";
 import Profile from "./pages/Profile";
 import CreateRecipe from "./pages/Recipes/CreateRecipe";
 import MyRecipes from "./pages/Recipes/MyRecipes";
-import BrowseRecipe from "./pages/BrowseRecipe/BrowseRecipe";
-import FetchRecipeDetails from "./components/FetchRecipeDetails/FetchRecipeDetails";
+import BrowseRecipe from "./pages/BrowseRecipe";
+import FetchRecipeDetails from "./components/FetchRecipeDetails";
 
 const Main = () => {
   return (

@@ -1,10 +1,10 @@
 import { useDropzone } from "react-dropzone";
 
-import styles from "./index.module.scss";
+import styles from "./ImageDrop.module.scss";
 
 const ImageDrop = ({ parentCallback }) => {
   const { getRootProps, getInputProps } = useDropzone({
-    accept: ["image/png", "image/jpeg"],
+    accept: ["image/png", "image/jpeg", "image/jpg"],
     multiple: false,
     onDrop: (acceptedFiles) => {
       return parentCallback(acceptedFiles);

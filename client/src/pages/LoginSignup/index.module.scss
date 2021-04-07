@@ -1,4 +1,4 @@
-@import '../../app.global.scss';
+@import "../../app.global.scss";
 
 .button {
   margin: 1rem;
@@ -14,11 +14,7 @@
   grid-template-rows: 150px 600px;
 
   .signupLeft {
-    background: linear-gradient(
-      90deg,
-      rgb(250, 250, 250) 0%,
-      rgb(199, 211, 211) 100%
-    );
+    background: linear-gradient(90deg, rgb(250, 250, 250) 0%, rgb(199, 211, 211) 100%);
     border-radius: 10px 0 0 10px;
     position: relative;
     display: grid;
@@ -34,11 +30,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    background: linear-gradient(
-      90deg,
-      rgb(216, 132, 54) 0%,
-      rgb(216, 85, 45) 100%
-    );
+    background: linear-gradient(90deg, rgb(216, 132, 54) 0%, rgb(216, 85, 45) 100%);
     .formLabel {
       display: none;
       font-size: 0.8rem;
@@ -47,16 +39,6 @@
       width: 40%;
     }
 
-    .formSuccess {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      h1 {
-        text-align: center;
-        font-size: 24px;
-        margin-bottom: 50px;
-      }
-    }
     .formImg2 {
       width: 40%;
       height: 40%;
@@ -139,11 +121,7 @@
     grid-template-rows: auto;
 
     .signupLeft {
-      background: linear-gradient(
-        90deg,
-        rgb(250, 250, 250) 0%,
-        rgb(199, 211, 211) 100%
-      );
+      background: linear-gradient(90deg, rgb(250, 250, 250) 0%, rgb(199, 211, 211) 100%);
       border-radius: 10px 0 0 10px;
       position: relative;
       display: grid;
@@ -155,11 +133,7 @@
       display: flex;
       border-radius: 0 10px 10px 0;
       position: relative;
-      background: linear-gradient(
-        90deg,
-        rgb(216, 132, 54) 0%,
-        rgb(216, 85, 45) 100%
-      );
+      background: linear-gradient(90deg, rgb(216, 132, 54) 0%, rgb(216, 85, 45) 100%);
 
       .formLabel {
         width: 100px;

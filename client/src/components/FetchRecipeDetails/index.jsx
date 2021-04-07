@@ -2,8 +2,8 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Paper } from "@material-ui/core";
-import RecipeDetails from "../RecipeDetails/RecipeDetails";
-import styles from "./index.module.scss";
+import RecipeDetails from "../RecipeDetails";
+import styles from "./FetchRecipeDetails.module.scss";
 
 const FetchRecipeDetails = () => {
   const recipeId = useParams().id;

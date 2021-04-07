@@ -17,7 +17,7 @@ import { Recipe } from "../../../../../common";
 import { useStore } from "../../../store";
 import { useHistory } from "react-router";
 import { Errors, FileWithPreview } from "./types";
-import RecipeDetails from "../../../components/RecipeDetails/RecipeDetails";
+import RecipeDetails from "../../../components/RecipeDetails";
 import { combineClasses } from "../../../utils";
 import ScanRecipe from "../ScanRecipe";
 import { storage } from "../../../firebase";

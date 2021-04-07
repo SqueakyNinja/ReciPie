@@ -1,6 +1,6 @@
-import Grid from '@material-ui/core/Grid';
-import styles from './MealGrid.module.scss';
-import MealCard from '../MealCard/MealCard';
+import Grid from "@material-ui/core/Grid";
+import styles from "./MealGrid.module.scss";
+import MealCard from "../MealCard";
 
 const MealGrid = ({ recipes }) => {
   return (

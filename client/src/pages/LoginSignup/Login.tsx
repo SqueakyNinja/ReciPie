@@ -60,7 +60,7 @@ const Login = () => {
     <div className={styles.signupRight}>
       <Paper className={styles.formPaper}>
         <form className={styles.form} onSubmit={handleSubmit}>
-          <h1>Log in and start register your own recipes!</h1>
+          <h1>Please log in to continue</h1>
           <div className={styles.formInputs}>
             <TextField
               className={styles.input}

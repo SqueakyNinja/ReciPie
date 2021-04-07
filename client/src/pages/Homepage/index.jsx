@@ -2,10 +2,10 @@ import styles from "./index.module.scss";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Paper } from "@material-ui/core";
-import Search from "../../components/Search/Search";
+import Search from "../../components/Search";
 import { useStore } from "../../store";
 import { useHistory } from "react-router-dom";
-import MealGrid from "../../components/MealGrid/MealGrid";
+import MealGrid from "../../components/MealGrid";
 
 const Homepage = () => {
   // const apiKey = '8080ada856dd4f439b4a065ae353d836';

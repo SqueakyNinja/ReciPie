@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert } from "@material-ui/lab";
 import { Snackbar } from "@material-ui/core";
-import { useStore } from "../store";
+import { useStore } from "../../store";
 
 const SnackbarComponent = () => {
   const { snackbar, setSnackbar } = useStore();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllRecipes } from "../../../db/recipes";
-import MealGrid from "../../../components/MealGrid/MealGrid";
+import MealGrid from "../../../components/MealGrid";
 import { useStore } from "../../../store";
 import styles from "./index.module.scss";
 import { Paper } from "@material-ui/core";
